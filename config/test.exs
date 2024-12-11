@@ -1,4 +1,5 @@
 import Config
+config :reet, token_signing_secret: "7/l0j7bh48N5Nlmebre01LveHJByHe4T"
 config :ash, disable_async?: true
 
 # Configure your database

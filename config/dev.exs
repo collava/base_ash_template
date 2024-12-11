@@ -63,7 +63,7 @@ config :reet, ReetWeb.Endpoint,
   ]
 
 # Enable dev routes for dashboard and mailbox
-config :reet, dev_routes: true
+config :reet, dev_routes: true, token_signing_secret: "4BBU/9SveSAkm8C96HD5aGtNMTEArGhP"
 
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"

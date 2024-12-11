@@ -15,8 +15,8 @@ defmodule ReetWeb.PostsLive do
       </div>
       <ol class="list-decimal">
         <li :for={post <- @posts} class="mt-4">
-          <div class="font-bold"><%= post.title %></div>
-          <div><%= if Map.get(post, :content), do: post.content, else: "" %></div>
+          <div class="font-bold">{post.title}</div>
+          <div>{if Map.get(post, :content), do: post.content, else: ""}</div>
           <button
             class="mt-2 p-2 bg-black text-white rounded-md"
             phx-click="delete_post"

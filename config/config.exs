@@ -17,6 +17,8 @@ config :spark,
     remove_parens?: true,
     "Ash.Resource": [
       section_order: [
+        :authentication,
+        :tokens,
         :postgres,
         :resource,
         :code_interface,
@@ -38,7 +40,7 @@ config :spark,
   ]
 
 config :reet,
-  ash_domains: [Reet.Blog]
+  ash_domains: [Reet.Accounts, Reet.Blog]
 
 config :reet,
   ecto_repos: [Reet.Repo],

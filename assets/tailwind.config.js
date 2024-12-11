@@ -9,7 +9,8 @@ module.exports = {
   content: [
     "./js/**/*.js",
     "../lib/reet_web.ex",
-    "../lib/reet_web/**/*.*ex"
+    "../lib/reet_web/**/*.*ex",
+    "../deps/ash_authentication_phoenix/**/*.*ex",
   ],
   theme: {
     extend: {

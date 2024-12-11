@@ -17,7 +17,8 @@ defmodule Reet.Application do
       # Start a worker by calling: Reet.Worker.start_link(arg)
       # {Reet.Worker, arg},
       # Start to serve requests, typically the last entry
-      ReetWeb.Endpoint
+      ReetWeb.Endpoint,
+      {AshAuthentication.Supervisor, [otp_app: :reet]}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
