@@ -5,7 +5,7 @@ defmodule Reet.MixProject do
     [
       app: :reet,
       version: "0.0.1",
-      elixir: "~> 1.18.0-rc.0",
+      elixir: "~> 1.17.3-otp-27",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       consolidate_protocols: Mix.env() != :dev,
@@ -33,6 +33,9 @@ defmodule Reet.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:picosat_elixir, "~> 0.2"},
+      {:ash_authentication, "~> 4.1"},
+      {:ash_authentication_phoenix, "~> 2.0"},
       {:ash_postgres, "~> 2.0"},
       {:ash_phoenix, "~> 2.0"},
       {:ash, "~> 3.0"},
