@@ -6,18 +6,11 @@ defmodule Reet.Accounts.User.Senders.SendNewUserConfirmationEmail do
   use AshAuthentication.Sender
   use ReetWeb, :verified_routes
 
-  @impl true
-  def send(_user, token, _) do
-    # Example of how you might send this email
-    # Reet.Accounts.Emails.send_new_user_confirmation_email(
-    #   user,
-    #   token
-    # )
-
-    IO.puts("""
-    Click this link to confirm your email:
-
-    #{url(~p"/auth/user/confirm_new_user?#{[confirm: token]}")}
-    """)
+  @impl AshAuthentication.Sender
+  def send(user, token, _opts) do
+    Reet.Accounts.Emails.deliver_email_confirmation_instructions(
+      user,
+      url(~p"/auth/user/confirm_new_user?#{[confirm: token]}")
+    )
   end
 end
