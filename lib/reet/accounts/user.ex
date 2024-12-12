@@ -1,4 +1,6 @@
 defmodule Reet.Accounts.User do
+  @moduledoc false
+
   use Ash.Resource,
     otp_app: :reet,
     domain: Reet.Accounts,
@@ -25,6 +27,7 @@ defmodule Reet.Accounts.User do
 
       magic_link do
         identity_field :email
+        # this creates the user if it does not exist
         registration_enabled? true
 
         sender Reet.Accounts.User.Senders.SendMagicLinkEmail
@@ -37,7 +40,18 @@ defmodule Reet.Accounts.User do
         confirm_on_create? true
         confirm_on_update? false
         auto_confirm_actions [:sign_in_with_magic_link]
+        inhibit_updates? false
         sender Reet.Accounts.User.Senders.SendNewUserConfirmationEmail
+      end
+
+      # when the fields change, we send an email to the user to confirm the change
+      confirmation :confirm_change do
+        monitor_fields [:email]
+        confirm_on_create? false
+        confirm_on_update? true
+        confirm_action_name :confirm_change
+        inhibit_updates? true
+        sender Reet.Accounts.User.Senders.SendDataChangeConfirmationEmail
       end
     end
   end
@@ -140,6 +154,16 @@ defmodule Reet.Accounts.User do
       end
     end
 
+    update :confirm_change do
+      argument :confirm, :string, allow_nil?: false, public?: true
+      accept [:email]
+      require_atomic? false
+      change AshAuthentication.AddOn.Confirmation.ConfirmChange
+      change AshAuthentication.GenerateTokenChange
+      # other stuff to run when the change is valid
+      # change MyApp.UpdateCrmSystem, only_when_valid?: true
+    end
+
     action :request_password_reset_with_password do
       description "Send password reset instructions to a user if they exist."
 
@@ -234,7 +258,9 @@ defmodule Reet.Accounts.User do
   end
 
   attributes do
-    uuid_primary_key :id
+    uuid_v7_primary_key :id
+    create_timestamp :inserted_at
+    update_timestamp :updated_at
 
     attribute :email, :ci_string do
       allow_nil? false
@@ -243,7 +269,7 @@ defmodule Reet.Accounts.User do
     end
 
     attribute :hashed_password, :string do
-      allow_nil? false
+      allow_nil? true
       public? false
       sensitive? true
     end

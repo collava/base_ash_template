@@ -33,6 +33,83 @@ defmodule Reet.Accounts.Emails do
     """)
   end
 
+  def deliver_email_confirmation_instructions(user, url) do
+    if !url do
+      raise "Cannot deliver confirmation instructions without a url"
+    end
+
+    IO.puts("""
+    Click this link to confirm your email:
+
+    #{url}
+    """)
+
+    deliver(user.email, "Confirm your email address", """
+      <p>
+        Hi #{user.email},
+      </p>
+
+      <p>
+        Someone has tried to register a new account using this email address.
+        If it was you, then please click the link below to confirm your identity. If you did not initiate this request then please ignore this email.
+      </p>
+
+      <p>
+        <a href="#{url}">Click here to confirm your account</a>
+      </p>
+    """)
+  end
+
+  def deliver_magic_link_email(user_or_email, url) do
+    if !url do
+      raise "Cannot deliver magic link instructions without a url"
+    end
+
+    # if you get a user, its for a user that already exists
+    # if you get an email, the user does not exist yet
+    email =
+      case user_or_email do
+        %{email: email} -> email
+        email -> email
+      end
+
+    IO.puts("""
+    Click this link to sign in:
+
+    #{url}
+    """)
+
+    deliver(email, "Sign in with magic link", """
+    <p>
+      Hello, #{email}!
+    </p>
+
+    <p>
+      <a href="#{url}">Click here to sign in</a>
+    </p>
+    """)
+  end
+
+  def deliver_data_change_confirmation_instructions(user, url) do
+    if !url do
+      raise "Cannot deliver confirmation instructions without a url"
+    end
+
+    deliver(user.email, "Confirm your new email address", """
+      <p>
+        Hi #{user.email},
+      </p>
+
+      <p>
+        You recently changed your data. Please confirm it.
+      </p>
+
+      <p>
+        <a href="#{url}">Click here to confirm your new email address</a>
+      </p>
+    """)
+  end
+
   # For simplicity, this module simply logs messages to the terminal.
   # You should replace it by a proper email or notification tool, such as:
   #

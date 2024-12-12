@@ -21,9 +21,15 @@ defmodule ReetWeb.AuthController do
     |> redirect(to: return_to)
   end
 
-  def failure(conn, _activity, _reason) do
+  def failure(conn, activity, reason) do
+    message =
+      case activity do
+        {:magic_link, :sign_in} -> "You can't sign in with a magic link, because you're regitered with a password and did not confirm your account. Please check your email for a confirmation link."
+        _ -> "Incorrect email or password"
+      end
+
     conn
-    |> put_flash(:error, "Incorrect email or password")
+    |> put_flash(:error, message)
     |> redirect(to: ~p"/sign-in")
   end
 

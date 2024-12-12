@@ -37,31 +37,29 @@ defmodule ReetWeb.Router do
 
   scope "/", ReetWeb do
     pipe_through :browser
+    auth_routes AuthController, Reet.Accounts.User, path: "/auth"
+    sign_out_route AuthController
 
     get "/", PageController, :home
     live "/posts", PostsLive
-    auth_routes AuthController, Reet.Accounts.User, path: "/auth"
-    sign_out_route AuthController
-    sign_in_route(on_mount: [{ReetWeb.LiveUserAuth, :live_no_user}])
 
     ash_authentication_live_session :authentication_required,
-      on_mount: {ReetWeb.LiveUserAuth, :live_user_required} do1
+      on_mount: {ReetWeb.LiveUserAuth, :live_user_required} do
       live "/protected_route", ProjectLive.Index, :index
     end
 
     ash_authentication_live_session :authentication_optional,
       on_mount: {ReetWeb.LiveUserAuth, :live_user_optional} do
-      live "/", ProjectLive.Index, :index
+      live "/optional", ProjectLive.Index, :index
     end
 
-    # Remove these if you'd like to use your own authentication views
+    # https://hexdocs.pm/ash_authentication_phoenix/ui-overrides.html
     sign_in_route register_path: "/register",
                   reset_path: "/reset",
                   auth_routes_prefix: "/auth",
                   on_mount: [{ReetWeb.LiveUserAuth, :live_no_user}],
                   overrides: [ReetWeb.AuthOverrides, AshAuthentication.Phoenix.Overrides.Default]
 
-    # Remove this if you do not want to use the reset password feature
     reset_route auth_routes_prefix: "/auth",
                 overrides: [ReetWeb.AuthOverrides, AshAuthentication.Phoenix.Overrides.Default]
   end

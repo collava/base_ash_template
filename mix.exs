@@ -67,7 +67,8 @@ defmodule Reet.MixProject do
       {:gettext, "~> 0.26"},
       {:jason, "~> 1.2"},
       {:dns_cluster, "~> 0.1.1"},
-      {:bandit, "~> 1.5"}
+      {:bandit, "~> 1.5"},
+      {:ecto_dev_logger, "~> 0.14", only: :dev}
     ]
   end
 
@@ -79,6 +80,7 @@ defmodule Reet.MixProject do
   # See the documentation for `Mix` for more info on aliases.
   defp aliases do
     [
+      "phx.routes": ["phx.routes", "ash_authentication.phx.routes"],
       setup: ["deps.get", "ash.setup", "assets.setup", "assets.build", "run priv/repo/seeds.exs"],
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
