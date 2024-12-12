@@ -16,6 +16,7 @@ defmodule Reet.Accounts.User do
     strategies do
       password :password do
         identity_field :email
+        hashed_password_field :hashed_password
 
         resettable do
           sender Reet.Accounts.User.Senders.SendPasswordResetEmail
@@ -238,10 +239,12 @@ defmodule Reet.Accounts.User do
     attribute :email, :ci_string do
       allow_nil? false
       public? true
+      sensitive? true
     end
 
     attribute :hashed_password, :string do
       allow_nil? false
+      public? false
       sensitive? true
     end
   end

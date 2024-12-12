@@ -1,11 +1,20 @@
 defmodule Reet.Accounts.Emails do
   @moduledoc """
-  Delivers emails.
+  Delivers Accounts related emails.
   """
+  use ReetWeb, :verified_routes
 
   import Swoosh.Email
 
-  def deliver_reset_password_instructions(user, url) do
+  def deliver_reset_password_instructions(user, token) do
+    url = url(~p"/password-reset/#{token}")
+
+    IO.puts("""
+    Click this link to reset your password:
+
+    #{url}
+    """)
+
     if !url do
       raise "Cannot deliver reset instructions without a url"
     end

@@ -4,20 +4,12 @@ defmodule Reet.Accounts.User.Senders.SendPasswordResetEmail do
   """
 
   use AshAuthentication.Sender
-  use ReetWeb, :verified_routes
 
   @impl true
-  def send(_user, token, _) do
-    # Example of how you might send this email
-    # Reet.Accounts.Emails.send_password_reset_email(
-    #   user,
-    #   token
-    # )
-
-    IO.puts("""
-    Click this link to reset your password:
-
-    #{url(~p"/password-reset/#{token}")}
-    """)
+  def send(user, token, _) do
+    Reet.Accounts.Emails.deliver_reset_password_instructions(
+      user,
+      token
+    )
   end
 end
