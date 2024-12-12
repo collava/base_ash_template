@@ -42,6 +42,17 @@ defmodule ReetWeb.Router do
     live "/posts", PostsLive
     auth_routes AuthController, Reet.Accounts.User, path: "/auth"
     sign_out_route AuthController
+    sign_in_route(on_mount: [{ReetWeb.LiveUserAuth, :live_no_user}])
+
+    ash_authentication_live_session :authentication_required,
+      on_mount: {ReetWeb.LiveUserAuth, :live_user_required} do1
+      live "/protected_route", ProjectLive.Index, :index
+    end
+
+    ash_authentication_live_session :authentication_optional,
+      on_mount: {ReetWeb.LiveUserAuth, :live_user_optional} do
+      live "/", ProjectLive.Index, :index
+    end
 
     # Remove these if you'd like to use your own authentication views
     sign_in_route register_path: "/register",
