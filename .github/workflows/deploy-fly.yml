@@ -1,0 +1,43 @@
+name: Deploy app to Fly.io
+on:
+  workflow_run:
+    workflows: [Version Updater]
+    types: [completed]
+    branches: [main] # only deploy when the Elixir Validations runs on main
+  # push:
+  #   branches:
+  #     - main
+jobs:
+  # only deploy when the Elixir Validations workflow is successful
+  on-success:
+    name: Deploy app
+    runs-on: ubuntu-latest
+    concurrency: deploy-group
+    steps:
+      - uses: actions/checkout@v4
+        # fetch-depth: 0 is needed to get the full history of the repository
+        with:
+          fetch-depth: 0
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+      - run: flyctl deploy -y -t "$FLY_API_TOKEN"
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+      - name: Create Honeybadger release
+        uses: honeybadger-io/github-notify-deploy-action@v1
+        with:
+          api_key: ${{ secrets.HONEYBADGER_API_KEY }}
+      - name: Create Sentry release
+        uses: getsentry/action-release@v1
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+        with:
+          environment: prod
+          ignore_missing: true
+
+  on-failure:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+    steps:
+      - run: echo 'The triggering workflow failed'

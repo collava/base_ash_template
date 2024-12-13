@@ -1,0 +1,116 @@
+name: Version Updater
+# This is used to automatically update the app version and create a TAG and Release when a PR is merged into main.
+
+on:
+  workflow_run:
+    workflows: [Elixir Validations]
+    types: [completed]
+    branches: [main]
+
+jobs:
+  update-version-and-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Elixir
+        uses: erlef/setup-beam@v1
+        with:
+          elixir-version: "1.17.3-otp-27"
+          otp-version: "27.1"
+
+      - name: Update version
+        id: update_version
+        run: |
+          CURRENT_VERSION=$(grep '@version' mix.exs | sed 's/.*"\(.*\)".*/\1/')
+          IFS='.' read -ra VERSION_PARTS <<< "$CURRENT_VERSION"
+          MAJOR=${VERSION_PARTS[0]}
+          MINOR=${VERSION_PARTS[1]}
+          PATCH=${VERSION_PARTS[2]}
+
+          # Get the head commit message
+          COMMIT_MSG=$(git log -1 --pretty=%B)
+
+          # Check if this is a merge commit
+          if [[ $COMMIT_MSG == Merge* ]]; then
+            # Extract the branch name from the merge commit message
+            BRANCH_NAME=$(echo "$COMMIT_MSG" | sed -n 's/^Merge pull request #[0-9]* from \(.*\)$/\1/p')
+          else
+            # If it's not a merge, use the current branch name
+            BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
+          fi
+
+          echo "Branch name: $BRANCH_NAME"
+
+          BASE_NAME="collava"
+          # Define prefix arrays
+          MAJOR_PREFIXES=("$BASE_NAME/epic/")
+          MINOR_PREFIXES=("$BASE_NAME/story/" "$BASE_NAME/patch/")
+          PATCH_PREFIXES=("$BASE_NAME/bug/" "$BASE_NAME/feat/" "$BASE_NAME/hotfix/" "$BASE_NAME/fix/" "$BASE_NAME/refactor/" "$BASE_NAME/chore/")
+
+          # Function to check if branch starts with any prefix from an array
+          starts_with_any() {
+            local branch=$1
+            shift
+            local prefixes=("$@")
+            for prefix in "${prefixes[@]}"; do
+              if [[ $branch == $prefix* ]]; then
+                return 0
+              fi
+            done
+            return 1
+          }
+
+          # Update version based on branch prefix
+          if starts_with_any "$BRANCH_NAME" "${MAJOR_PREFIXES[@]}"; then
+            MAJOR=$((MAJOR + 1))
+            MINOR=0
+            PATCH=0
+          elif starts_with_any "$BRANCH_NAME" "${MINOR_PREFIXES[@]}"; then
+            MINOR=$((MINOR + 1))
+            PATCH=0
+          else
+            PATCH=$((PATCH + 1))
+          fi
+
+          # Apply limits and cascade updates
+          if [ $PATCH -gt 99 ]; then
+            PATCH=0
+            MINOR=$((MINOR + 1))
+          fi
+          if [ $MINOR -gt 99 ]; then
+            MINOR=0
+            MAJOR=$((MAJOR + 1))
+          fi
+
+          NEW_VERSION="$MAJOR.$MINOR.$PATCH"
+          if [ "$NEW_VERSION" != "$CURRENT_VERSION" ]; then
+            sed -i "s/@version \".*\"/@version \"$NEW_VERSION\"/" mix.exs
+            echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_OUTPUT
+            echo "VERSION_CHANGED=true" >> $GITHUB_OUTPUT
+          else
+            echo "VERSION_CHANGED=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit and tag new version
+        if: steps.update_version.outputs.VERSION_CHANGED == 'true'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add mix.exs
+          git commit -m "Bump version to ${{ steps.update_version.outputs.NEW_VERSION }}"
+          git tag -a "v${{ steps.update_version.outputs.NEW_VERSION }}" -m "Version ${{ steps.update_version.outputs.NEW_VERSION }}"
+          git push origin HEAD:main
+          git push --tags
+
+      - name: Create Release
+        if: steps.update_version.outputs.VERSION_CHANGED == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "v${{ steps.update_version.outputs.NEW_VERSION }}" --title "Release ${{ steps.update_version.outputs.NEW_VERSION }}" --generate-notes

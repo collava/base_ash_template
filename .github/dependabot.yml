@@ -1,0 +1,45 @@
+# To get started with Dependabot version updates, you'll need to specify which
+# package ecosystems to update and where the package manifests are located.
+# Please see the documentation for all configuration options:
+# https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "build(gh-actions): "
+    labels:
+      - "github-actions"
+      - "dependencies"
+    reviewers:
+      - "renews"
+
+  - package-ecosystem: "npm"
+    directory: "/assets/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "build(npm): "
+    labels:
+      - "npm"
+      - "dependencies"
+    reviewers:
+      - "renews"
+
+  - package-ecosystem: "mix"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "build(hex): "
+    labels:
+      - "hex"
+      - "dependencies"
+    reviewers:
+      - "renews"
+
+      # Allow up to 10 open pull requests for pip dependencies
+      # open-pull-requests-limit: 10 # 0 for disabling
