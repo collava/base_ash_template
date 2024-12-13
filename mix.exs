@@ -9,6 +9,20 @@ defmodule Reet.MixProject do
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       consolidate_protocols: Mix.env() != :dev,
+      test_coverage: [tool: ExCoveralls],
+      preferred_cli_env: [
+        coveralls: :test,
+        "coveralls.detail": :test,
+        "coveralls.post": :test,
+        "coveralls.html": :test,
+        "coveralls.lcov": :test,
+        "coveralls.json": :test,
+        "coveralls.github": :test,
+        "coveralls.xml": :test,
+        "test.watch": :test,
+        "mneme.watch": :test,
+        "mneme.test": :test
+      ],
       aliases: aliases(),
       deps: deps()
     ]
@@ -49,7 +63,6 @@ defmodule Reet.MixProject do
       {:ash, "~> 3.0"},
       {:bandit, "~> 1.5"},
       {:bcrypt_elixir, "~> 3.0"},
-      {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:dns_cluster, "~> 0.1"},
       {:ecto_dev_logger, "~> 0.14", only: :dev},
       {:ecto_sql, "~> 3.10"},
@@ -59,12 +72,7 @@ defmodule Reet.MixProject do
       {:floki, ">= 0.30.0", only: :test},
       {:gettext, "~> 0.26"},
       {:heroicons,
-       github: "tailwindlabs/heroicons",
-       tag: "v2.1.1",
-       sparse: "optimized",
-       app: false,
-       compile: false,
-       depth: 1},
+       github: "tailwindlabs/heroicons", tag: "v2.1.1", sparse: "optimized", app: false, compile: false, depth: 1},
       {:igniter, "~> 0.4"},
       {:jason, "~> 1.2"},
       {:oban, "~> 2.18"},
@@ -89,7 +97,28 @@ defmodule Reet.MixProject do
       {:telemetry_poller, "~> 1.0"},
 
       # tests
-      {:smokestack, "~> 0.9"}
+      {:mix_test_watch, "~> 1.2", only: [:dev, :test], runtime: false},
+      {:mneme, ">= 0.0.0", only: [:dev, :test]},
+      {:mox, "~> 1.2", only: :test},
+      {:smokestack, "~> 0.9"},
+      {:ex_unit_notifier, "~> 1.3", only: :test},
+      {:excoveralls, "~> 0.18", only: :test, runtime: false},
+
+      # security
+      {:cors_plug, "~> 3.0"},
+      {:mix_audit, "~> 2.1", only: [:dev, :test], runtime: false},
+      {:sobelow, "~> 0.13", only: [:dev, :test], runtime: false},
+
+      # code quality
+      {:circular_buffer, "~> 0.4"},
+      {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
+      {:styler, "~> 1.2", only: [:dev, :test], runtime: false},
+
+      # errors
+      # {:honeybadger, "~> 0.22.0"},
+      # {:sentry, "~> 10.0"},
+      {:tower, "~> 0.7"},
+      {:tower_email, "~> 0.5.2"}
     ]
   end
 

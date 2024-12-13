@@ -1,0 +1,16 @@
+{
+  "coverage_options": {
+    "html_filter_full_covered": true,
+    "minimum_coverage": 25,
+    "output_dir": "cover/",
+    "treat_no_relevant_lines_as_covered": true
+  },
+  "custom_stop_words": [],
+  "default_stop_words": [],
+  "skip_files": [
+    "storybook",
+    "test",
+    "router.ex",
+    "components"
+  ]
+}

@@ -6,9 +6,11 @@ defmodule Reet.Accounts.User.Senders.SendMagicLinkEmail do
   use AshAuthentication.Sender
   use ReetWeb, :verified_routes
 
+  alias Reet.Accounts.Emails
+
   @impl true
   def send(user_or_email, token, _) do
-    Reet.Accounts.Emails.deliver_magic_link_email(
+    Emails.deliver_magic_link_email(
       user_or_email,
       url(~p"/auth/user/magic_link/?token=#{token}")
     )

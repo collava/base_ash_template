@@ -1,0 +1,59 @@
+repos:
+  - repo: local
+    hooks:
+      - id: mix-tests
+        name: "elixir: tests"
+        entry: bash scripts/pre-commit/backend/test-modified-files.sh
+        language: system
+        pass_filenames: false
+        files: \.(he)?ex(s)?$
+        fail_fast: true
+
+      - id: mix-format
+        name: "elixir: mix format"
+        entry: mix format
+        language: system
+        fail_fast: true
+        files: \.(he)?ex(s)?$
+
+      - id: mix-compile
+        name: "elixir: mix compile"
+        entry: mix compile
+        language: system
+        pass_filenames: false
+        files: \.(he)?ex(s)?$
+        fail_fast: true
+
+      - id: mix-credo
+        name: "elixir: mix credo"
+        entry: mix credo
+        language: system
+        pass_filenames: false
+        files: \.(he)?ex(s)?$
+        fail_fast: true
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0 # Use the ref you want to point at
+    hooks:
+      - id: trailing-whitespace
+        exclude: \.(json|svg|eml|patch|rtf)$|VERSION$
+        args: [--markdown-linebreak-ext=md]
+        fail_fast: true
+      - id: check-merge-conflict
+        fail_fast: true
+      - id: end-of-file-fixer
+        exclude: \.(json|svg|eml|patch|rtf)$|VERSION$
+        fail_fast: true
+      # - id: no-commit-to-branch
+      #   args: [-b, develop, -b, master, -b, rc]
+      - id: mixed-line-ending
+        exclude: \.(json|svg|eml|patch|rtf)$|VERSION$
+        fail_fast: true
+      # - id: detect-private-key
+      - id: detect-aws-credentials
+        args: [--allow-missing-credentials]
+        fail_fast: true
+      - id: check-yaml
+        fail_fast: true
+      - id: check-json
+        fail_fast: true

@@ -1,0 +1,6 @@
+ignore:
+  - "storybook"
+  - "build"
+  - "assets"
+  - "deps"
+  - "*._test.exs"
