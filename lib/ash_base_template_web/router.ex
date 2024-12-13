@@ -40,7 +40,6 @@ defmodule AshBaseTemplateWeb.Router do
     sign_out_route AuthController
 
     get "/", PageController, :home
-    live "/posts", PostsLive
 
     ash_authentication_live_session :authentication_required,
       on_mount: {AshBaseTemplateWeb.LiveUserAuth, :live_user_required} do
@@ -50,6 +49,7 @@ defmodule AshBaseTemplateWeb.Router do
     ash_authentication_live_session :authentication_optional,
       on_mount: {AshBaseTemplateWeb.LiveUserAuth, :live_user_optional} do
       live "/optional", ProjectLive.Index, :index
+      live "/posts", PostsLive
     end
 
     ash_authentication_live_session :authenticated_routes do

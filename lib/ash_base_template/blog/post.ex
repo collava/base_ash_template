@@ -25,16 +25,16 @@ defmodule AshBaseTemplate.Blog.Post do
     defaults [:read]
 
     create :create do
-      # Define the argument
-      argument :user_id, :uuid do
+      primary? true
+      accept [:title]
+
+      # Add the user argument that will be managed by the relationship
+      argument :user, :map do
         allow_nil? false
       end
 
-      # Accept both title and user_id
-      accept [:title, :user_id]
-      primary? true
-      # This tells Ash to manage the user relationship using the provided user_id
-      change manage_relationship(:user_id, :user, type: :create)
+      # Change to use the user argument
+      change manage_relationship(:user, type: :append_and_remove)
     end
 
     update :update do

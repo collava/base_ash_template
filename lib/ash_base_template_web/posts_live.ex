@@ -34,7 +34,7 @@ defmodule AshBaseTemplateWeb.PostsLive do
       <.button class="mt-2" type="submit">Create</.button>
     </.form>
     <h2 class="mt-8 text-lg">Update Post</h2>
-    <.form :let={f} for={@update_form} phx-submit="update_post">
+    <.form :let={f} for={@update_form} phx-submit="update_post" phx-change="select_post">
       <.label>Post Name</.label>
       <.input type="select" field={f[:post_id]} options={@post_selector} />
       <.input type="text" field={f[:content]} placeholder="input content" />
@@ -45,13 +45,21 @@ defmodule AshBaseTemplateWeb.PostsLive do
 
   def mount(_params, _session, socket) do
     posts = Blog.list_posts!()
+    selected_post = List.first(posts) || %Post{}
 
     socket =
       assign(socket,
         posts: posts,
+        selected_post: selected_post,
         post_selector: post_selector(posts),
-        create_form: Post |> AshPhoenix.Form.for_create(:create) |> to_form(),
-        update_form: posts |> List.first(%Post{}) |> AshPhoenix.Form.for_update(:update) |> to_form()
+        create_form:
+          Post
+          |> AshPhoenix.Form.for_create(:create, actor: socket.assigns.current_user)
+          |> to_form(),
+        update_form:
+          selected_post
+          |> AshPhoenix.Form.for_update(:update, actor: socket.assigns.current_user)
+          |> to_form()
       )
 
     {:ok, socket}
@@ -65,10 +73,14 @@ defmodule AshBaseTemplateWeb.PostsLive do
   end
 
   def handle_event("create_post", %{"form" => form_params}, socket) do
-    case AshPhoenix.Form.submit(socket.assigns.create_form, params: form_params) do
+    form_params = Map.put(form_params, "user", socket.assigns.current_user)
+
+    case AshPhoenix.Form.submit(
+           socket.assigns.create_form,
+           params: form_params
+         ) do
       {:ok, _post} ->
         posts = Blog.list_posts!()
-
         {:noreply, assign(socket, posts: posts, post_selector: post_selector(posts))}
 
       {:error, create_form} ->
@@ -86,6 +98,17 @@ defmodule AshBaseTemplateWeb.PostsLive do
       {:error, update_form} ->
         {:noreply, assign(socket, update_form: update_form)}
     end
+  end
+
+  def handle_event("select_post", %{"form" => %{"post_id" => post_id}}, socket) do
+    selected_post = Enum.find(socket.assigns.posts, &(&1.id == post_id))
+
+    update_form =
+      selected_post
+      |> AshPhoenix.Form.for_update(:update, actor: socket.assigns.current_user)
+      |> to_form()
+
+    {:noreply, assign(socket, selected_post: selected_post, update_form: update_form)}
   end
 
   defp post_selector(posts) do
