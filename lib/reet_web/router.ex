@@ -35,7 +35,7 @@ defmodule ReetWeb.Router do
 
   scope "/", ReetWeb do
     pipe_through :browser
-    error_tracker_dashboard("/errors")
+    error_tracker_dashboard("/errors", csp_nonce_assign_key: :csp_nonce_value)
 
     ash_authentication_live_session :authenticated_routes do
       # in each liveview, add one of the following at the top of the module:
