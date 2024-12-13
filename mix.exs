@@ -36,6 +36,7 @@ defmodule Reet.MixProject do
       {:ash_admin, "~> 0.12"},
       {:ash_authentication_phoenix, "~> 2.0"},
       {:ash_authentication, "~> 4.1"},
+      {:ash_cloak, "~> 0.1"},
       {:ash_double_entry, "~> 1.0"},
       {:ash_csv, "~> 0.9"},
       {:ash_graphql, "~> 1.0"},
