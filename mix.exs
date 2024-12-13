@@ -113,6 +113,7 @@ defmodule Reet.MixProject do
       {:circular_buffer, "~> 0.4"},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:credo_mox, "~> 0.1", only: [:dev, :test], runtime: false},
+      {:credo_naming, "~> 2.1", only: [:dev, :test], runtime: false},
       {:styler, "~> 1.2", only: [:dev, :test], runtime: false},
 
       # error reporting

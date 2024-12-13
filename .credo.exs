@@ -217,7 +217,9 @@
           # Custom checks can be created using `mix credo.gen.check`.
           #
 
-          {CredoMox.Checks.UnverifiedMox, files: %{included: ["**/*_test.exs"]}}
+          {CredoMox.Checks.UnverifiedMox, files: %{included: ["**/*_test.exs"]}},
+          # {CredoNaming.Check.Warning.AvoidSpecificTermsInModuleNames, terms: ["Manager", ~r/Helpers?/]},
+          {CredoNaming.Check.Consistency.ModuleFilename, []}
         ]
       }
     }
