@@ -110,7 +110,7 @@ config :tailwind,
     cd: Path.expand("../assets", __DIR__)
   ]
 
-config :tower, :reporters, [TowerEmail, TowerSentry]
+config :tower, :reporters, [TowerEmail, TowerSentry, TowerHoneybadger]
 
 config :tower_email,
   otp_app: :reet,

@@ -76,6 +76,8 @@ if config_env() == :prod do
   # Error reporting
   config :tower_email, TowerEmail.Mailer, api_key: System.fetch_env!("EMAIL_REPORTING_ADAPTER_API_KEY")
 
+  config :tower_honeybadger, api_key: System.get_env("HONEYBADGER_API_KEY")
+
   config :tower_sentry, dsn: System.get_env("SENTRY_DSN")
 
   # ## SSL Support
