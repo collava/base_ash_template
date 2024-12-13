@@ -97,12 +97,13 @@ defmodule Reet.MixProject do
       {:telemetry_poller, "~> 1.0"},
 
       # tests
+      {:credo_mox, "~> 0.1", only: [:dev, :test], runtime: false},
+      {:ex_unit_notifier, "~> 1.3", only: :test},
+      {:excoveralls, "~> 0.18", only: :test, runtime: false},
       {:mix_test_watch, "~> 1.2", only: [:dev, :test], runtime: false},
       {:mneme, ">= 0.0.0", only: [:dev, :test]},
       {:mox, "~> 1.2", only: :test},
       {:smokestack, "~> 0.9"},
-      {:ex_unit_notifier, "~> 1.3", only: :test},
-      {:excoveralls, "~> 0.18", only: :test, runtime: false},
 
       # security
       {:cors_plug, "~> 3.0"},
@@ -114,9 +115,7 @@ defmodule Reet.MixProject do
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:styler, "~> 1.2", only: [:dev, :test], runtime: false},
 
-      # errors
-      # {:honeybadger, "~> 0.22.0"},
-      # {:sentry, "~> 10.0"},
+      # error reporting
       {:tower, "~> 0.7"},
       {:tower_email, "~> 0.5"},
       {:tower_honeybadger, "~> 0.2"},

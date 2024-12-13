@@ -126,7 +126,7 @@
           ## Refactoring Opportunities
           #
           {Credo.Check.Refactor.Apply, []},
-          # {Credo.Check.Refactor.CondStatements, []},
+          {Credo.Check.Refactor.CondStatements, []},
           {Credo.Check.Refactor.CyclomaticComplexity, []},
           # {Credo.Check.Refactor.FilterCount, []},
           {Credo.Check.Refactor.FilterFilter, []},
@@ -134,13 +134,13 @@
           {Credo.Check.Refactor.LongQuoteBlocks, []},
           # {Credo.Check.Refactor.MapJoin, []},
           {Credo.Check.Refactor.MatchInCondition, []},
-          # {Credo.Check.Refactor.NegatedConditionsInUnless, []},
-          # {Credo.Check.Refactor.NegatedConditionsWithElse, []},
+          {Credo.Check.Refactor.NegatedConditionsInUnless, []},
+          {Credo.Check.Refactor.NegatedConditionsWithElse, []},
           {Credo.Check.Refactor.Nesting, []},
           # {Credo.Check.Refactor.RedundantWithClauseResult, []},
           {Credo.Check.Refactor.RejectReject, []},
-          # {Credo.Check.Refactor.UnlessWithElse, []},
-          # {Credo.Check.Refactor.WithClauses, []},
+          {Credo.Check.Refactor.UnlessWithElse, []},
+          {Credo.Check.Refactor.WithClauses, []},
 
           #
           ## Warnings
@@ -209,13 +209,15 @@
           {Credo.Check.Warning.LeakyEnvironment, []},
           {Credo.Check.Warning.MapGetUnsafePass, []},
           {Credo.Check.Warning.MixEnv, []},
-          {Credo.Check.Warning.UnsafeToAtom, []}
+          {Credo.Check.Warning.UnsafeToAtom, []},
 
           # {Credo.Check.Refactor.MapInto, []},
 
           #
           # Custom checks can be created using `mix credo.gen.check`.
           #
+
+          {CredoMox.Checks.UnverifiedMox, files: %{included: ["**/*_test.exs"]}}
         ]
       }
     }
