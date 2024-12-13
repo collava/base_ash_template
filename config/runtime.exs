@@ -20,6 +20,9 @@ if System.get_env("PHX_SERVER") do
   config :reet, ReetWeb.Endpoint, server: true
 end
 
+config :tower_email,
+  environment: System.get_env("DEPLOYMENT_ENV", to_string(config_env()))
+
 if config_env() == :prod do
   database_url =
     System.get_env("DATABASE_URL") ||
@@ -29,12 +32,6 @@ if config_env() == :prod do
       """
 
   maybe_ipv6 = if System.get_env("ECTO_IPV6") in ~w(true 1), do: [:inet6], else: []
-
-  config :reet, Reet.Repo,
-    # ssl: true,
-    url: database_url,
-    pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10"),
-    socket_options: maybe_ipv6
 
   # The secret key base is used to sign/encrypt cookies and other secrets.
   # A default value is used in config/dev.exs and config/test.exs but you
@@ -51,7 +48,11 @@ if config_env() == :prod do
   host = System.get_env("PHX_HOST") || "example.com"
   port = String.to_integer(System.get_env("PORT") || "4000")
 
-  config :reet, :dns_cluster_query, System.get_env("DNS_CLUSTER_QUERY")
+  config :reet, Reet.Repo,
+    # ssl: true,
+    url: database_url,
+    pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10"),
+    socket_options: maybe_ipv6
 
   config :reet, ReetWeb.Endpoint,
     url: [host: host, port: 443, scheme: "https"],
@@ -65,10 +66,14 @@ if config_env() == :prod do
     ],
     secret_key_base: secret_key_base
 
+  config :reet, :dns_cluster_query, System.get_env("DNS_CLUSTER_QUERY")
+
   config :reet,
     token_signing_secret:
       System.get_env("TOKEN_SIGNING_SECRET") ||
         raise("Missing environment variable `TOKEN_SIGNING_SECRET`!")
+
+  config :tower_email, TowerEmail.Mailer, api_key: System.fetch_env!("BREVO_API_KEY")
 
   # ## SSL Support
   #
