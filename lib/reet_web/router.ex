@@ -1,7 +1,8 @@
 defmodule ReetWeb.Router do
   use ReetWeb, :router
-
   use AshAuthentication.Phoenix.Router
+
+  import AshAdmin.Router
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -57,7 +58,6 @@ defmodule ReetWeb.Router do
     ash_authentication_live_session :authentication_required,
       on_mount: {ReetWeb.LiveUserAuth, :live_user_required} do
       live "/protected_route", ProjectLive.Index, :index
-
     end
 
     ash_authentication_live_session :authentication_optional,
@@ -76,10 +76,10 @@ defmodule ReetWeb.Router do
                 overrides: [ReetWeb.AuthOverrides, AshAuthentication.Phoenix.Overrides.Default]
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", ReetWeb do
-  #   pipe_through :api
-  # end
+  scope "/" do
+    pipe_through [:browser]
+    ash_admin "/admin",  csp_nonce_assign_key: :csp_nonce_value
+  end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
   if Application.compile_env(:reet, :dev_routes) do
@@ -98,6 +98,7 @@ defmodule ReetWeb.Router do
         additional_pages: [
           oban: Oban.LiveDashboard
         ]
+
       forward "/mailbox", Plug.Swoosh.MailboxPreview
     end
   end

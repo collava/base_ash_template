@@ -39,13 +39,18 @@ defmodule Reet.Application do
   end
 
   if Code.ensure_loaded?(Ecto.DevLogger) do
-    defp maybe_install_ecto_dev_logger, do: Ecto.DevLogger.install(Reet.Repo, before_inline_callback: &__MODULE__.format_sql_query/1)
+    defp maybe_install_ecto_dev_logger,
+      do:
+        Ecto.DevLogger.install(Reet.Repo, before_inline_callback: &__MODULE__.format_sql_query/1)
   else
     defp maybe_install_ecto_dev_logger, do: :ok
   end
 
   def format_sql_query(query) do
-    case System.shell("echo $SQL_QUERY | pg_format -", env: [{"SQL_QUERY", query}], stderr_to_stdout: true) do
+    case System.shell("echo $SQL_QUERY | pg_format -",
+           env: [{"SQL_QUERY", query}],
+           stderr_to_stdout: true
+         ) do
       {formatted_query, 0} -> String.trim_trailing(formatted_query)
       _ -> query
     end

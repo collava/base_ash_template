@@ -1,5 +1,10 @@
 defmodule Reet.Accounts do
-  use Ash.Domain
+  @moduledoc false
+  use Ash.Domain, extensions: [AshAdmin.Domain]
+
+  admin do
+    show?(true)
+  end
 
   resources do
     resource Reet.Accounts.Token

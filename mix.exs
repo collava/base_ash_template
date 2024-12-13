@@ -33,7 +33,7 @@ defmodule Reet.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:open_api_spex, "~> 3.0"},
+      {:ash_admin, "~> 0.12"},
       {:ash_authentication_phoenix, "~> 2.0"},
       {:ash_authentication, "~> 4.1"},
       {:ash_double_entry, "~> 1.0"},
@@ -67,6 +67,7 @@ defmodule Reet.MixProject do
       {:jason, "~> 1.2"},
       {:oban, "~> 2.18"},
       {:oban_live_dashboard, "~> 0.2.0"},
+      {:open_api_spex, "~> 3.0"},
       {:opentelemetry_api, "~> 1.4"},
       {:opentelemetry_bandit, "~> 0.2.0"},
       {:opentelemetry_ecto, "~> 1.2"},
@@ -83,7 +84,10 @@ defmodule Reet.MixProject do
       {:swoosh, "~> 1.5"},
       {:tailwind, "~> 0.2", runtime: Mix.env() == :dev},
       {:telemetry_metrics, "~> 1.0"},
-      {:telemetry_poller, "~> 1.0"}
+      {:telemetry_poller, "~> 1.0"},
+
+      # tests
+      {:smokestack, "~> 0.9"}
     ]
   end
 

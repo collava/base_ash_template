@@ -5,7 +5,7 @@ defmodule Reet.Accounts.User do
     otp_app: :reet,
     domain: Reet.Accounts,
     authorizers: [Ash.Policy.Authorizer],
-    extensions: [AshAuthentication],
+    extensions: [AshAuthentication, AshAdmin.Resource],
     data_layer: AshPostgres.DataLayer
 
   authentication do
@@ -277,5 +277,9 @@ defmodule Reet.Accounts.User do
 
   identities do
     identity :unique_email, [:email]
+  end
+
+  admin do
+    actor? true
   end
 end

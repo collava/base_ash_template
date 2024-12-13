@@ -1,5 +1,10 @@
 defmodule Reet.Blog do
-  use Ash.Domain
+  @moduledoc false
+  use Ash.Domain, extensions: [AshAdmin.Domain]
+
+  admin do
+    show?(true)
+  end
 
   # Define an interface for calling resource actions.
   resources do
