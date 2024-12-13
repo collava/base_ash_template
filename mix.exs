@@ -118,7 +118,8 @@ defmodule Reet.MixProject do
       # {:honeybadger, "~> 0.22.0"},
       # {:sentry, "~> 10.0"},
       {:tower, "~> 0.7"},
-      {:tower_email, "~> 0.5.2"}
+      {:tower_email, "~> 0.5"},
+      {:tower_sentry, "~> 0.3"}
     ]
   end
 

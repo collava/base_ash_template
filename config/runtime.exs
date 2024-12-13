@@ -73,7 +73,10 @@ if config_env() == :prod do
       System.get_env("TOKEN_SIGNING_SECRET") ||
         raise("Missing environment variable `TOKEN_SIGNING_SECRET`!")
 
-  config :tower_email, TowerEmail.Mailer, api_key: System.fetch_env!("BREVO_API_KEY")
+  # Error reporting
+  config :tower_email, TowerEmail.Mailer, api_key: System.fetch_env!("EMAIL_REPORTING_ADAPTER_API_KEY")
+
+  config :tower_sentry, dsn: System.get_env("SENTRY_DSN")
 
   # ## SSL Support
   #
