@@ -40,8 +40,7 @@ defmodule Reet.Application do
 
   if Code.ensure_loaded?(Ecto.DevLogger) do
     defp maybe_install_ecto_dev_logger,
-      do:
-        Ecto.DevLogger.install(Reet.Repo, before_inline_callback: &__MODULE__.format_sql_query/1)
+      do: Ecto.DevLogger.install(Reet.Repo, before_inline_callback: &__MODULE__.format_sql_query/1)
   else
     defp maybe_install_ecto_dev_logger, do: :ok
   end

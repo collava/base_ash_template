@@ -19,15 +19,15 @@ defmodule ReetWeb.ConnCase do
 
   using do
     quote do
+      use ReetWeb, :verified_routes
+
+      import Phoenix.ConnTest
+      import Plug.Conn
+      import ReetWeb.ConnCase
       # The default endpoint for testing
       @endpoint ReetWeb.Endpoint
 
-      use ReetWeb, :verified_routes
-
       # Import conveniences for testing with connections
-      import Plug.Conn
-      import Phoenix.ConnTest
-      import ReetWeb.ConnCase
     end
   end
 
