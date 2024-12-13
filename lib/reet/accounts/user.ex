@@ -9,6 +9,8 @@ defmodule Reet.Accounts.User do
     data_layer: AshPostgres.DataLayer
 
   # https://hexdocs.pm/ash_archival/unarchiving.html
+  alias AshAuthentication.Strategy.Password.HashPasswordChange
+  alias AshAuthentication.Strategy.Password.PasswordConfirmationValidation
 
   authentication do
     tokens do
@@ -172,13 +174,13 @@ defmodule Reet.Accounts.User do
       end
 
       # Hashes the provided password
-      change AshAuthentication.Strategy.Password.HashPasswordChange
+      change HashPasswordChange
 
       # Generates an authentication token for the user
       change AshAuthentication.GenerateTokenChange
 
       # validates that the password matches the confirmation
-      validate AshAuthentication.Strategy.Password.PasswordConfirmationValidation
+      validate PasswordConfirmationValidation
 
       metadata :token, :string do
         description "A JWT that can be used to authenticate the user."
@@ -241,10 +243,10 @@ defmodule Reet.Accounts.User do
       validate AshAuthentication.Strategy.Password.ResetTokenValidation
 
       # validates that the password matches the confirmation
-      validate AshAuthentication.Strategy.Password.PasswordConfirmationValidation
+      validate PasswordConfirmationValidation
 
       # Hashes the provided password
-      change AshAuthentication.Strategy.Password.HashPasswordChange
+      change HashPasswordChange
 
       # Generates an authentication token for the user
       change AshAuthentication.GenerateTokenChange

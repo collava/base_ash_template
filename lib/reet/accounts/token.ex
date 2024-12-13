@@ -1,4 +1,5 @@
 defmodule Reet.Accounts.Token do
+  @moduledoc false
   use Ash.Resource,
     otp_app: :reet,
     domain: Reet.Accounts,

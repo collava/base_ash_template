@@ -4,6 +4,8 @@ defmodule ReetWeb.Router do
 
   import AshAdmin.Router
 
+  alias AshAuthentication.Phoenix.Overrides.Default
+
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -70,10 +72,10 @@ defmodule ReetWeb.Router do
                   reset_path: "/reset",
                   auth_routes_prefix: "/auth",
                   on_mount: [{ReetWeb.LiveUserAuth, :live_no_user}],
-                  overrides: [ReetWeb.AuthOverrides, AshAuthentication.Phoenix.Overrides.Default]
+                  overrides: [ReetWeb.AuthOverrides, Default]
 
     reset_route auth_routes_prefix: "/auth",
-                overrides: [ReetWeb.AuthOverrides, AshAuthentication.Phoenix.Overrides.Default]
+                overrides: [ReetWeb.AuthOverrides, Default]
   end
 
   scope "/" do

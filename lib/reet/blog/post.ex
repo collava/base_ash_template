@@ -1,5 +1,6 @@
 defmodule Reet.Blog.Post do
   # Using Ash.Resource turns this module into an Ash resource.
+  @moduledoc false
   use Ash.Resource,
     # Tells Ash where the generated code interface belongs
     domain: Reet.Blog,

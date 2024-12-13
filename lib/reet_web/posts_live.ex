@@ -1,6 +1,7 @@
 # lib/my_ash_phoenix_app_web/posts_live.ex
 
 defmodule ReetWeb.PostsLive do
+  @moduledoc false
   use ReetWeb, :live_view
 
   alias Reet.Blog
@@ -49,8 +50,8 @@ defmodule ReetWeb.PostsLive do
       assign(socket,
         posts: posts,
         post_selector: post_selector(posts),
-        create_form: AshPhoenix.Form.for_create(Post, :create) |> to_form(),
-        update_form: AshPhoenix.Form.for_update(List.first(posts, %Post{}), :update) |> to_form()
+        create_form: Post |> AshPhoenix.Form.for_create(:create) |> to_form(),
+        update_form: posts |> List.first(%Post{}) |> AshPhoenix.Form.for_update(:update) |> to_form()
       )
 
     {:ok, socket}
