@@ -34,6 +34,7 @@ defmodule Reet.MixProject do
   defp deps do
     [
       {:ash_admin, "~> 0.12"},
+      {:ash_archival, "~> 1.0"},
       {:ash_authentication_phoenix, "~> 2.0"},
       {:ash_authentication, "~> 4.1"},
       {:ash_cloak, "~> 0.1"},

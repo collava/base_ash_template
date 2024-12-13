@@ -4,7 +4,8 @@ defmodule Reet.Blog.Post do
     # Tells Ash where the generated code interface belongs
     domain: Reet.Blog,
     # Tells Ash you want this resource to store its data in Postgres.
-    data_layer: AshPostgres.DataLayer
+    data_layer: AshPostgres.DataLayer,
+    extensions: [AshArchival.Resource]
 
   # The Postgres keyword is specific to the AshPostgres module.
   postgres do

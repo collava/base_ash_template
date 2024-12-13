@@ -5,8 +5,10 @@ defmodule Reet.Accounts.User do
     otp_app: :reet,
     domain: Reet.Accounts,
     authorizers: [Ash.Policy.Authorizer],
-    extensions: [AshAuthentication, AshAdmin.Resource, AshCloak],
+    extensions: [AshAuthentication, AshAdmin.Resource, AshCloak, AshArchival.Resource],
     data_layer: AshPostgres.DataLayer
+
+  # https://hexdocs.pm/ash_archival/unarchiving.html
 
   authentication do
     tokens do
@@ -283,7 +285,7 @@ defmodule Reet.Accounts.User do
     actor? true
   end
 
-  # Encryption some fields
+  # Encryption some fields - https://hexdocs.pm/ash_cloak/getting-started-with-ash-cloak.html
   cloak do
     # the vault to use to encrypt them
     vault Reet.Vault
