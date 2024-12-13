@@ -1,18 +1,15 @@
 # AshBaseTemplate
 
-To start your Phoenix server:
+Base project using Ash, with authentication, authorization, email sending, security for apis, and error tracking.
 
-  * Run `mix setup` to install and setup dependencies
-  * Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
+Other features:
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
-
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
-
-## Learn more
-
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
+- Oban for background jobs, and ObanLiveDashboard for monitoring.
+- Error tracking / reporting using Tower.
+- Email sending with Swoosh.
+- Auth using AshAuthentication.
+- Security for APIs with OpenApiSpex and Plug.Cors.
+- Error reporting with TowerErrorTracker.
+- Testing with ExUnit, Mneme, Mox, and Smokestack.
+- Code quality with Credo, Styler.
+- Security scanning with Sobelow, Hammer and MixAudit.
