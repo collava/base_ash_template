@@ -70,6 +70,7 @@ defmodule Reet.MixProject do
       {:opentelemetry_bandit, "~> 0.2.0"},
       {:opentelemetry_ecto, "~> 1.2"},
       {:opentelemetry_phoenix, "~> 2.0.0-rc.2"},
+      {:opentelemetry_req, "~> 1.0"},
       {:phoenix_ecto, "~> 4.5"},
       {:phoenix_html, "~> 4.1"},
       {:phoenix_live_dashboard, "~> 0.8.3"},

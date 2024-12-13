@@ -7,6 +7,7 @@ defmodule Reet.Application do
 
   @impl true
   def start(_type, _args) do
+    OpentelemetryPhoenix.setup(adapter: :bandit)
     maybe_install_ecto_dev_logger()
 
     children = [
