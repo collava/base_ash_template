@@ -77,7 +77,7 @@ config :reet, ReetWeb.Endpoint,
 config :reet, Reet.Mailer, adapter: Swoosh.Adapters.Local
 
 config :reet, Oban,
-  queues: [default: 10, mailers: 20, events: 50, media: 5],
+  queues: [default: 10, mailers: 20, events: 50, media: 5, imports: 40],
   repo: Reet.Repo
 
 # Configure esbuild (the version is required)
