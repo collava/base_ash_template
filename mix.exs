@@ -34,13 +34,14 @@ defmodule Reet.MixProject do
   defp deps do
     [
       {:open_api_spex, "~> 3.0"},
-      {:ash_json_api, "~> 1.0"},
       {:ash_authentication_phoenix, "~> 2.0"},
       {:ash_authentication, "~> 4.1"},
       {:ash_double_entry, "~> 1.0"},
       {:ash_csv, "~> 0.9"},
       {:ash_graphql, "~> 1.0"},
+      {:ash_json_api, "~> 1.0"},
       {:ash_money, "~> 0.1"},
+      {:ash_oban, "~> 0.2"},
       {:ash_phoenix, "~> 2.0"},
       {:ash_postgres, "~> 2.0"},
       {:ash, "~> 3.0"},
@@ -64,6 +65,7 @@ defmodule Reet.MixProject do
        depth: 1},
       {:igniter, "~> 0.4"},
       {:jason, "~> 1.2"},
+      {:oban, "~> 2.18"},
       {:phoenix_ecto, "~> 4.5"},
       {:phoenix_html, "~> 4.1"},
       {:phoenix_live_dashboard, "~> 0.8.3"},
