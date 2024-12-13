@@ -119,6 +119,7 @@ defmodule AshBaseTemplate.MixProject do
       {:credo_binary_patterns, "~> 0.2.3", only: [:dev, :test], runtime: false},
       {:credo_mox, "~> 0.1", only: [:dev, :test], runtime: false},
       {:credo_naming, "~> 2.1", only: [:dev, :test], runtime: false},
+      {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
       {:styler, "~> 1.2", only: [:dev, :test], runtime: false},
 
       # error reporting
