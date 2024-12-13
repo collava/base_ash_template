@@ -1,6 +1,7 @@
 defmodule ReetWeb.Router do
   use ReetWeb, :router
   use AshAuthentication.Phoenix.Router
+  use ErrorTracker.Web, :router
 
   import AshAdmin.Router
 
@@ -31,6 +32,8 @@ defmodule ReetWeb.Router do
 
     forward "/", ReetWeb.AshJsonApiRouter
   end
+
+  error_tracker_dashboard("/errors", csp_nonce_assign_key: :csp_nonce_value)
 
   scope "/", ReetWeb do
     pipe_through :browser

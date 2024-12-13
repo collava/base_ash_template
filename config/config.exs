@@ -16,6 +16,14 @@ config :ash,
   known_types: [Money],
   custom_types: [money: Money]
 
+# ErrorTracker.add_breadcrumb("Executed my super secret code")
+config :error_tracker,
+  repo: Reet.Repo,
+  otp_app: :reet,
+  enabled: true,
+  # remove resolved after 1 week
+  plugins: [{ErrorTracker.Plugins.Pruner, max_age: :timer.hours(168)}]
+
 # Configure esbuild (the version is required)
 config :esbuild,
   version: "0.17.11",

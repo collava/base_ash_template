@@ -108,6 +108,8 @@ defmodule Reet.MixProject do
       {:cors_plug, "~> 3.0"},
       {:mix_audit, "~> 2.1", only: [:dev, :test], runtime: false},
       {:sobelow, "~> 0.13", only: [:dev, :test], runtime: false},
+      {:hammer, "~> 6.2"},
+      {:hammer_plug, "~> 3.0"},
 
       # code quality
       {:circular_buffer, "~> 0.4"},
@@ -118,8 +120,10 @@ defmodule Reet.MixProject do
       {:styler, "~> 1.2", only: [:dev, :test], runtime: false},
 
       # error reporting
+      {:error_tracker, "~> 0.5"},
       {:tower, "~> 0.7"},
       {:tower_email, "~> 0.5"},
+      {:tower_error_tracker, "~> 0.3"},
       {:tower_honeybadger, "~> 0.2"},
       {:tower_sentry, "~> 0.3"}
     ]
@@ -129,8 +133,10 @@ defmodule Reet.MixProject do
     [
       "phx.routes": ["phx.routes", "ash_authentication.phx.routes"],
       setup: ["deps.get", "ash.setup", "assets.setup", "assets.build", "run priv/repo/seeds.exs"],
-      "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
-      "ecto.reset": ["ecto.drop", "ecto.setup"],
+      "ecto.setup": ["ash.setup", "run priv/repo/seeds.exs"],
+      "ecto.reset": ["ash.reset"],
+      # "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
+      # "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ash.setup --quiet", "test"],
       "assets.setup": ["tailwind.install --if-missing", "esbuild.install --if-missing"],
       "assets.build": ["tailwind reet", "esbuild reet"],
