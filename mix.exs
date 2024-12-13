@@ -66,6 +66,7 @@ defmodule Reet.MixProject do
       {:igniter, "~> 0.4"},
       {:jason, "~> 1.2"},
       {:oban, "~> 2.18"},
+      {:oban_live_dashboard, "~> 0.2.0"},
       {:opentelemetry_api, "~> 1.4"},
       {:opentelemetry_bandit, "~> 0.2.0"},
       {:opentelemetry_ecto, "~> 1.2"},

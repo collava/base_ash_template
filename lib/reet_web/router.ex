@@ -57,6 +57,7 @@ defmodule ReetWeb.Router do
     ash_authentication_live_session :authentication_required,
       on_mount: {ReetWeb.LiveUserAuth, :live_user_required} do
       live "/protected_route", ProjectLive.Index, :index
+
     end
 
     ash_authentication_live_session :authentication_optional,
@@ -92,7 +93,11 @@ defmodule ReetWeb.Router do
     scope "/dev" do
       pipe_through :browser
 
-      live_dashboard "/dashboard", metrics: ReetWeb.Telemetry
+      live_dashboard "/dashboard",
+        metrics: ReetWeb.Telemetry,
+        additional_pages: [
+          oban: Oban.LiveDashboard
+        ]
       forward "/mailbox", Plug.Swoosh.MailboxPreview
     end
   end
