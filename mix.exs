@@ -66,6 +66,10 @@ defmodule Reet.MixProject do
       {:igniter, "~> 0.4"},
       {:jason, "~> 1.2"},
       {:oban, "~> 2.18"},
+      {:opentelemetry_api, "~> 1.4"},
+      {:opentelemetry_bandit, "~> 0.2.0"},
+      {:opentelemetry_ecto, "~> 1.2"},
+      {:opentelemetry_phoenix, "~> 2.0.0-rc.2"},
       {:phoenix_ecto, "~> 4.5"},
       {:phoenix_html, "~> 4.1"},
       {:phoenix_live_dashboard, "~> 0.8.3"},
@@ -81,12 +85,6 @@ defmodule Reet.MixProject do
     ]
   end
 
-  # Aliases are shortcuts or tasks specific to the current project.
-  # For example, to install project dependencies and perform other setup tasks, run:
-  #
-  #     $ mix setup
-  #
-  # See the documentation for `Mix` for more info on aliases.
   defp aliases do
     [
       "phx.routes": ["phx.routes", "ash_authentication.phx.routes"],
