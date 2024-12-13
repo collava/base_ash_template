@@ -63,6 +63,36 @@ defmodule Reet.Accounts.User do
     repo Reet.Repo
   end
 
+  admin do
+    actor?(true)
+  end
+
+  # Encryption some fields - https://hexdocs.pm/ash_cloak/getting-started-with-ash-cloak.html
+  cloak do
+    # the vault to use to encrypt them
+    vault(Reet.Vault)
+
+    # the attributes to encrypt
+    # attributes [:address, :phone_number]
+
+    # This is just equivalent to always providing `load: fields` on all calls
+    # decrypt_by_default [:address]
+
+    # An MFA or function to be invoked beforce any decryption
+    # on_decrypt fn records, field, context ->
+    #   # Ash has policies that allow forbidding certain users to load data.
+    #   # You should generally use those for authorization rules, and
+    #   # only use this callback for auditing/logging.
+    #   Audit.user_accessed_encrypted_field(records, field, context)
+
+    #   if context.user.name == "marty" do
+    #     {:error, "No martys at the party!"}
+    #   else
+    #     :ok
+    #   end
+    # end
+  end
+
   actions do
     defaults [:read]
 
@@ -279,35 +309,5 @@ defmodule Reet.Accounts.User do
 
   identities do
     identity :unique_email, [:email]
-  end
-
-  admin do
-    actor? true
-  end
-
-  # Encryption some fields - https://hexdocs.pm/ash_cloak/getting-started-with-ash-cloak.html
-  cloak do
-    # the vault to use to encrypt them
-    vault Reet.Vault
-
-    # the attributes to encrypt
-    # attributes [:address, :phone_number]
-
-    # This is just equivalent to always providing `load: fields` on all calls
-    # decrypt_by_default [:address]
-
-    # An MFA or function to be invoked beforce any decryption
-    # on_decrypt fn records, field, context ->
-    #   # Ash has policies that allow forbidding certain users to load data.
-    #   # You should generally use those for authorization rules, and
-    #   # only use this callback for auditing/logging.
-    #   Audit.user_accessed_encrypted_field(records, field, context)
-
-    #   if context.user.name == "marty" do
-    #     {:error, "No martys at the party!"}
-    #   else
-    #     :ok
-    #   end
-    # end
   end
 end

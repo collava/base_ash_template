@@ -78,7 +78,7 @@ defmodule ReetWeb.Router do
 
   scope "/" do
     pipe_through [:browser]
-    ash_admin "/admin",  csp_nonce_assign_key: :csp_nonce_value
+    ash_admin("/admin", csp_nonce_assign_key: :csp_nonce_value)
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
