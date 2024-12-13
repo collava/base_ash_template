@@ -33,10 +33,9 @@ defmodule ReetWeb.Router do
     forward "/", ReetWeb.AshJsonApiRouter
   end
 
-  error_tracker_dashboard("/errors", csp_nonce_assign_key: :csp_nonce_value)
-
   scope "/", ReetWeb do
     pipe_through :browser
+    error_tracker_dashboard("/errors")
 
     ash_authentication_live_session :authenticated_routes do
       # in each liveview, add one of the following at the top of the module:
@@ -101,7 +100,11 @@ defmodule ReetWeb.Router do
       live_dashboard "/dashboard",
         metrics: ReetWeb.Telemetry,
         additional_pages: [
-          oban: Oban.LiveDashboard
+          oban: Oban.LiveDashboard,
+          obanalyze: Obanalyze.dashboard()
+        ],
+        on_mount: [
+          Obanalyze.hooks()
         ]
 
       forward "/mailbox", Plug.Swoosh.MailboxPreview
