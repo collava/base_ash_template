@@ -1,4 +1,4 @@
-defmodule Reet.DataCase do
+defmodule AshBaseTemplate.DataCase do
   @moduledoc """
   This module defines the setup for tests requiring
   access to the application's data layer.
@@ -10,7 +10,7 @@ defmodule Reet.DataCase do
   we enable the SQL sandbox, so changes done to the database
   are reverted at the end of every test. If you are using
   PostgreSQL, you can even run database tests asynchronously
-  by setting `use Reet.DataCase, async: true`, although
+  by setting `use AshBaseTemplate.DataCase, async: true`, although
   this option is not recommended for other databases.
   """
 
@@ -20,17 +20,17 @@ defmodule Reet.DataCase do
 
   using do
     quote do
+      import AshBaseTemplate.DataCase
       import Ecto
       import Ecto.Changeset
       import Ecto.Query
-      import Reet.DataCase
 
-      alias Reet.Repo
+      alias AshBaseTemplate.Repo
     end
   end
 
   setup tags do
-    Reet.DataCase.setup_sandbox(tags)
+    AshBaseTemplate.DataCase.setup_sandbox(tags)
     :ok
   end
 
@@ -38,7 +38,7 @@ defmodule Reet.DataCase do
   Sets up the sandbox based on the test tags.
   """
   def setup_sandbox(tags) do
-    pid = Sandbox.start_owner!(Reet.Repo, shared: not tags[:async])
+    pid = Sandbox.start_owner!(AshBaseTemplate.Repo, shared: not tags[:async])
     on_exit(fn -> Sandbox.stop_owner(pid) end)
   end
 

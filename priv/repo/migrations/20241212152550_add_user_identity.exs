@@ -1,4 +1,4 @@
-defmodule Reet.Repo.Migrations.AddUserIdentity do
+defmodule AshBaseTemplate.Repo.Migrations.AddUserIdentity do
   @moduledoc """
   Updates resources based on their most recent snapshots.
 

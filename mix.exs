@@ -1,9 +1,9 @@
-defmodule Reet.MixProject do
+defmodule AshBaseTemplate.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :reet,
+      app: :ash_base_template,
       version: "0.0.1",
       elixir: "~> 1.17.3-otp-27",
       elixirc_paths: elixirc_paths(Mix.env()),
@@ -33,7 +33,7 @@ defmodule Reet.MixProject do
   # Type `mix help compile.app` for more information.
   def application do
     [
-      mod: {Reet.Application, []},
+      mod: {AshBaseTemplate.Application, []},
       extra_applications: [:logger, :runtime_tools]
     ]
   end
@@ -141,10 +141,10 @@ defmodule Reet.MixProject do
       # "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ash.setup --quiet", "test"],
       "assets.setup": ["tailwind.install --if-missing", "esbuild.install --if-missing"],
-      "assets.build": ["tailwind reet", "esbuild reet"],
+      "assets.build": ["tailwind ash_base_template", "esbuild ash_base_template"],
       "assets.deploy": [
-        "tailwind reet --minify",
-        "esbuild reet --minify",
+        "tailwind ash_base_template --minify",
+        "esbuild ash_base_template --minify",
         "phx.digest"
       ]
     ]

@@ -14,8 +14,6 @@ updates:
     labels:
       - "github-actions"
       - "dependencies"
-    reviewers:
-      - "renews"
 
   - package-ecosystem: "npm"
     directory: "/assets/"
@@ -26,8 +24,6 @@ updates:
     labels:
       - "npm"
       - "dependencies"
-    reviewers:
-      - "renews"
 
   - package-ecosystem: "mix"
     directory: "/"
@@ -38,8 +34,6 @@ updates:
     labels:
       - "hex"
       - "dependencies"
-    reviewers:
-      - "renews"
 
       # Allow up to 10 open pull requests for pip dependencies
       # open-pull-requests-limit: 10 # 0 for disabling

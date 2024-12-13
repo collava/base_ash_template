@@ -1,4 +1,4 @@
-defmodule Reet.Repo.Migrations.AddAuthenticationResources do
+defmodule AshBaseTemplate.Repo.Migrations.AddAuthenticationResources do
   @moduledoc """
   Updates resources based on their most recent snapshots.
 

@@ -1,5 +1,5 @@
-defmodule ReetWeb.PageControllerTest do
-  use ReetWeb.ConnCase
+defmodule AshBaseTemplateWeb.PageControllerTest do
+  use AshBaseTemplateWeb.ConnCase
 
   test "GET /", %{conn: conn} do
     conn = get(conn, ~p"/")

@@ -1,4 +1,4 @@
-defmodule Reet.Repo.Migrations.InstallAshMoneyV420241213091922 do
+defmodule AshBaseTemplate.Repo.Migrations.InstallAshMoneyV420241213091922 do
   @moduledoc """
   Installs any extensions that are mentioned in the repo's `installed_extensions/0` callback
 

@@ -1,4 +1,4 @@
-defmodule Reet.Repo.Migrations.AddErrorTracker do
+defmodule AshBaseTemplate.Repo.Migrations.AddErrorTracker do
   use Ecto.Migration
 
   def up, do: ErrorTracker.Migration.up(version: 4)

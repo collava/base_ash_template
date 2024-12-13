@@ -1,14 +1,15 @@
-defmodule ReetWeb.ErrorHTMLTest do
-  use ReetWeb.ConnCase, async: true
+defmodule AshBaseTemplateWeb.ErrorHTMLTest do
+  use AshBaseTemplateWeb.ConnCase, async: true
 
   # Bring render_to_string/4 for testing custom views
   import Phoenix.Template
 
   test "renders 404.html" do
-    assert render_to_string(ReetWeb.ErrorHTML, "404", "html", []) == "Not Found"
+    assert render_to_string(AshBaseTemplateWeb.ErrorHTML, "404", "html", []) == "Not Found"
   end
 
   test "renders 500.html" do
-    assert render_to_string(ReetWeb.ErrorHTML, "500", "html", []) == "Internal Server Error"
+    assert render_to_string(AshBaseTemplateWeb.ErrorHTML, "500", "html", []) ==
+             "Internal Server Error"
   end
 end

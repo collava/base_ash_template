@@ -16,10 +16,40 @@ config :ash,
   known_types: [Money],
   custom_types: [money: Money]
 
+# Configures the mailer
+#
+# By default it uses the "Local" adapter which stores the emails
+# locally. You can see the emails in your browser, at "/dev/mailbox".
+#
+# For production it's recommended to configure a different adapter
+# at the `config/runtime.exs`.
+config :ash_base_template, AshBaseTemplate.Mailer, adapter: Swoosh.Adapters.Local
+
+config :ash_base_template, AshBaseTemplateWeb.Endpoint,
+  url: [host: "localhost"],
+  adapter: Bandit.PhoenixAdapter,
+  render_errors: [
+    formats: [html: AshBaseTemplateWeb.ErrorHTML, json: AshBaseTemplateWeb.ErrorJSON],
+    layout: false
+  ],
+  pubsub_server: AshBaseTemplate.PubSub,
+  live_view: [signing_salt: "PIXqUKf8"]
+
+config :ash_base_template, Oban,
+  queues: [default: 10, mailers: 20, events: 50, media: 5, imports: 40],
+  repo: AshBaseTemplate.Repo
+
+config :ash_base_template,
+  ash_domains: [AshBaseTemplate.Accounts, AshBaseTemplate.Blog]
+
+config :ash_base_template,
+  ecto_repos: [AshBaseTemplate.Repo],
+  generators: [timestamp_type: :utc_datetime]
+
 # ErrorTracker.add_breadcrumb("Executed my super secret code")
 config :error_tracker,
-  repo: Reet.Repo,
-  otp_app: :reet,
+  repo: AshBaseTemplate.Repo,
+  otp_app: :ash_base_template,
   enabled: true,
   # remove resolved after 1 week
   plugins: [{ErrorTracker.Plugins.Pruner, max_age: :timer.hours(168)}]
@@ -27,14 +57,14 @@ config :error_tracker,
 # Configure esbuild (the version is required)
 config :esbuild,
   version: "0.17.11",
-  reet: [
+  ash_base_template: [
     args: ~w(js/app.js --bundle --target=es2017 --outdir=../priv/static/assets --external:/fonts/* --external:/images/*),
     cd: Path.expand("../assets", __DIR__),
     # Build-time config (config/{config, dev, test, prod}.exs)
     env: %{"NODE_PATH" => Path.expand("../deps", __DIR__)}
   ]
 
-config :ex_cldr, default_backend: Reet.Cldr
+config :ex_cldr, default_backend: AshBaseTemplate.Cldr
 
 config :hammer,
   backend: {Hammer.Backend.ETS, [expiry_ms: 60_000 * 60 * 4, cleanup_interval_ms: 60_000 * 10]}
@@ -48,36 +78,6 @@ config :mime,
   types: %{"application/vnd.api+json" => ["json"]}
 
 config :phoenix, :json_library, Jason
-
-config :reet, Oban,
-  queues: [default: 10, mailers: 20, events: 50, media: 5, imports: 40],
-  repo: Reet.Repo
-
-# Configures the mailer
-#
-# By default it uses the "Local" adapter which stores the emails
-# locally. You can see the emails in your browser, at "/dev/mailbox".
-#
-# For production it's recommended to configure a different adapter
-# at the `config/runtime.exs`.
-config :reet, Reet.Mailer, adapter: Swoosh.Adapters.Local
-
-config :reet, ReetWeb.Endpoint,
-  url: [host: "localhost"],
-  adapter: Bandit.PhoenixAdapter,
-  render_errors: [
-    formats: [html: ReetWeb.ErrorHTML, json: ReetWeb.ErrorJSON],
-    layout: false
-  ],
-  pubsub_server: Reet.PubSub,
-  live_view: [signing_salt: "PIXqUKf8"]
-
-config :reet,
-  ash_domains: [Reet.Accounts, Reet.Blog]
-
-config :reet,
-  ecto_repos: [Reet.Repo],
-  generators: [timestamp_type: :utc_datetime]
 
 config :spark,
   formatter: [
@@ -112,7 +112,7 @@ config :spark,
 # Configure tailwind (the version is required)
 config :tailwind,
   version: "3.4.3",
-  reet: [
+  ash_base_template: [
     args: ~w(
       --config=tailwind.config.js
       --input=css/app.css
@@ -124,8 +124,8 @@ config :tailwind,
 config :tower, :reporters, [TowerEmail, TowerSentry, TowerHoneybadger]
 
 config :tower_email,
-  otp_app: :reet,
-  from: {"Errors", "no-reply@reet.com"},
-  to: "monitoring@reet.com"
+  otp_app: :ash_base_template,
+  from: {"Errors", "no-reply@ash_base_template.com"},
+  to: "monitoring@ash_base_template.com"
 
 import_config "#{config_env()}.exs"

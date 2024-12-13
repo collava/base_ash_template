@@ -1,4 +1,4 @@
-# Reet
+# AshBaseTemplate
 
 To start your Phoenix server:
 

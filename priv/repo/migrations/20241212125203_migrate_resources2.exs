@@ -1,4 +1,4 @@
-defmodule Reet.Repo.Migrations.MigrateResources2 do
+defmodule AshBaseTemplate.Repo.Migrations.MigrateResources2 do
   @moduledoc """
   Updates resources based on their most recent snapshots.
 

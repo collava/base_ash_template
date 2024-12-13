@@ -1,4 +1,4 @@
-defmodule Reet.Repo.Migrations.TimestampsAndUuid7 do
+defmodule AshBaseTemplate.Repo.Migrations.TimestampsAndUuid7 do
   @moduledoc """
   Updates resources based on their most recent snapshots.
 

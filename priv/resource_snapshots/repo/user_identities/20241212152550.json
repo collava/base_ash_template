@@ -125,7 +125,7 @@
     "global": null,
     "strategy": null
   },
-  "repo": "Elixir.Reet.Repo",
+  "repo": "Elixir.AshBaseTemplate.Repo",
   "schema": null,
   "table": "user_identities"
 }

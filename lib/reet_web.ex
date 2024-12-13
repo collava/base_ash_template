@@ -1,12 +1,12 @@
-defmodule ReetWeb do
+defmodule AshBaseTemplateWeb do
   @moduledoc """
   The entrypoint for defining your web interface, such
   as controllers, components, channels, and so on.
 
   This can be used in your application as:
 
-      use ReetWeb, :controller
-      use ReetWeb, :html
+      use AshBaseTemplateWeb, :controller
+      use AshBaseTemplateWeb, :html
 
   The definitions below will be executed for every controller,
   component, etc, so keep them short and clean, focused
@@ -41,9 +41,9 @@ defmodule ReetWeb do
     quote do
       use Phoenix.Controller,
         formats: [:html, :json],
-        layouts: [html: ReetWeb.Layouts]
+        layouts: [html: AshBaseTemplateWeb.Layouts]
 
-      use Gettext, backend: ReetWeb.Gettext
+      use Gettext, backend: AshBaseTemplateWeb.Gettext
 
       import Plug.Conn
 
@@ -54,7 +54,7 @@ defmodule ReetWeb do
   def live_view do
     quote do
       use Phoenix.LiveView,
-        layout: {ReetWeb.Layouts, :app}
+        layout: {AshBaseTemplateWeb.Layouts, :app}
 
       unquote(html_helpers())
     end
@@ -84,12 +84,13 @@ defmodule ReetWeb do
   defp html_helpers do
     quote do
       # Translation
-      use Gettext, backend: ReetWeb.Gettext
+      use Gettext, backend: AshBaseTemplateWeb.Gettext
+
+      import AshBaseTemplateWeb.CoreComponents
 
       # HTML escaping functionality
       import Phoenix.HTML
       # Core UI components
-      import ReetWeb.CoreComponents
 
       # Shortcut for generating JS commands
       alias Phoenix.LiveView.JS
@@ -102,9 +103,9 @@ defmodule ReetWeb do
   def verified_routes do
     quote do
       use Phoenix.VerifiedRoutes,
-        endpoint: ReetWeb.Endpoint,
-        router: ReetWeb.Router,
-        statics: ReetWeb.static_paths()
+        endpoint: AshBaseTemplateWeb.Endpoint,
+        router: AshBaseTemplateWeb.Router,
+        statics: AshBaseTemplateWeb.static_paths()
     end
   end
 

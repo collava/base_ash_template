@@ -1,4 +1,4 @@
-defmodule Reet.Repo.Migrations.AddPasswordAuthenticationAndAddPasswordAuth do
+defmodule AshBaseTemplate.Repo.Migrations.AddPasswordAuthenticationAndAddPasswordAuth do
   @moduledoc """
   Updates resources based on their most recent snapshots.
 

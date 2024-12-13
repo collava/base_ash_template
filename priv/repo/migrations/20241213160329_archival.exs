@@ -1,4 +1,4 @@
-defmodule Reet.Repo.Migrations.Archival do
+defmodule AshBaseTemplate.Repo.Migrations.Archival do
   @moduledoc """
   Updates resources based on their most recent snapshots.
 
