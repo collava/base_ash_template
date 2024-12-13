@@ -42,7 +42,7 @@ defmodule Reet.MixProject do
       {:ash_phoenix, "~> 2.0"},
       {:ash, "~> 3.0"},
       {:igniter, "~> 0.4"},
-      {:phoenix, "~> 1.7.18"},
+      {:phoenix, "~> 1.7"},
       {:phoenix_ecto, "~> 4.5"},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:ecto_sql, "~> 3.10"},
@@ -65,10 +65,11 @@ defmodule Reet.MixProject do
       {:swoosh, "~> 1.5"},
       {:finch, "~> 0.13"},
       {:telemetry_metrics, "~> 1.0"},
+      {:ash_double_entry, "~> 1.0"},
       {:telemetry_poller, "~> 1.0"},
       {:gettext, "~> 0.26"},
       {:jason, "~> 1.2"},
-      {:dns_cluster, "~> 0.1.1"},
+      {:dns_cluster, "~> 0.1"},
       {:bandit, "~> 1.5"},
       {:ecto_dev_logger, "~> 0.14", only: :dev}
     ]
