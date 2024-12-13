@@ -10,8 +10,8 @@ defmodule AshBaseTemplateWeb.ErrorHTML do
   # uncomment the embed_templates/1 call below
   # and add pages to the error directory:
   #
-  #   * lib/reet_web/controllers/error_html/404.html.heex
-  #   * lib/reet_web/controllers/error_html/500.html.heex
+  #   * lib/ash_base_template_web/controllers/error_html/404.html.heex
+  #   * lib/ash_base_template_web/controllers/error_html/500.html.heex
   #
   # embed_templates "error_html/*"
 

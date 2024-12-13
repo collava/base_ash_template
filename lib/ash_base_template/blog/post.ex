@@ -6,7 +6,10 @@ defmodule AshBaseTemplate.Blog.Post do
     domain: AshBaseTemplate.Blog,
     # Tells Ash you want this resource to store its data in Postgres.
     data_layer: AshPostgres.DataLayer,
-    extensions: [AshArchival.Resource]
+    extensions: [AshArchival.Resource],
+    authorizers: [
+      Ash.Policy.Authorizer
+    ]
 
   # The Postgres keyword is specific to the AshPostgres module.
   postgres do
@@ -16,18 +19,31 @@ defmodule AshBaseTemplate.Blog.Post do
     repo AshBaseTemplate.Repo
   end
 
+  # The primary? flag just tells Ash "this is a standard action that should use our authorization policies"
   actions do
     # Exposes default built in actions to manage the resource
-    defaults [:read, :destroy]
+    defaults [:read]
 
     create :create do
-      # accept title as input
-      accept [:title]
+      # Define the argument
+      argument :user_id, :uuid do
+        allow_nil? false
+      end
+
+      # Accept both title and user_id
+      accept [:title, :user_id]
+      primary? true
+      # This tells Ash to manage the user relationship using the provided user_id
+      change manage_relationship(:user_id, :user, type: :create)
     end
 
     update :update do
-      # accept content as input
       accept [:content]
+      primary? true
+    end
+
+    destroy :destroy do
+      primary? true
     end
 
     # Defines custom read action which fetches post by id.
@@ -39,6 +55,23 @@ defmodule AshBaseTemplate.Blog.Post do
       # Filters the `:id` given in the argument
       # against the `id` of each element in the resource
       filter expr(id == ^arg(:id))
+    end
+  end
+
+  policies do
+    # Anyone can read posts
+    policy action(:read) do
+      authorize_if always()
+    end
+
+    # Must be logged in to create posts
+    policy action(:create) do
+      authorize_if actor_present()
+    end
+
+    # Can only update/destroy your own posts
+    policy action([:update, :destroy]) do
+      authorize_if relates_to_actor_via(:user)
     end
   end
 
@@ -55,5 +88,15 @@ defmodule AshBaseTemplate.Blog.Post do
     # Add a string type attribute called `:content`
     # If allow_nil? is not specified, then content can be nil
     attribute :content, :string
+
+    create_timestamp :inserted_at
+    update_timestamp :updated_at
+  end
+
+  relationships do
+    belongs_to :user, AshBaseTemplate.Accounts.User do
+      attribute_writable? true
+      allow_nil? false
+    end
   end
 end

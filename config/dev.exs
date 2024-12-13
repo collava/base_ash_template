@@ -17,7 +17,7 @@ config :ash_base_template, AshBaseTemplate.Repo,
   username: "postgres",
   password: "postgres",
   hostname: "localhost",
-  database: "reet_dev",
+  database: "ash_base_template_dev",
   stacktrace: true,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
@@ -61,9 +61,9 @@ config :ash_base_template, AshBaseTemplateWeb.Endpoint,
 config :ash_base_template, AshBaseTemplateWeb.Endpoint,
   live_reload: [
     patterns: [
-      ~r"priv/static/(?!uploads/).*(js|css|png|jpeg|jpg|gif|svg)$",
+      ~r"priv/static/(?!uploads/).*(js|css|png|jpeg|jpg|gif|svg|woff|ttf|eot|ico)$",
       ~r"priv/gettext/.*(po)$",
-      ~r"lib/reet_web/(controllers|live|components)/.*(ex|heex)$"
+      ~r"lib/ash_base_template_web/(controllers|live|components)/.*(ex|heex)$"
     ]
   ]
 

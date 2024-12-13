@@ -36,23 +36,6 @@ defmodule AshBaseTemplateWeb.Router do
   scope "/", AshBaseTemplateWeb do
     pipe_through :browser
     error_tracker_dashboard("/errors", csp_nonce_assign_key: :csp_nonce_value)
-
-    ash_authentication_live_session :authenticated_routes do
-      # in each liveview, add one of the following at the top of the module:
-      #
-      # If an authenticated user must be present:
-      # on_mount {AshBaseTemplateWeb.LiveUserAuth, :live_user_required}
-      #
-      # If an authenticated user *may* be present:
-      # on_mount {AshBaseTemplateWeb.LiveUserAuth, :live_user_optional}
-      #
-      # If an authenticated user must *not* be present:
-      # on_mount {AshBaseTemplateWeb.LiveUserAuth, :live_no_user}
-    end
-  end
-
-  scope "/", AshBaseTemplateWeb do
-    pipe_through :browser
     auth_routes AuthController, AshBaseTemplate.Accounts.User, path: "/auth"
     sign_out_route AuthController
 
@@ -67,6 +50,19 @@ defmodule AshBaseTemplateWeb.Router do
     ash_authentication_live_session :authentication_optional,
       on_mount: {AshBaseTemplateWeb.LiveUserAuth, :live_user_optional} do
       live "/optional", ProjectLive.Index, :index
+    end
+
+    ash_authentication_live_session :authenticated_routes do
+      # in each liveview, add one of the following at the top of the module:
+      #
+      # If an authenticated user must be present:
+      # on_mount {AshBaseTemplateWeb.LiveUserAuth, :live_user_required}
+      #
+      # If an authenticated user *may* be present:
+      # on_mount {AshBaseTemplateWeb.LiveUserAuth, :live_user_optional}
+      #
+      # If an authenticated user must *not* be present:
+      # on_mount {AshBaseTemplateWeb.LiveUserAuth, :live_no_user}
     end
 
     # https://hexdocs.pm/ash_authentication_phoenix/ui-overrides.html
@@ -104,7 +100,8 @@ defmodule AshBaseTemplateWeb.Router do
           obanalyze: Obanalyze.dashboard()
         ],
         on_mount: [
-          Obanalyze.hooks()
+          Obanalyze.hooks(),
+          {AshBaseTemplateWeb.LiveUserAuth, :live_user_required}
         ]
 
       forward "/mailbox", Plug.Swoosh.MailboxPreview

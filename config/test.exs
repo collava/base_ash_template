@@ -11,7 +11,7 @@ config :ash_base_template, AshBaseTemplate.Repo,
   username: "postgres",
   password: "postgres",
   hostname: "localhost",
-  database: "reet_test#{System.get_env("MIX_TEST_PARTITION")}",
+  database: "ash_base_template_test#{System.get_env("MIX_TEST_PARTITION")}",
   pool: Ecto.Adapters.SQL.Sandbox,
   # We don't run a server during test. If one is required,
   # you can enable the server option below.

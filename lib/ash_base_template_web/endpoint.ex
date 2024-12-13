@@ -6,7 +6,7 @@ defmodule AshBaseTemplateWeb.Endpoint do
   # Set :encryption_salt if you would also like to encrypt it.
   @session_options [
     store: :cookie,
-    key: "_reet_key",
+    key: "_ash_base_template_key",
     signing_salt: "c5GLTmWI",
     same_site: "Lax"
   ]

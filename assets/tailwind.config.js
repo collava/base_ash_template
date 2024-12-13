@@ -8,8 +8,8 @@ const path = require("path")
 module.exports = {
   content: [
     "./js/**/*.js",
-    "../lib/reet_web.ex",
-    "../lib/reet_web/**/*.*ex",
+    "../lib/ash_base_template_web.ex",
+    "../lib/ash_base_template_web/**/*.*ex",
     "../deps/ash_authentication_phoenix/**/*.*ex",
   ],
   theme: {

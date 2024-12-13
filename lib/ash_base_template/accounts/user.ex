@@ -98,6 +98,11 @@ defmodule AshBaseTemplate.Accounts.User do
   actions do
     defaults [:read]
 
+    create :create do
+      primary? true
+      accept [:email]
+    end
+
     read :get_by_subject do
       description "Get a user by the subject claim in a JWT"
       argument :subject, :string, allow_nil?: false
