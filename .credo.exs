@@ -219,7 +219,8 @@
 
           {CredoMox.Checks.UnverifiedMox, files: %{included: ["**/*_test.exs"]}},
           # {CredoNaming.Check.Warning.AvoidSpecificTermsInModuleNames, terms: ["Manager", ~r/Helpers?/]},
-          {CredoNaming.Check.Consistency.ModuleFilename, []}
+          {CredoNaming.Check.Consistency.ModuleFilename, []},
+          {CredoBinaryPatterns.Check.Consistency.Pattern, []}
         ]
       }
     }
