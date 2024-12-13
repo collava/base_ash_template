@@ -73,7 +73,7 @@ defmodule AshBaseTemplate.MixProject do
       {:gettext, "~> 0.26"},
       {:hackney, "~> 1.20"},
       {:heroicons,
-       github: "tailwindlabs/heroicons", tag: "v2.1.1", sparse: "optimized", app: false, compile: false, depth: 1},
+       github: "tailwindlabs/heroicons", tag: "v2.2.0", sparse: "optimized", app: false, compile: false, depth: 1},
       {:igniter, "~> 0.4"},
       {:jason, "~> 1.2"},
       {:oban, "~> 2.18"},
