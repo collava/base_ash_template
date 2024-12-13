@@ -7,10 +7,14 @@
 # General application configuration
 import Config
 
+config :ex_cldr, default_backend: Reet.Cldr
+
 config :ash,
   include_embedded_source_by_default?: false,
   default_page_type: :keyset,
-  policies: [no_filter_static_forbidden_reads?: false]
+  policies: [no_filter_static_forbidden_reads?: false],
+  known_types: [AshMoney.Types.Money],
+  custom_types: [money: AshMoney.Types.Money]
 
 config :spark,
   formatter: [

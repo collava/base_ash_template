@@ -33,6 +33,7 @@ defmodule Reet.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:ex_money_sql, "~> 1.0"},
       {:bcrypt_elixir, "~> 3.0"},
       {:picosat_elixir, "~> 0.2"},
       {:ash_authentication, "~> 4.1"},
@@ -60,6 +61,7 @@ defmodule Reet.MixProject do
        app: false,
        compile: false,
        depth: 1},
+      {:ash_money, "~> 0.1"},
       {:swoosh, "~> 1.5"},
       {:finch, "~> 0.13"},
       {:telemetry_metrics, "~> 1.0"},
