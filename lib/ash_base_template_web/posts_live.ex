@@ -51,13 +51,14 @@ defmodule AshBaseTemplateWeb.PostsLive do
 
   def mount(_params, _session, socket) do
     posts = Blog.list_posts!()
+    posts_for_user = Enum.filter(posts, &(&1.user_id == socket.assigns.current_user.id))
     selected_post = List.first(posts) || %Post{}
 
     socket =
       assign(socket,
         posts: posts,
         selected_post: selected_post,
-        post_selector: post_selector(posts),
+        post_selector: post_selector(posts_for_user),
         create_form:
           Post
           |> AshPhoenix.Form.for_create(:create, actor: socket.assigns.current_user)
@@ -72,7 +73,8 @@ defmodule AshBaseTemplateWeb.PostsLive do
   end
 
   def handle_event("delete_post", %{"post-id" => post_id}, socket) do
-    post_id |> Blog.get_post!() |> Blog.destroy_post!()
+    actor = socket.assigns.current_user
+    post_id |> Blog.get_post!(actor: actor) |> Blog.destroy_post!(actor: actor)
     posts = Blog.list_posts!()
 
     {:noreply, assign(socket, posts: posts, post_selector: post_selector(posts))}
@@ -107,7 +109,11 @@ defmodule AshBaseTemplateWeb.PostsLive do
   end
 
   def handle_event("select_post", %{"form" => %{"post_id" => post_id}}, socket) do
-    selected_post = Enum.find(socket.assigns.posts, &(&1.id == post_id))
+    selected_post =
+      Enum.find(
+        socket.assigns.posts,
+        &(&1.id == post_id and &1.user_id == socket.assigns.current_user.id)
+      )
 
     update_form =
       selected_post
