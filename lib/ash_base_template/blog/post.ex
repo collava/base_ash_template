@@ -1,5 +1,4 @@
 defmodule AshBaseTemplate.Blog.Post do
-  # Using Ash.Resource turns this module into an Ash resource.
   @moduledoc false
   use Ash.Resource,
     # Tells Ash where the generated code interface belongs
@@ -56,6 +55,12 @@ defmodule AshBaseTemplate.Blog.Post do
       # against the `id` of each element in the resource
       filter expr(id == ^arg(:id))
     end
+
+    # read :read do
+
+    #   # preload the user from the post
+    #   prepare build(load: :user)
+    # end
   end
 
   policies do

@@ -28,18 +28,24 @@ defmodule AshBaseTemplateWeb.PostsLive do
         </li>
       </ol>
     </div>
-    <h2 class="mt-8 text-lg">Create Post</h2>
-    <.form :let={f} for={@create_form} phx-submit="create_post">
-      <.input type="text" field={f[:title]} placeholder="input title" />
-      <.button class="mt-2" type="submit">Create</.button>
-    </.form>
-    <h2 class="mt-8 text-lg">Update Post</h2>
-    <.form :let={f} for={@update_form} phx-submit="update_post" phx-change="select_post">
-      <.label>Post Name</.label>
-      <.input type="select" field={f[:post_id]} options={@post_selector} />
-      <.input type="text" field={f[:content]} placeholder="input content" />
-      <.button class="mt-2" type="submit">Update</.button>
-    </.form>
+
+    <div>
+      <h2 class="mt-8 text-lg">Create Post</h2>
+      <.form :let={f} for={@create_form} phx-submit="create_post">
+        <.input type="text" field={f[:title]} placeholder="input title" />
+        <.button class="mt-2" type="submit">Create</.button>
+      </.form>
+    </div>
+
+    <div>
+      <h2 class="mt-8 text-lg">Update Post</h2>
+      <.form :let={f} for={@update_form} phx-submit="update_post" phx-change="select_post">
+        <.label>Post Name</.label>
+        <.input type="select" field={f[:post_id]} options={@post_selector} />
+        <.input type="text" field={f[:content]} placeholder="input content" />
+        <.button class="mt-2" type="submit">Update</.button>
+      </.form>
+    </div>
     """
   end
 
