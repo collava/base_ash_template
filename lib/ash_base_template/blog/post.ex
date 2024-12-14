@@ -21,7 +21,12 @@ defmodule AshBaseTemplate.Blog.Post do
   # The primary? flag just tells Ash "this is a standard action that should use our authorization policies"
   actions do
     # Exposes default built in actions to manage the resource
-    defaults [:read]
+    # defaults [:read]
+
+    read :read do
+      prepare build(load: [:user])
+      filter expr(is_nil(archived_at))
+    end
 
     create :create do
       primary? true
@@ -53,6 +58,7 @@ defmodule AshBaseTemplate.Blog.Post do
       get? true
       # Filters the `:id` given in the argument
       # against the `id` of each element in the resource
+      prepare build(load: [:user])
       filter expr(id == ^arg(:id))
     end
 
