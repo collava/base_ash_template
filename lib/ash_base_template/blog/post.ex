@@ -10,25 +10,17 @@ defmodule AshBaseTemplate.Blog.Post do
       Ash.Policy.Authorizer
     ]
 
-  # The Postgres keyword is specific to the AshPostgres module.
   postgres do
-    # Tells Postgres what to call the table
     table "posts"
-    # Tells Ash how to interface with the Postgres table
     repo AshBaseTemplate.Repo
+  end
+
+  archive do
+    exclude_read_actions [:archived]
   end
 
   # The primary? flag just tells Ash "this is a standard action that should use our authorization policies"
   actions do
-    # Exposes default built in actions to manage the resource
-    # defaults [:read]
-
-    read :read do
-      prepare build(load: [:user])
-      filter expr(is_nil(archived_at))
-      primary? true
-    end
-
     create :create do
       primary? true
       accept [:title]
@@ -51,6 +43,16 @@ defmodule AshBaseTemplate.Blog.Post do
       primary? true
     end
 
+    read :read do
+      prepare build(load: [:user])
+      primary? true
+    end
+
+    read :archived do
+      prepare build(load: [:user])
+      filter expr(not is_nil(archived_at))
+    end
+
     # Defines custom read action which fetches post by id.
     read :by_id do
       argument :id, :uuid_v7, allow_nil?: false
@@ -61,12 +63,6 @@ defmodule AshBaseTemplate.Blog.Post do
       prepare build(load: [:user])
       filter expr(id == ^arg(:id))
     end
-
-    # read :read do
-
-    #   # preload the user from the post
-    #   prepare build(load: :user)
-    # end
   end
 
   policies do

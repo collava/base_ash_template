@@ -95,6 +95,10 @@ defmodule AshBaseTemplate.Accounts.User do
     # end
   end
 
+  archive do
+    archive_related [:posts]
+  end
+
   actions do
     defaults [:read]
 
