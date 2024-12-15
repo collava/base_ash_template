@@ -6,9 +6,7 @@ defmodule AshBaseTemplate.Blog.Post do
     # Tells Ash you want this resource to store its data in Postgres.
     data_layer: AshPostgres.DataLayer,
     extensions: [AshArchival.Resource],
-    authorizers: [
-      Ash.Policy.Authorizer
-    ]
+    authorizers: [Ash.Policy.Authorizer]
 
   postgres do
     table "posts"
@@ -65,20 +63,33 @@ defmodule AshBaseTemplate.Blog.Post do
     end
   end
 
+  # Policiies authorizing happens from top to bottom
   policies do
-    # Anyone can read posts
-    policy action(:read) do
+    bypass actor_attribute_equals(:role, :admin) do
+      description "Admins can do it all"
       authorize_if always()
     end
 
-    # Must be logged in to create posts
+    policy action_type(:read) do
+      description "Anyone can read non-archived posts"
+      authorize_if always()
+    end
+
+    policy action(:archived) do
+      description "Only customers and above can see archived posts"
+      authorize_if relates_to_actor_via(:user)
+    end
+
     policy action([:create, :by_id]) do
+      description "Must be logged in to create posts"
       authorize_if actor_present()
     end
 
-    # Can only update/destroy your own posts
     policy action([:update, :destroy]) do
+      description "Support and Admin can manage all posts, regular users can only manage their own posts"
       authorize_if relates_to_actor_via(:user)
+      authorize_if actor_attribute_equals(:role, :admin)
+      authorize_if actor_attribute_equals(:role, :support)
     end
   end
 

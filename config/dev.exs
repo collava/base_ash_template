@@ -1,8 +1,8 @@
 import Config
 
-config :ash_authentication, debug_authentication_failures?: true
+config :ash, :policies, show_policy_breakdowns?: true
 
-config :ash_base_template, AshBaseTemplate.Repo, log: false
+config :ash_authentication, debug_authentication_failures?: true
 
 # Configure your database
 config :ash_base_template, AshBaseTemplate.Repo,
@@ -20,7 +20,8 @@ config :ash_base_template, AshBaseTemplate.Repo,
   database: "ash_base_template_dev",
   stacktrace: true,
   show_sensitive_data_on_connection_error: true,
-  pool_size: 10
+  pool_size: 10,
+  log: false
 
 config :ash_base_template, AshBaseTemplateWeb.Endpoint,
   # Binding to loopback ipv4 address prevents access from other machines.

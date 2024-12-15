@@ -60,7 +60,7 @@ defmodule AshBaseTemplateWeb.Telemetry do
       ),
       summary("ash_base_template.repo.query.decode_time",
         unit: {:native, :millisecond},
-        description: "The time spent decoding the data received from the database"
+        description: "The time spent decadming the data received from the database"
       ),
       summary("ash_base_template.repo.query.query_time",
         unit: {:native, :millisecond},

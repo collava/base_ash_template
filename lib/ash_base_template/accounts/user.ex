@@ -65,6 +65,7 @@ defmodule AshBaseTemplate.Accounts.User do
     repo AshBaseTemplate.Repo
   end
 
+  # this is to show in the admin dashboard
   admin do
     actor?(true)
   end
@@ -295,8 +296,29 @@ defmodule AshBaseTemplate.Accounts.User do
       authorize_if always()
     end
 
-    policy always() do
-      forbid_if always()
+    bypass actor_attribute_equals(:role, :admin) do
+      authorize_if always()
+    end
+
+    policy changing_attributes([:role]) do
+      description "Only Odin can change roles"
+      authorize_if expr(actor(:role) == :admin)
+    end
+
+    policy action_type(:read) do
+      description "Users can read other users' basic info"
+      authorize_if always()
+    end
+
+    policy action(:update) do
+      description "Users can only update their own info (except role)"
+      authorize_if relates_to_actor_via(:user)
+      forbid_if changing_attributes([:role])
+    end
+
+    policy action(:destroy) do
+      description "Only Odin can destroy users"
+      authorize_if expr(actor(:role) == :admin)
     end
   end
 
@@ -315,6 +337,14 @@ defmodule AshBaseTemplate.Accounts.User do
       allow_nil? true
       public? false
       sensitive? true
+    end
+
+    attribute :role, :atom do
+      description "The role of the user, user: normal user, customer: paid user, support: support, admin: admin"
+      allow_nil? false
+      default :user
+      update_default :user
+      constraints one_of: [:user, :customer, :support, :admin]
     end
   end
 
