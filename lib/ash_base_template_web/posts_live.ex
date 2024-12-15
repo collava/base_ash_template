@@ -9,8 +9,8 @@ defmodule AshBaseTemplateWeb.PostsLive do
 
   def render(assigns) do
     ~H"""
-    <h2 class="text-xl text-center">Your Posts</h2>
     <div class="my-4">
+      <h2 class="text-xl text-center">Everyone's Posts</h2>
       <div :if={Enum.empty?(@posts)} class="font-bold text-center">
         No posts created yet
       </div>
@@ -25,6 +25,18 @@ defmodule AshBaseTemplateWeb.PostsLive do
           >
             Delete post
           </button>
+        </li>
+      </ol>
+    </div>
+    <div class="my-4">
+      <h2 class="text-xl text-center">Your Archived Posts</h2>
+      <ol class="list-decimal">
+        <li :for={post <- @archived_posts} class="mt-4">
+          <div class="font-bold">
+            {post.title}
+            <span class="text-gray-400 text-xs">(archived at #{post.archived_at})</span>
+          </div>
+          <div>{if Map.get(post, :content), do: post.content, else: ""}</div>
         </li>
       </ol>
     </div>
@@ -50,22 +62,24 @@ defmodule AshBaseTemplateWeb.PostsLive do
   end
 
   def mount(_params, _session, socket) do
+    actor = socket.assigns.current_user
     posts = Blog.list_posts!()
-    posts_for_user = Enum.filter(posts, &(&1.user_id == socket.assigns.current_user.id))
+    posts_for_user = Enum.filter(posts, &(&1.user_id == actor.id))
     selected_post = List.first(posts) || %Post{}
 
     socket =
       assign(socket,
         posts: posts,
         selected_post: selected_post,
+        archived_posts: Blog.archived_posts!(actor: actor),
         post_selector: post_selector(posts_for_user),
         create_form:
           Post
-          |> AshPhoenix.Form.for_create(:create, actor: socket.assigns.current_user)
+          |> AshPhoenix.Form.for_create(:create, actor: actor)
           |> to_form(),
         update_form:
           selected_post
-          |> AshPhoenix.Form.for_update(:update, actor: socket.assigns.current_user)
+          |> AshPhoenix.Form.for_update(:update, actor: actor)
           |> to_form()
       )
 
@@ -76,8 +90,14 @@ defmodule AshBaseTemplateWeb.PostsLive do
     actor = socket.assigns.current_user
     post_id |> Blog.get_post!(actor: actor) |> Blog.destroy_post!(actor: actor)
     posts = Blog.list_posts!()
+    archived_posts = Blog.archived_posts!(actor: actor)
 
-    {:noreply, assign(socket, posts: posts, post_selector: post_selector(posts))}
+    {:noreply,
+     assign(socket,
+       posts: posts,
+       archived_posts: archived_posts,
+       post_selector: post_selector(posts)
+     )}
   end
 
   def handle_event("create_post", %{"form" => form_params}, socket) do
