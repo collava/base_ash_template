@@ -1,6 +1,6 @@
 # AshBaseTemplate
 
-Base project using Ash and Phoenix, with authentication, authorization, email sending, security for apis, and error tracking and more.
+Base project using Ash and Phoenix, with authentication, authorization, email sending, security for apis, error tracking and more.
 
 Features:
 - Github actions setup for all checks and deployment to Fly.io
