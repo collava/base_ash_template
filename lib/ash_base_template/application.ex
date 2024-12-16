@@ -45,7 +45,7 @@ defmodule AshBaseTemplate.Application do
   end
 
   if Code.ensure_loaded?(Ecto.DevLogger) do
-    defp maybe_install_ecto_dev_logger, do: Ecto.DevLogger.install(MyApp.Repo)
+    defp maybe_install_ecto_dev_logger, do: Ecto.DevLogger.install(AshBaseTemplate.Repo)
   else
     defp maybe_install_ecto_dev_logger, do: :ok
   end
