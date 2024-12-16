@@ -13,6 +13,8 @@ jobs:
     name: Deploy app
     runs-on: ubuntu-latest
     concurrency: deploy-group
+    #https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/accessing-contextual-information-about-workflow-runs#example-usage-of-the-vars-context
+    if: ${{ vars.FLY_API_TOKEN != '' }}
     steps:
       - uses: actions/checkout@v4
         # fetch-depth: 0 is needed to get the full history of the repository
@@ -20,7 +22,6 @@ jobs:
           fetch-depth: 0
       - uses: superfly/flyctl-actions/setup-flyctl@master
       - name: Deploy to Fly.io
-        if: secrets.FLY_API_TOKEN != ''
         run: flyctl deploy -y -t "$FLY_API_TOKEN"
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
