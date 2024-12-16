@@ -12,6 +12,7 @@ jobs:
   on-success:
     name: Deploy app
     runs-on: ubuntu-latest
+    if: ${{ secrets.FLY_API_TOKEN != '' }}
     concurrency: deploy-group
     steps:
       - uses: actions/checkout@v4

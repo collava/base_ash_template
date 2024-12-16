@@ -22,7 +22,7 @@ defmodule AshBaseTemplate.Blog.Post do
       trigger :destroy_forever do
         # This will run on archived posts
         where expr(not is_nil(archived_at) and archived_at < ago(180, :day))
-        scheduler_cron("* * * * *")
+        scheduler_cron("0 0 * * *")
         action :destroy_forever
         read_action :archived
       end

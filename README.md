@@ -9,6 +9,8 @@ Features:
 - Protected admin
 - Simple User roles
 - Automatic version update, tag and release creation.
+- Dependabot and Renovate setup for all dependencies (pick 1)
+- Honeybadger and Sentry and in project error tracking
 
 Pre commit to run:
 

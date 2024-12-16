@@ -1,10 +1,12 @@
 defmodule AshBaseTemplate.MixProject do
   use Mix.Project
 
+  @version "0.0.1"
+
   def project do
     [
       app: :ash_base_template,
-      version: "0.0.1",
+      version: @version,
       elixir: "~> 1.17.3-otp-27",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,

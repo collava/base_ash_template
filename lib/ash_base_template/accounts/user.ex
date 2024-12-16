@@ -205,7 +205,7 @@ defmodule AshBaseTemplate.Accounts.User do
       change AshAuthentication.AddOn.Confirmation.ConfirmChange
       change AshAuthentication.GenerateTokenChange
       # other stuff to run when the change is valid
-      # change MyApp.UpdateCrmSystem, only_when_valid?: true
+      # change AshBaseTemplate.UpdateCrmSystem, only_when_valid?: true
     end
 
     action :request_password_reset_with_password do
