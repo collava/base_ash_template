@@ -17,6 +17,10 @@ defmodule AshBaseTemplateWeb.Router do
     plug :load_from_session
   end
 
+  pipeline :authorizer do
+    plug AshBaseTemplateWeb.Plugs.Authorizer
+  end
+
   pipeline :api do
     plug :accepts, ["json"]
     plug :load_from_bearer
@@ -35,7 +39,7 @@ defmodule AshBaseTemplateWeb.Router do
 
   scope "/", AshBaseTemplateWeb do
     pipe_through :browser
-    error_tracker_dashboard("/errors", csp_nonce_assign_key: :csp_nonce_value)
+
     auth_routes AuthController, AshBaseTemplate.Accounts.User, path: "/auth"
     sign_out_route AuthController
 
@@ -76,10 +80,17 @@ defmodule AshBaseTemplateWeb.Router do
                 overrides: [AshBaseTemplateWeb.AuthOverrides, Default]
   end
 
+  # Protected routes
+  scope "/" do
+    pipe_through [:browser, :authorizer]
+    forward "/admin/mailbox", Plug.Swoosh.MailboxPreview
+    error_tracker_dashboard("/admin/errors", csp_nonce_assign_key: :csp_nonce_value)
+  end
+
   scope "/" do
     pipe_through [:browser]
 
-    live_dashboard "/dashboard",
+    live_dashboard "/admin/dashboard",
       on_mount: [{AshBaseTemplateWeb.LiveUserAuth, :admins_only}],
       metrics: AshBaseTemplateWeb.Telemetry,
       additional_pages: [
@@ -88,8 +99,6 @@ defmodule AshBaseTemplateWeb.Router do
       on_mount: [
         {AshBaseTemplateWeb.LiveUserAuth, :live_user_required}
       ]
-
-    forward "/mailbox", Plug.Swoosh.MailboxPreview
   end
 
   ash_authentication_live_session :admin_dashboard,
