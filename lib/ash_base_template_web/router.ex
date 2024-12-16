@@ -3,7 +3,7 @@ defmodule AshBaseTemplateWeb.Router do
   use AshAuthentication.Phoenix.Router
   use ErrorTracker.Web, :router
 
-  import AshAdmin.Router
+  import Phoenix.LiveDashboard.Router
 
   alias AshAuthentication.Phoenix.Overrides.Default
 
@@ -78,33 +78,38 @@ defmodule AshBaseTemplateWeb.Router do
 
   scope "/" do
     pipe_through [:browser]
-    ash_admin("/admin", csp_nonce_assign_key: :csp_nonce_value)
+
+    live_dashboard "/dashboard",
+      on_mount: [{AshBaseTemplateWeb.LiveUserAuth, :admins_only}],
+      metrics: AshBaseTemplateWeb.Telemetry,
+      additional_pages: [
+        oban: Oban.LiveDashboard
+      ],
+      on_mount: [
+        {AshBaseTemplateWeb.LiveUserAuth, :live_user_required}
+      ]
+
+    forward "/mailbox", Plug.Swoosh.MailboxPreview
   end
 
-  # Enable LiveDashboard and Swoosh mailbox preview in development
-  if Application.compile_env(:ash_base_template, :dev_routes) do
-    # If you want to use the LiveDashboard in production, you should put
-    # it behind authentication and allow only admins to access it.
-    # If your application does not have an admins-only section yet,
-    # you can use Plug.BasicAuth to set up some basic authentication
-    # as long as you are also using SSL (which you should anyway).
-    import Phoenix.LiveDashboard.Router
-
-    scope "/dev" do
+  ash_authentication_live_session :admin_dashboard,
+    on_mount: [{AshBaseTemplateWeb.LiveUserAuth, :admins_only}],
+    session: {AshAdmin.Router, :__session__, [%{"prefix" => "/admin"}, []]},
+    root_layout: {AshAdmin.Layouts, :root} do
+    scope "/" do
       pipe_through :browser
 
-      live_dashboard "/dashboard",
-        metrics: AshBaseTemplateWeb.Telemetry,
-        additional_pages: [
-          oban: Oban.LiveDashboard,
-          obanalyze: Obanalyze.dashboard()
-        ],
-        on_mount: [
-          Obanalyze.hooks(),
-          {AshBaseTemplateWeb.LiveUserAuth, :live_user_required}
-        ]
-
-      forward "/mailbox", Plug.Swoosh.MailboxPreview
+      live "/admin/*route",
+           AshAdmin.PageLive,
+           :page,
+           private: %{
+             live_socket_path: "/live",
+             ash_admin_csp_nonce: %{
+               img: "ash_admin-#{:csp_nonce_value}",
+               style: "ash_admin-#{:csp_nonce_value}",
+               script: "ash_admin-#{:csp_nonce_value}"
+             }
+           }
     end
   end
 end

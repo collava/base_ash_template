@@ -1,11 +1,9 @@
 defmodule AshBaseTemplate.Blog.Post do
   @moduledoc false
   use Ash.Resource,
-    # Tells Ash where the generated code interface belongs
     domain: AshBaseTemplate.Blog,
-    # Tells Ash you want this resource to store its data in Postgres.
     data_layer: AshPostgres.DataLayer,
-    extensions: [AshArchival.Resource],
+    extensions: [AshArchival.Resource, AshOban],
     authorizers: [Ash.Policy.Authorizer]
 
   postgres do
@@ -15,10 +13,26 @@ defmodule AshBaseTemplate.Blog.Post do
 
   archive do
     exclude_read_actions [:archived]
+    exclude_destroy_actions [:destroy_forever]
+  end
+
+  # Add the oban configuration for triggers
+  oban do
+    triggers do
+      trigger :destroy_forever do
+        # This will run on archived posts
+        where expr(not is_nil(archived_at) and archived_at < ago(180, :day))
+        scheduler_cron("* * * * *")
+        action :destroy_forever
+        read_action :archived
+      end
+    end
   end
 
   # The primary? flag just tells Ash "this is a standard action that should use our authorization policies"
   actions do
+    defaults [:destroy]
+
     create :create do
       primary? true
       accept [:title]
@@ -37,9 +51,7 @@ defmodule AshBaseTemplate.Blog.Post do
       primary? true
     end
 
-    destroy :destroy do
-      primary? true
-    end
+    destroy :destroy_forever
 
     read :read do
       prepare build(load: [:user])
@@ -49,6 +61,8 @@ defmodule AshBaseTemplate.Blog.Post do
     read :archived do
       prepare build(load: [:user])
       filter expr(not is_nil(archived_at))
+      # necessary for oban trigger
+      pagination keyset?: true
     end
 
     # Defines custom read action which fetches post by id.
@@ -65,6 +79,10 @@ defmodule AshBaseTemplate.Blog.Post do
 
   # Policiies authorizing happens from top to bottom
   policies do
+    bypass AshOban.Checks.AshObanInteraction do
+      authorize_if always()
+    end
+
     bypass actor_attribute_equals(:role, :admin) do
       description "Admins can do it all"
       authorize_if always()

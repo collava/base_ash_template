@@ -9,6 +9,7 @@ defmodule AshBaseTemplate.Application do
   def start(_type, _args) do
     OpentelemetryPhoenix.setup(adapter: :bandit)
     maybe_install_ecto_dev_logger()
+    Oban.Telemetry.attach_default_logger()
 
     children = [
       AshBaseTemplateWeb.Telemetry,
@@ -21,7 +22,12 @@ defmodule AshBaseTemplate.Application do
       # {AshBaseTemplate.Worker, arg},
       # Start to serve requests, typically the last entry
       AshBaseTemplateWeb.Endpoint,
-      {AshAuthentication.Supervisor, [otp_app: :ash_base_template]}
+      {AshAuthentication.Supervisor, [otp_app: :ash_base_template]},
+      {Oban,
+       AshOban.config(
+         Application.fetch_env!(:ash_base_template, :ash_domains),
+         Application.fetch_env!(:ash_base_template, Oban)
+       )}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

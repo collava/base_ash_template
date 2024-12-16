@@ -289,9 +289,24 @@ defmodule AshBaseTemplate.Accounts.User do
 
       run AshAuthentication.Strategy.MagicLink.Request
     end
+
+    read :by_id do
+      description "Looks up a user by their id"
+      get? true
+
+      argument :id, :uuid do
+        allow_nil? false
+      end
+
+      filter expr(id == ^arg(:id))
+    end
   end
 
   policies do
+    bypass AshOban.Checks.AshObanInteraction do
+      authorize_if always()
+    end
+
     bypass AshAuthentication.Checks.AshAuthenticationInteraction do
       authorize_if always()
     end

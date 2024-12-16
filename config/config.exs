@@ -36,8 +36,9 @@ config :ash_base_template, AshBaseTemplateWeb.Endpoint,
   live_view: [signing_salt: "PIXqUKf8"]
 
 config :ash_base_template, Oban,
-  queues: [default: 10, mailers: 20, events: 50, media: 5, imports: 40],
-  repo: AshBaseTemplate.Repo
+  queues: [default: 10, mailers: 20, events: 50, media: 5, imports: 40, post_destroy_forever: 30],
+  repo: AshBaseTemplate.Repo,
+  plugins: [{Oban.Plugins.Cron, []}]
 
 config :ash_base_template,
   ash_domains: [AshBaseTemplate.Accounts, AshBaseTemplate.Blog]
