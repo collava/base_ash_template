@@ -8,6 +8,7 @@ Features:
 - Authentication and authorization samples
 - Protected admin
 - Simple User roles
+- Automatic version update, tag and release creation.
 
 Pre commit to run:
 
