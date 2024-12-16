@@ -48,34 +48,43 @@ jobs:
           path: |
             priv/plts
 
-      # Step: Define how to cache deps. Restores existing cache if present.
-      - name: Cache dependencies
-        id: cache-deps
+
+      - name: Restore dependencies cache
+        id: cache-deps-restore
         env:
           cache-name: cache-elixir-deps
-        uses: actions/cache@v4
+        uses: actions/cache/restore@v4
         with:
-          save-always: true
-          path: deps
           key: ${{ runner.os }}-mix-${{ env.cache-name }}-${{ hashFiles('**/mix.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-mix-${{ env.cache-name }}-
+          path: deps
+
+      - name: Save dependencies cache
+        id: cache-deps-save
+        uses: actions/cache/save@v4
+        if: always() && steps.cache-deps-restore.outputs.cache-hit != 'true'
+        with:
+          key: ${{ steps.cache-deps-restore.outputs.cache-primary-key }}
+          path: deps
 
       # Step: Define how to cache the `_build` directory. After the first run,
       # this speeds up tests runs a lot. This includes not re-compiling our
       # project's downloaded deps every run.
-      - name: Cache compiled build
-        id: cache-build
-        uses: actions/cache@v4
+      - name: Restore cache compiled build
+        id: cache-build-restore
+        uses: actions/cache/restore@v4
         env:
           cache-name: cache-compiled-build
         with:
-          save-always: true
-          path: _build
           key: ${{ runner.os }}-mix-${{ env.cache-name }}-${{ hashFiles('**/mix.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-mix-${{ env.cache-name }}-
-            ${{ runner.os }}-mix-
+          path: _build
+
+      - name: Save cache compiled build
+        id: cache-build-save
+        uses: actions/cache/save@v4
+        if: always() && steps.cache-build-restore.outputs.cache-hit != 'true'
+        with:
+          key: ${{ steps.cache-build-restore.outputs.cache-primary-key }}
+          path: _build
 
       # Step: Download project dependencies. If unchanged, uses
       # the cached version.
