@@ -337,6 +337,15 @@ defmodule AshBaseTemplate.Accounts.User do
     end
   end
 
+  validations do
+    # You can also call the validation inside a action that you want.
+    # https://hexdocs.pm/ash/validations.html
+    # Left commented out for now, but you can use it if you want.
+    # validate {AshBaseTemplate.Validations.Username, attribute: :username} do
+    #   on [:create, :update]
+    # end
+  end
+
   attributes do
     uuid_v7_primary_key :id
     create_timestamp :inserted_at
