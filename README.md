@@ -2,7 +2,8 @@
 
 Base project using Ash and Phoenix, with authentication, authorization, email sending, security for apis, error tracking and more.
 
-Features:
+## Features
+
 - Github actions setup for all checks and deployment to Fly.io
 - Formatters configured
 - Authentication and authorization samples
@@ -11,6 +12,26 @@ Features:
 - Automatic version update, tag and release creation.
 - Dependabot and Renovate setup for all dependencies (pick 1)
 - Honeybadger and Sentry and in project error tracking
+
+## After cloning
+
+### Install pre-commit
+
+<https://pre-commit.com/#install>
+
+### Rename all folders and modules according to your project
+
+### Get dependencies
+
+```bash
+mix deps.get
+```
+
+### Setup the database
+
+```bash
+mix ash.setup
+```
 
 Pre commit to run:
 
