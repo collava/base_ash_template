@@ -8,7 +8,14 @@ defmodule AshBaseTemplateWeb.AshJsonApiRouter do
   use AshJsonApi.Router,
     domains: [AshBaseTemplate.Blog],
     open_api: "/open_api",
-    modify_open_api: {__MODULE__, :modify_open_api, []}
+    modify_open_api: {__MODULE__, :modify_open_api, []},
+    open_api_file: {__MODULE__, :api_file}
+
+  def api_file do
+    if Mix.env() == :prod do
+      "priv/static/open_api.json"
+    end
+  end
 
   def modify_open_api(spec, _, _) do
     %{
@@ -20,9 +27,4 @@ defmodule AshBaseTemplateWeb.AshJsonApiRouter do
         }
     }
   end
-
-  # open_api_file: "priv/static/system/openapi.json"
-
-  # open_api_version: "1.0.0",
-  # open_api_servers: ["http://domain.com/api/v1"]
 end
