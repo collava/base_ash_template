@@ -26,12 +26,12 @@ defmodule AshBaseTemplateWeb.Router do
     plug :load_from_bearer
   end
 
-  scope "/api/json" do
+  scope "/api" do
     pipe_through [:api]
 
     forward "/swaggerui",
             OpenApiSpex.Plug.SwaggerUI,
-            path: "/api/json/open_api",
+            path: "/api/open_api",
             default_model_expand_depth: 4
 
     forward "/", AshBaseTemplateWeb.AshJsonApiRouter
@@ -52,7 +52,6 @@ defmodule AshBaseTemplateWeb.Router do
 
     ash_authentication_live_session :authentication_optional,
       on_mount: {AshBaseTemplateWeb.LiveUserAuth, :live_user_optional} do
-      live "/optional", ProjectLive.Index, :index
       live "/posts", PostsLive
     end
 
