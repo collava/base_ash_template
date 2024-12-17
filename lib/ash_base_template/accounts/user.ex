@@ -5,12 +5,37 @@ defmodule AshBaseTemplate.Accounts.User do
     otp_app: :ash_base_template,
     domain: AshBaseTemplate.Accounts,
     authorizers: [Ash.Policy.Authorizer],
-    extensions: [AshAuthentication, AshAdmin.Resource, AshCloak, AshArchival.Resource],
+    extensions: [
+      AshAuthentication,
+      AshAdmin.Resource,
+      AshCloak,
+      AshArchival.Resource,
+      AshJsonApi.Resource
+    ],
     data_layer: AshPostgres.DataLayer
 
   # https://hexdocs.pm/ash_archival/unarchiving.html
   alias AshAuthentication.Strategy.Password.HashPasswordChange
   alias AshAuthentication.Strategy.Password.PasswordConfirmationValidation
+
+  json_api do
+    type "user"
+
+    routes do
+      # read actions that return *only one resource* are allowed to be used with
+      # `post` routes.
+
+      post :sign_in_with_password do
+        route "/sign_in/:id"
+
+        # given a successful request, we will modify the route to include the
+        # generated token
+        metadata fn _subject, user, _request ->
+          %{token: user.__metadata__.token}
+        end
+      end
+    end
+  end
 
   authentication do
     tokens do
@@ -60,11 +85,6 @@ defmodule AshBaseTemplate.Accounts.User do
     end
   end
 
-  postgres do
-    table "users"
-    repo AshBaseTemplate.Repo
-  end
-
   # this is to show in the admin dashboard
   admin do
     actor?(true)
@@ -98,6 +118,11 @@ defmodule AshBaseTemplate.Accounts.User do
 
   archive do
     archive_related [:posts]
+  end
+
+  postgres do
+    table "users"
+    repo AshBaseTemplate.Repo
   end
 
   actions do

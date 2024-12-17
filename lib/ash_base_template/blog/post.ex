@@ -3,12 +3,11 @@ defmodule AshBaseTemplate.Blog.Post do
   use Ash.Resource,
     domain: AshBaseTemplate.Blog,
     data_layer: AshPostgres.DataLayer,
-    extensions: [AshArchival.Resource, AshOban],
+    extensions: [AshArchival.Resource, AshOban, AshJsonApi.Resource],
     authorizers: [Ash.Policy.Authorizer]
 
-  postgres do
-    table "posts"
-    repo AshBaseTemplate.Repo
+  json_api do
+    type "post"
   end
 
   archive do
@@ -27,6 +26,11 @@ defmodule AshBaseTemplate.Blog.Post do
         read_action :archived
       end
     end
+  end
+
+  postgres do
+    table "posts"
+    repo AshBaseTemplate.Repo
   end
 
   # The primary? flag just tells Ash "this is a standard action that should use our authorization policies"

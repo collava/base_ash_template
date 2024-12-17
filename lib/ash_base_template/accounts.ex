@@ -1,6 +1,6 @@
 defmodule AshBaseTemplate.Accounts do
   @moduledoc false
-  use Ash.Domain, extensions: [AshAdmin.Domain]
+  use Ash.Domain, extensions: [AshAdmin.Domain, AshJsonApi.Domain]
 
   admin do
     show?(true)
