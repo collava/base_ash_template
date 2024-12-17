@@ -47,7 +47,7 @@ jobs:
 
           echo "Branch name: $BRANCH_NAME"
 
-          BASE_NAME="collava"
+          BASE_NAME="ash_base_template"
           # Define prefix arrays
           MAJOR_PREFIXES=("$BASE_NAME/epic/")
           MINOR_PREFIXES=("$BASE_NAME/story/" "$BASE_NAME/patch/")

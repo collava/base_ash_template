@@ -65,9 +65,6 @@ COPY lib lib
 COPY assets assets
 COPY storybook storybook
 
-# used for beaconCMS blog
-# RUN mix tailwind.install
-
 RUN cd assets && npm install
 
 # compile assets
@@ -103,13 +100,9 @@ RUN chown nobody /app
 ENV MIX_ENV="prod"
 
 # Only copy the final release from the build stage
-COPY --from=builder --chown=nobody:root /app/_build/${MIX_ENV}/rel/collava ./
+COPY --from=builder --chown=nobody:root /app/_build/${MIX_ENV}/rel/ash_base_template ./
 
 USER nobody
-
-# Necessary for beaconCMS blog
-# RUN mkdir -p /app/bin/_build
-# COPY --from=builder --chown=nobody:root /app/_build/tailwind-* ./bin/_build/
 
 CMD ["/app/bin/server"]
 
