@@ -30,9 +30,6 @@
           ~r"/_build/",
           ~r"/deps/",
           ~r"/node_modules/",
-          "lib/collava_web/live/user_live.ex",
-          "lib/collava_web/live/collection_live.ex",
-          "lib/collava_web/live/item_live.ex"
         ]
       },
       #
