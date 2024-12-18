@@ -66,7 +66,7 @@ defmodule AshBaseTemplate.Blog.Post do
       prepare build(load: [:user])
       filter expr(not is_nil(archived_at))
       # necessary for oban trigger
-      pagination keyset?: true
+      pagination keyset?: true, default_limit: 50
     end
 
     # Defines custom read action which fetches post by id.

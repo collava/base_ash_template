@@ -30,11 +30,11 @@ defmodule AshBaseTemplateWeb.PostsLive do
     </div>
     <div class="my-4">
       <h2 class="text-xl text-center">Your Archived Posts</h2>
-      <div :if={Enum.empty?(@archived_posts)} class="font-bold text-center">
+      <div :if={Enum.empty?(@archived_posts.results)} class="font-bold text-center">
         No posts archived yet
       </div>
       <ol class="list-decimal">
-        <li :for={post <- @archived_posts} class="mt-4">
+        <li :for={post <- @archived_posts.results} class="mt-4">
           <div class="font-bold">
             {post.title}
             <span class="text-gray-400 text-xs">(archived at #{post.archived_at})</span>
