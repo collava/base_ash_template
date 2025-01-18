@@ -75,9 +75,6 @@ jobs:
       - name: Install tailwind for blog
         run: mix tailwind.install
 
-      - name: Run TZdata Release Updater
-        run: mix run -e "Tzdata.ReleaseUpdater.poll_for_update"
-
       - name: Run CREDO
         run: mix credo diff --from-git-merge-base origin/main
 
