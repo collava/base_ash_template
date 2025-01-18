@@ -1,0 +1,43 @@
+
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'ash_base_template'
+primary_region = 'ams'
+kill_signal = 'SIGTERM'
+
+[build]
+
+[deploy]
+strategy = "canary"
+release_command = '/app/bin/migrate'
+max_unavailable = 1
+
+[env]
+PHX_HOST = 'www.ash_base_template.com'
+PORT = '8080'
+# the cluster query is used on our runtime.ex
+DNS_CLUSTER_QUERY = "ash_base_template.internal"
+RELEASE_COOKIE = "ash-base-template-internal-cookie-cluster"
+
+[http_service]
+internal_port = 8080
+force_https = true
+auto_stop_machines = "stop"
+auto_start_machines = true
+min_machines_running = 1
+processes = ['app']
+
+[http_service.concurrency]
+type = 'connections'
+hard_limit = 1000
+soft_limit = 975
+
+[http_service.tls_options]
+default_self_signed = true
+
+[[vm]]
+memory = '1gb'
+cpu_kind = 'shared'
+cpus = 2
