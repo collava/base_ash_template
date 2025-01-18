@@ -1,28 +1,31 @@
 name: Deploy app to Fly.io
 on:
   workflow_run:
-    workflows: [Version Updater]
+    workflows: ["Elixir Validations", "Version Updater"]
     types: [completed]
-    branches: [main] # only deploy when the Elixir Validations runs on main
-  # push:
-  #   branches:
-  #     - main
+    branches: [main]
+  pull_request:
+    branches-ignore:
+      - renovate/hex-packages
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   # only deploy when the Elixir Validations workflow is successful
   on-success:
     name: Deploy app
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     concurrency: deploy-group
-    #https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/accessing-contextual-information-about-workflow-runs#example-usage-of-the-vars-context
-    if: ${{ vars.FLY_API_TOKEN != '' }}
     steps:
       - uses: actions/checkout@v4
         # fetch-depth: 0 is needed to get the full history of the repository
         with:
           fetch-depth: 0
       - uses: superfly/flyctl-actions/setup-flyctl@master
-      - name: Deploy to Fly.io
-        run: flyctl deploy -y -t "$FLY_API_TOKEN"
+      - run: flyctl deploy -y -t "$FLY_API_TOKEN"
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
       - name: Create Honeybadger release
@@ -40,7 +43,8 @@ jobs:
           ignore_missing: true
 
   on-failure:
-    runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+    runs-on: ubuntu-24.04
+    if: ${{ github.event.workflow_run.conclusion != 'success' }}
     steps:
-      - run: echo 'The triggering workflow failed'
+      - run: echo "Previous workflow failed"
+      - run: exit 1
