@@ -6,10 +6,18 @@ on:
     workflows: [Elixir Validations]
     types: [completed]
     branches: [main]
+  pull_request:
+    branches-ignore:
+      - renovate/hex-packages
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  update-version-and-release:
-    runs-on: ubuntu-latest
+  on-success:
+    runs-on: ubuntu-24.04
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     permissions:
       contents: write
       pull-requests: write
@@ -21,8 +29,8 @@ jobs:
       - name: Set up Elixir
         uses: erlef/setup-beam@v1
         with:
-          elixir-version: "1.17.3-otp-27"
-          otp-version: "27.1"
+          elixir-version: "1.18.0-otp-27"
+          otp-version: "27.2"
 
       - name: Update version
         id: update_version
@@ -47,7 +55,7 @@ jobs:
 
           echo "Branch name: $BRANCH_NAME"
 
-          BASE_NAME="ash_base_template"
+          BASE_NAME="collava"
           # Define prefix arrays
           MAJOR_PREFIXES=("$BASE_NAME/epic/")
           MINOR_PREFIXES=("$BASE_NAME/story/" "$BASE_NAME/patch/")
