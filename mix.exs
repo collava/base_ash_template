@@ -7,7 +7,7 @@ defmodule AshBaseTemplate.MixProject do
     [
       app: :ash_base_template,
       version: @version,
-      elixir: "~> 1.17.3-otp-27",
+      elixir: "~> 1.18.1",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       consolidate_protocols: Mix.env() != :dev,
@@ -105,6 +105,7 @@ defmodule AshBaseTemplate.MixProject do
       {:mix_test_watch, "~> 1.2", only: [:dev, :test], runtime: false},
       {:mneme, ">= 0.0.0", only: [:dev, :test]},
       {:mox, "~> 1.2", only: :test},
+      {:phoenix_test, "~> 0.5.1", only: :test, runtime: false},
       {:smokestack, "~> 0.9"},
 
       # security
