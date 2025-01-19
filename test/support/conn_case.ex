@@ -23,6 +23,7 @@ defmodule AshBaseTemplateWeb.ConnCase do
 
       import AshBaseTemplateWeb.ConnCase
       import Phoenix.ConnTest
+      import PhoenixTest
       import Plug.Conn
 
       # The default endpoint for testing

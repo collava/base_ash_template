@@ -1,10 +1,10 @@
 import Config
 
-config :ash, disable_async?: true
-
 # In test we don't send emails
 # to provide built-in test partitioning in CI environment.
 # Run `mix help test` for more information.
+config :ash, disable_async?: true
+
 config :ash_base_template, AshBaseTemplate.Mailer, adapter: Swoosh.Adapters.Test
 
 config :ash_base_template, AshBaseTemplate.Repo,
@@ -36,6 +36,8 @@ config :phoenix, :plug_init_mode, :runtime
 # Enable helpful, but potentially expensive runtime checks
 config :phoenix_live_view,
   enable_expensive_runtime_checks: true
+
+config :phoenix_test, :endpoint, AshBaseTemplate.Endpoint
 
 # Disable swoosh api client as it is only required for production adapters
 config :swoosh, :api_client, false
