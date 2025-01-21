@@ -45,6 +45,10 @@ defmodule AshBaseTemplateWeb.Router do
 
     get "/", PageController, :home
 
+    # Newsletter routes
+    get "/newsletters/confirm/:token", NewsletterController, :confirm
+    get "/newsletters/unsubscribe/:token", NewsletterController, :unsubscribe
+
     ash_authentication_live_session :authentication_required,
       on_mount: {AshBaseTemplateWeb.LiveUserAuth, :live_user_required} do
       live "/protected_route", ProjectLive.Index, :index
