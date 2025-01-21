@@ -1,15 +1,15 @@
-defmodule AshBaseTemplate.Communitcations.Newsletter do
+defmodule AshBaseTemplate.Communications.Newsletter do
   @moduledoc false
 
   use Ash.Resource,
     otp_app: :ash_base_template,
-    domain: AshBaseTemplate.Communitcations,
+    domain: AshBaseTemplate.Communications,
     extensions: [
       AshAdmin.Resource
     ],
     data_layer: AshPostgres.DataLayer
 
-  alias AshBaseTemplate.Communitcations.Emails
+  alias AshBaseTemplate.Communications.Emails
 
   admin do
     actor?(true)

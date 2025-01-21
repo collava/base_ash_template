@@ -44,7 +44,7 @@ config :ash_base_template, Oban,
   plugins: [{Oban.Plugins.Cron, []}]
 
 config :ash_base_template,
-  ash_domains: [AshBaseTemplate.Accounts, AshBaseTemplate.Blog, AshBaseTemplate.Communitcations]
+  ash_domains: [AshBaseTemplate.Accounts, AshBaseTemplate.Blog, AshBaseTemplate.Communications]
 
 config :ash_base_template,
   ecto_repos: [AshBaseTemplate.Repo],

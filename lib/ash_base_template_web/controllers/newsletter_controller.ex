@@ -1,8 +1,8 @@
 defmodule AshBaseTemplateWeb.NewsletterController do
   use AshBaseTemplateWeb, :controller
 
-  alias AshBaseTemplate.Communitcations
-  alias AshBaseTemplate.Communitcations.Newsletter
+  alias AshBaseTemplate.Communications
+  alias AshBaseTemplate.Communications.Newsletter
 
   def confirm(conn, %{"token" => token}) do
     case Phoenix.Token.verify(AshBaseTemplateWeb.Endpoint, "newsletter_confirmation", token, max_age: 86_400) do

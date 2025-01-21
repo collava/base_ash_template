@@ -1,4 +1,4 @@
-defmodule AshBaseTemplate.Communitcations.Emails do
+defmodule AshBaseTemplate.Communications.Emails do
   @moduledoc """
   Delivers Newsletter related emails.
   """

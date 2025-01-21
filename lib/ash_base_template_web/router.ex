@@ -17,6 +17,15 @@ defmodule AshBaseTemplateWeb.Router do
     plug :load_from_session
   end
 
+  pipeline :browser_without_layout do
+    plug :accepts, ["html"]
+    plug :fetch_session
+    plug :fetch_live_flash
+    plug :protect_from_forgery
+    plug :put_secure_browser_headers
+    plug :load_from_session
+  end
+
   pipeline :authorizer do
     plug AshBaseTemplateWeb.Plugs.Authorizer
   end
@@ -43,20 +52,20 @@ defmodule AshBaseTemplateWeb.Router do
     auth_routes AuthController, AshBaseTemplate.Accounts.User, path: "/auth"
     sign_out_route AuthController
 
-    get "/", PageController, :home
-
     # Newsletter routes
     get "/newsletters/confirm/:token", NewsletterController, :confirm
     get "/newsletters/unsubscribe/:token", NewsletterController, :unsubscribe
 
-    ash_authentication_live_session :authentication_required,
-      on_mount: {AshBaseTemplateWeb.LiveUserAuth, :live_user_required} do
-      live "/protected_route", ProjectLive.Index, :index
-    end
-
     ash_authentication_live_session :authentication_optional,
       on_mount: {AshBaseTemplateWeb.LiveUserAuth, :live_user_optional} do
-      live "/posts", PostsLive
+      scope "/" do
+        pipe_through :browser_without_layout
+        live "/", HomeLive, :index
+      end
+
+      scope "/" do
+        live "/posts", PostsLive
+      end
     end
 
     ash_authentication_live_session :authenticated_routes do

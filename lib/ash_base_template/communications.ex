@@ -1,4 +1,4 @@
-defmodule AshBaseTemplate.Communitcations do
+defmodule AshBaseTemplate.Communications do
   @moduledoc false
 
   use Ash.Domain,
@@ -7,6 +7,6 @@ defmodule AshBaseTemplate.Communitcations do
     ]
 
   resources do
-    resource AshBaseTemplate.Communitcations.Newsletter
+    resource AshBaseTemplate.Communications.Newsletter
   end
 end
