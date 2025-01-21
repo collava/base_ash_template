@@ -100,6 +100,7 @@ defmodule AshBaseTemplate.MixProject do
       {:telemetry_poller, "~> 1.0"},
 
       # tests
+      {:ex_check, "~> 0.16.0", only: [:dev], runtime: false},
       {:ex_unit_notifier, "~> 1.3", only: :test},
       {:excoveralls, "~> 0.18", only: :test, runtime: false},
       {:mix_test_watch, "~> 1.2", only: [:dev, :test], runtime: false},
