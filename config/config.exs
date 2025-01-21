@@ -24,6 +24,9 @@ config :ash,
 # For production it's recommended to configure a different adapter
 # at the `config/runtime.exs`.
 config :ash_base_template, AshBaseTemplate.Mailer, adapter: Swoosh.Adapters.Local
+config :ash_base_template, AshBaseTemplate.Repo, migration_foreign_key: [type: :binary_id]
+config :ash_base_template, AshBaseTemplate.Repo, migration_primary_key: [type: :binary_id]
+config :ash_base_template, AshBaseTemplate.Repo, migration_timestamps: [type: :utc_datetime_usec]
 
 config :ash_base_template, AshBaseTemplateWeb.Endpoint,
   url: [host: "localhost"],
