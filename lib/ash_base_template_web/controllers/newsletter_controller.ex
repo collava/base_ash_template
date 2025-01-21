@@ -7,11 +7,11 @@ defmodule AshBaseTemplateWeb.NewsletterController do
   def confirm(conn, %{"token" => token}) do
     case Phoenix.Token.verify(AshBaseTemplateWeb.Endpoint, "newsletter_confirmation", token, max_age: 86_400) do
       {:ok, id} ->
-        case Newsletters.get!(Newsletter, id) do
+        case Communications.get!(Newsletter, id) do
           %Newsletter{} = newsletter ->
             newsletter
             |> Ash.Changeset.for_update(:confirm, %{token: token})
-            |> Newsletters.update!()
+            |> Communications.update!()
 
             conn
             |> put_flash(:info, "Newsletter subscription confirmed successfully!")
@@ -33,11 +33,11 @@ defmodule AshBaseTemplateWeb.NewsletterController do
   def unsubscribe(conn, %{"token" => token}) do
     case Phoenix.Token.verify(AshBaseTemplateWeb.Endpoint, "newsletter_unsubscribe", token, max_age: 31_536_000) do
       {:ok, id} ->
-        case Newsletters.get!(Newsletter, id) do
+        case Communications.get!(Newsletter, id) do
           %Newsletter{} = newsletter ->
             newsletter
             |> Ash.Changeset.for_update(:unsubscribe, %{token: token})
-            |> Newsletters.update!()
+            |> Communications.update!()
 
             conn
             |> put_flash(:info, "Successfully unsubscribed from the newsletter.")
