@@ -94,6 +94,7 @@ defmodule AshBaseTemplate.MixProject do
       {:phoenix, "~> 1.7"},
       {:picosat_elixir, "~> 0.2"},
       {:postgrex, ">= 0.0.0"},
+      {:rename_project, "~> 0.1.0", only: :dev},
       {:swoosh, "~> 1.5"},
       {:tailwind, "~> 0.2", runtime: Mix.env() == :dev},
       {:telemetry_metrics, "~> 1.0"},

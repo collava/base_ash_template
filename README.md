@@ -27,6 +27,12 @@ Base project using Ash and Phoenix, with authentication, authorization, email se
 mix deps.get
 ```
 
+### Rename project
+
+```bash
+mix rename AshBaseTemplate MyNewProject
+```
+
 ### Setup the database
 
 ```bash
