@@ -95,12 +95,15 @@ defmodule AshBaseTemplateWeb.Router do
   # Protected routes
   scope "/" do
     pipe_through [:browser, :authorizer]
-    forward "/admin/mailbox", Plug.Swoosh.MailboxPreview
     error_tracker_dashboard("/admin/errors", csp_nonce_assign_key: :csp_nonce_value)
   end
 
   scope "/" do
     pipe_through [:browser]
+
+    if Mix.env() == :dev do
+      forward "/admin/mailbox", Plug.Swoosh.MailboxPreview
+    end
 
     live_dashboard "/admin/dashboard",
       on_mount: [{AshBaseTemplateWeb.LiveUserAuth, :admins_only}],
