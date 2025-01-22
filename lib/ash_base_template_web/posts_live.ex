@@ -67,7 +67,7 @@ defmodule AshBaseTemplateWeb.PostsLive do
   def mount(_params, _session, socket) do
     actor = socket.assigns.current_user
     posts = Blog.list_posts!()
-    posts_for_user = Enum.filter(posts, &(&1.user_id == actor.id))
+    posts_for_user = Enum.filter(posts, &(actor && &1.user_id == actor.id)) || []
     selected_post = List.first(posts) || %Post{}
 
     socket =

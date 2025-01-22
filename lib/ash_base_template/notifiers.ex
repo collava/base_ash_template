@@ -6,6 +6,10 @@ defmodule AshBaseTemplate.Notifiers do
       AshAdmin.Domain
     ]
 
+  admin do
+    show?(true)
+  end
+
   resources do
     resource AshBaseTemplate.Notifiers.Newsletter do
       define :subscribe_to_newsletter, args: [:email], action: :subscribe
