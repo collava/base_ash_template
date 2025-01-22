@@ -1,4 +1,4 @@
-defmodule AshBaseTemplate.Communications.Emails do
+defmodule AshBaseTemplate.Notifiers.Emails do
   @moduledoc """
   Delivers Newsletter related emails.
   """
@@ -10,6 +10,10 @@ defmodule AshBaseTemplate.Communications.Emails do
   @confirm_url "newsletters/confirm"
 
   def deliver_confirmation_instructions(newsletter, _opts) do
+    IO.puts("""
+    Sending confirmation instructions to #{newsletter.email}, link: #{generate_confirm_link(newsletter)}
+    """)
+
     deliver(newsletter.email, "Confirm your newsletter subscription", """
     <html>
       <p>
@@ -32,6 +36,10 @@ defmodule AshBaseTemplate.Communications.Emails do
   end
 
   def deliver_newsletter(newsletter, subject, content) do
+    IO.puts("""
+    : #{generate_unsubscribe_link(newsletter)}
+    """)
+
     deliver(newsletter.email, subject, """
     <html>
       #{content}
@@ -45,6 +53,10 @@ defmodule AshBaseTemplate.Communications.Emails do
   end
 
   defp deliver(to, subject, body) do
+    IO.puts("""
+    Sending email to #{to} with subject #{subject} and body #{body}
+    """)
+
     new()
     |> from({"Newsletter", "newsletter@ash_base_template.com"})
     |> to(to_string(to))

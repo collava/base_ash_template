@@ -1,15 +1,15 @@
-defmodule AshBaseTemplate.Communications.Newsletter do
+defmodule AshBaseTemplate.Notifiers.Newsletter do
   @moduledoc false
 
   use Ash.Resource,
     otp_app: :ash_base_template,
-    domain: AshBaseTemplate.Communications,
+    domain: AshBaseTemplate.Notifiers,
     extensions: [
       AshAdmin.Resource
     ],
     data_layer: AshPostgres.DataLayer
 
-  alias AshBaseTemplate.Communications.Emails
+  alias AshBaseTemplate.Notifiers.Emails
 
   admin do
     actor?(true)
@@ -29,27 +29,42 @@ defmodule AshBaseTemplate.Communications.Newsletter do
 
       change set_attribute(:active, true)
       change set_attribute(:confirmed, false)
+    end
 
-      after_transaction(fn _result, changeset ->
-        newsletter = Ash.Changeset.get_record(changeset)
-        Emails.deliver_confirmation_instructions(newsletter, [])
-        :ok
-      end)
+    read :by_email do
+      argument :email, :ci_string, allow_nil?: false
+      filter expr(email == ^arg(:email))
+      get? true
     end
 
     update :confirm do
       accept []
-      argument :token, :string, allow_nil?: false
 
       change set_attribute(:confirmed, true)
+      change set_attribute(:active, true)
     end
 
     update :unsubscribe do
       accept []
-      argument :token, :string, allow_nil?: false
-
       change set_attribute(:active, false)
     end
+  end
+
+  changes do
+    change after_transaction(fn
+             changeset, {:ok, record}, _context ->
+               case Emails.deliver_confirmation_instructions(record, []) do
+                 {:ok, _} ->
+                   {:ok, record}
+
+                 error ->
+                   {:ok, record}
+               end
+
+             changeset, {:error, reason}, _context ->
+               {:error, reason}
+           end),
+           on: [:create]
   end
 
   attributes do
@@ -67,7 +82,7 @@ defmodule AshBaseTemplate.Communications.Newsletter do
 
     attribute :active, :boolean do
       allow_nil? false
-      default true
+      default false
     end
 
     create_timestamp :inserted_at

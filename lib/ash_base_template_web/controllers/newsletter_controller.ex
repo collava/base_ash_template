@@ -1,18 +1,16 @@
 defmodule AshBaseTemplateWeb.NewsletterController do
   use AshBaseTemplateWeb, :controller
 
-  alias AshBaseTemplate.Communications
-  alias AshBaseTemplate.Communications.Newsletter
+  alias AshBaseTemplate.Notifiers
+  alias AshBaseTemplate.Notifiers.Newsletter
 
   def confirm(conn, %{"token" => token}) do
     case Phoenix.Token.verify(AshBaseTemplateWeb.Endpoint, "newsletter_confirmation", token, max_age: 86_400) do
       {:ok, id} ->
-        case Communications.get!(Newsletter, id) do
-          %Newsletter{} = newsletter ->
-            newsletter
-            |> Ash.Changeset.for_update(:confirm, %{token: token})
-            |> Communications.update!()
+        newsletter = Ash.get!(Newsletter, id)
 
+        case Notifiers.confirm_newsletter_subscription(newsletter) do
+          {:ok, _newsletter} ->
             conn
             |> put_flash(:info, "Newsletter subscription confirmed successfully!")
             |> redirect(to: ~p"/")
@@ -33,12 +31,10 @@ defmodule AshBaseTemplateWeb.NewsletterController do
   def unsubscribe(conn, %{"token" => token}) do
     case Phoenix.Token.verify(AshBaseTemplateWeb.Endpoint, "newsletter_unsubscribe", token, max_age: 31_536_000) do
       {:ok, id} ->
-        case Communications.get!(Newsletter, id) do
-          %Newsletter{} = newsletter ->
-            newsletter
-            |> Ash.Changeset.for_update(:unsubscribe, %{token: token})
-            |> Communications.update!()
+        newsletter = Ash.get!(Newsletter, id)
 
+        case Notifiers.unsubscribe_from_newsletter(newsletter) do
+          {:ok, _newsletter} ->
             conn
             |> put_flash(:info, "Successfully unsubscribed from the newsletter.")
             |> redirect(to: ~p"/")

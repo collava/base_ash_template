@@ -3,6 +3,6 @@ defmodule AshBaseTemplateWeb.PageControllerTest do
 
   test "GET /", %{conn: conn} do
     conn = get(conn, ~p"/")
-    assert html_response(conn, 200) =~ "Peace of mind from prototype to production"
+    assert html_response(conn, 200) =~ "Dont forget to read the README.md file"
   end
 end

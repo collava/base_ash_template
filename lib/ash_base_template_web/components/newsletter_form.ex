@@ -2,8 +2,7 @@ defmodule AshBaseTemplateWeb.Components.NewsletterForm do
   @moduledoc false
   use AshBaseTemplateWeb, :live_component
 
-  alias AshBaseTemplate.Communications
-  alias AshBaseTemplate.Communications.Newsletter
+  alias AshBaseTemplate.Notifiers
 
   def render(assigns) do
     ~H"""
@@ -38,16 +37,40 @@ defmodule AshBaseTemplateWeb.Components.NewsletterForm do
      |> assign(:form, form)}
   end
 
-  def handle_event("subscribe", %{"newsletter" => params}, socket) do
-    case Communications.create(Newsletter, :subscribe, params) do
+  def handle_event("subscribe", %{"newsletter" => %{"email" => email}}, socket) do
+    case Notifiers.subscribe_to_newsletter(email) do
       {:ok, _newsletter} ->
         {:noreply,
          socket
          |> put_flash(:info, "Please check your email to confirm your subscription.")
          |> push_navigate(to: "/")}
 
-      {:error, changeset} ->
-        form = to_form(%{"email" => params["email"]}, as: :newsletter)
+      {:error, %Ash.Error.Invalid{errors: [%{field: :email, message: "has already been taken"}]}} ->
+        case Notifiers.get_subscriber_by_email(email) do
+          {:ok, subscriber} when subscriber.confirmed ->
+            {:noreply,
+             socket
+             |> put_flash(:info, "You are already subscribed to our newsletter.")
+             |> push_navigate(to: "/")}
+
+          {:ok, _subscriber} ->
+            {:noreply,
+             socket
+             |> put_flash(
+               :info,
+               "You are already subscribed. We are waiting for you to confirm your subscription. Please check your email."
+             )
+             |> push_navigate(to: "/")}
+
+          _ ->
+            {:noreply,
+             socket
+             |> put_flash(:error, "Something went wrong. Please try again.")
+             |> push_navigate(to: "/")}
+        end
+
+      {:error, _changeset} ->
+        form = to_form(%{"email" => email}, as: :newsletter)
         {:noreply, assign(socket, :form, form)}
     end
   end
