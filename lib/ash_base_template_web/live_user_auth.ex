@@ -6,6 +6,7 @@ defmodule AshBaseTemplateWeb.LiveUserAuth do
   use AshBaseTemplateWeb, :verified_routes
 
   import Phoenix.Component
+  import Phoenix.LiveView, only: [put_flash: 3, redirect: 2]
 
   alias AshBaseTemplate.Accounts
 
@@ -29,22 +30,33 @@ defmodule AshBaseTemplateWeb.LiveUserAuth do
     if socket.assigns[:current_user] do
       {:halt, Phoenix.LiveView.redirect(socket, to: ~p"/")}
     else
+      socket = put_flash(socket, :error, "You must be signed in to access this page")
       {:cont, assign(socket, :current_user, nil)}
     end
   end
 
-  def on_mount(:admins_only, _params, %{"user" => user} = _session, socket) do
+  def on_mount(:admins_only, _params, session, socket) do
     if socket.assigns[:current_user] && socket.assigns[:current_user].role == :admin do
       {:cont, socket}
     else
-      user_id = user |> String.split("?id=") |> List.last()
-      user = Accounts.get_user!(user_id)
-      socket = assign(socket, current_user: user)
+      case session do
+        %{"user" => user} ->
+          user_id = user |> String.split("?id=") |> List.last()
+          user = Accounts.get_user!(user_id)
+          socket = assign(socket, current_user: user)
 
-      if user.role == :admin do
-        {:cont, socket}
-      else
-        {:halt, Phoenix.LiveView.redirect(socket, to: ~p"/sign-in")}
+          if user.role == :admin do
+            {:cont, socket}
+          else
+            socket = put_flash(socket, :error, "You must be an admin to access this page")
+            {:halt, redirect(socket, to: ~p"/sign-in")}
+          end
+
+        _ ->
+          socket =
+            put_flash(socket, :error, "You must be signed in as an admin to access this page")
+
+          {:halt, redirect(socket, to: ~p"/sign-in")}
       end
     end
   end
