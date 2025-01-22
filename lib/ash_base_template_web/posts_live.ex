@@ -10,7 +10,18 @@ defmodule AshBaseTemplateWeb.PostsLive do
   def render(assigns) do
     ~H"""
     <div class="my-4">
-      <h2 class="text-xl text-center">Everyone's Posts</h2>
+      <h2 class="text-xl text-center flex flex-col">
+        Posts Listing
+        <span :if={!@current_user} class="text-sm text-gray-500">
+          Sign in to see actions available
+        </span>
+        <span :if={@current_user && @current_user.role != :admin} class="text-sm text-gray-500">
+          Only admins can delete posts
+        </span>
+        <span :if={@current_user && @current_user.role == :admin} class="text-sm text-gray-500">
+          You're an admin, so you can do it all.
+        </span>
+      </h2>
       <div :if={Enum.empty?(@posts)} class="font-bold text-center">
         No posts created yet
       </div>
@@ -19,6 +30,7 @@ defmodule AshBaseTemplateWeb.PostsLive do
           <div class="font-bold">{post.title}</div>
           <div>{if Map.get(post, :content), do: post.content, else: ""}</div>
           <button
+            :if={@current_user && @current_user.role == :admin}
             class="mt-2 p-2 bg-black text-white rounded-md"
             phx-click="delete_post"
             phx-value-post-id={post.id}
@@ -28,7 +40,7 @@ defmodule AshBaseTemplateWeb.PostsLive do
         </li>
       </ol>
     </div>
-    <div class="my-4">
+    <div :if={@current_user} class="my-4">
       <h2 class="text-xl text-center">Your Archived Posts</h2>
       <div :if={Enum.empty?(@archived_posts.results)} class="font-bold text-center">
         No posts archived yet
@@ -44,7 +56,7 @@ defmodule AshBaseTemplateWeb.PostsLive do
       </ol>
     </div>
 
-    <div>
+    <div :if={@current_user}>
       <h2 class="mt-8 text-lg">Create Post</h2>
       <.form :let={f} for={@create_form} phx-submit="create_post">
         <.input type="text" field={f[:title]} placeholder="input title" />
@@ -52,7 +64,7 @@ defmodule AshBaseTemplateWeb.PostsLive do
       </.form>
     </div>
 
-    <div>
+    <div :if={@current_user}>
       <h2 class="mt-8 text-lg">Update Post</h2>
       <.form :let={f} for={@update_form} phx-submit="update_post" phx-change="select_post">
         <.label>Post Name</.label>
