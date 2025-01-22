@@ -40,14 +40,7 @@ defmodule AshBaseTemplate.Blog.Post do
     create :create do
       primary? true
       accept [:title]
-
-      # Add the user argument that will be managed by the relationship
-      argument :user, :map do
-        allow_nil? false
-      end
-
-      # Change to use the user argument
-      change manage_relationship(:user, type: :append_and_remove)
+      change relate_actor(:user)
     end
 
     update :update do
