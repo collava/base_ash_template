@@ -4,16 +4,22 @@ on:
     branches: ["main"]
   pull_request:
     branches: ["main"]
+
 env:
   MIX_ENV: test
+  CACHE_VERSION: 1
+
 permissions:
   contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     name: Test on OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}
     strategy:
-      # Specify the OTP and Elixir versions to use when building
-      # and running the workflow steps.
       matrix:
         otp: ["27.2"]
         elixir: ["1.18.1-otp-27"]
