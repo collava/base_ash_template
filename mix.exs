@@ -1,13 +1,13 @@
 defmodule AshBaseTemplate.MixProject do
   use Mix.Project
 
-  @version "0.0.19"
+  @version "0.0.18"
 
   def project do
     [
       app: :ash_base_template,
       version: @version,
-      elixir: "~> 1.18.1",
+      elixir: "~> 1.17.3-otp-27",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       consolidate_protocols: Mix.env() != :dev,
@@ -94,20 +94,17 @@ defmodule AshBaseTemplate.MixProject do
       {:phoenix, "~> 1.7"},
       {:picosat_elixir, "~> 0.2"},
       {:postgrex, ">= 0.0.0"},
-      {:rename_project, "~> 0.1.0", only: :dev},
       {:swoosh, "~> 1.5"},
       {:tailwind, "~> 0.2", runtime: Mix.env() == :dev},
       {:telemetry_metrics, "~> 1.0"},
       {:telemetry_poller, "~> 1.0"},
 
       # tests
-      {:ex_check, "~> 0.16.0", only: [:dev], runtime: false},
       {:ex_unit_notifier, "~> 1.3", only: :test},
       {:excoveralls, "~> 0.18", only: :test, runtime: false},
       {:mix_test_watch, "~> 1.2", only: [:dev, :test], runtime: false},
       {:mneme, ">= 0.0.0", only: [:dev, :test]},
       {:mox, "~> 1.2", only: :test},
-      {:phoenix_test, "~> 0.5.1", only: :test, runtime: false},
       {:smokestack, "~> 0.9"},
 
       # security
