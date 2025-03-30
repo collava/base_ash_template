@@ -10,7 +10,18 @@ defmodule AshBaseTemplateWeb.PostsLive do
   def render(assigns) do
     ~H"""
     <div class="my-4">
-      <h2 class="text-xl text-center">Everyone's Posts</h2>
+      <h2 class="text-xl text-center flex flex-col">
+        Posts Listing
+        <span :if={!@current_user} class="text-sm text-gray-500">
+          Sign in to see actions available
+        </span>
+        <span :if={@current_user && @current_user.role != :admin} class="text-sm text-gray-500">
+          Only admins can delete posts
+        </span>
+        <span :if={@current_user && @current_user.role == :admin} class="text-sm text-gray-500">
+          You're an admin, so you can do it all.
+        </span>
+      </h2>
       <div :if={Enum.empty?(@posts)} class="font-bold text-center">
         No posts created yet
       </div>
@@ -19,17 +30,18 @@ defmodule AshBaseTemplateWeb.PostsLive do
           <div class="font-bold">{post.title}</div>
           <div>{if Map.get(post, :content), do: post.content, else: ""}</div>
           <button
+            :if={@current_user && @current_user.role == :admin}
             class="mt-2 p-2 bg-black text-white rounded-md"
             phx-click="delete_post"
             phx-value-post-id={post.id}
           >
-            Delete post
+            Archive post
           </button>
         </li>
       </ol>
     </div>
-    <div class="my-4">
-      <h2 class="text-xl text-center">Your Archived Posts</h2>
+    <div :if={@current_user} class="my-4">
+      <h2 class="text-xl text-center">Archived Posts by You</h2>
       <div :if={Enum.empty?(@archived_posts.results)} class="font-bold text-center">
         No posts archived yet
       </div>
@@ -44,7 +56,7 @@ defmodule AshBaseTemplateWeb.PostsLive do
       </ol>
     </div>
 
-    <div>
+    <div :if={@current_user}>
       <h2 class="mt-8 text-lg">Create Post</h2>
       <.form :let={f} for={@create_form} phx-submit="create_post">
         <.input type="text" field={f[:title]} placeholder="input title" />
@@ -52,7 +64,7 @@ defmodule AshBaseTemplateWeb.PostsLive do
       </.form>
     </div>
 
-    <div>
+    <div :if={@current_user && @post_selector != []}>
       <h2 class="mt-8 text-lg">Update Post</h2>
       <.form :let={f} for={@update_form} phx-submit="update_post" phx-change="select_post">
         <.label>Post Name</.label>
@@ -67,8 +79,8 @@ defmodule AshBaseTemplateWeb.PostsLive do
   def mount(_params, _session, socket) do
     actor = socket.assigns.current_user
     posts = Blog.list_posts!()
-    posts_for_user = Enum.filter(posts, &(&1.user_id == actor.id))
-    selected_post = List.first(posts) || %Post{}
+    posts_for_user = if actor, do: Enum.filter(posts, &(&1.user_id == actor.id)), else: []
+    selected_post = List.first(posts_for_user) || %Post{}
 
     socket =
       assign(socket,
@@ -78,7 +90,11 @@ defmodule AshBaseTemplateWeb.PostsLive do
         post_selector: post_selector(posts_for_user),
         create_form:
           Post
-          |> AshPhoenix.Form.for_create(:create, actor: actor)
+          |> AshPhoenix.Form.for_create(:create,
+            api: Blog,
+            actor: actor,
+            relationships: [user: actor]
+          )
           |> to_form(),
         update_form:
           selected_post
@@ -106,13 +122,14 @@ defmodule AshBaseTemplateWeb.PostsLive do
   def handle_event("create_post", %{"form" => form_params}, socket) do
     form_params = Map.put(form_params, "user", socket.assigns.current_user)
 
-    case AshPhoenix.Form.submit(
-           socket.assigns.create_form,
-           params: form_params
+    case AshPhoenix.Form.submit(socket.assigns.create_form,
+           params: form_params,
+           actor: socket.assigns.current_user
          ) do
       {:ok, _post} ->
         posts = Blog.list_posts!()
-        {:noreply, assign(socket, posts: posts, post_selector: post_selector(posts))}
+        posts_for_user = Enum.filter(posts, &(&1.user_id == socket.assigns.current_user.id))
+        {:noreply, assign(socket, posts: posts, post_selector: post_selector(posts_for_user))}
 
       {:error, create_form} ->
         {:noreply, assign(socket, create_form: create_form)}
@@ -135,6 +152,7 @@ defmodule AshBaseTemplateWeb.PostsLive do
     selected_post =
       Enum.find(
         socket.assigns.posts,
+        List.first(socket.assigns.posts),
         &(&1.id == post_id and &1.user_id == socket.assigns.current_user.id)
       )
 

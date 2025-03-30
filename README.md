@@ -33,6 +33,8 @@ mix deps.get
 mix rename AshBaseTemplate MyNewProject
 ```
 
+Search for any `ash_base_template` references and replace them with your new project name
+
 ### Setup the database
 
 ```bash
