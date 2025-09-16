@@ -114,7 +114,7 @@ defmodule AshBaseTemplate.MixProject do
       {:cors_plug, "~> 3.0"},
       {:mix_audit, "~> 2.1", only: [:dev, :test], runtime: false},
       {:sobelow, "~> 0.13", only: [:dev, :test], runtime: false},
-      {:hammer, "~> 6.2"},
+      {:hammer, "~> 7.0"},
       {:hammer_plug, "~> 3.0"},
 
       # code quality
