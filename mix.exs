@@ -59,7 +59,7 @@ defmodule AshBaseTemplate.MixProject do
       {:ash_graphql, "~> 1.0"},
       {:ash_json_api, "~> 1.0"},
       {:ash_money, "~> 0.1"},
-      {:ash_oban, "~> 0.2"},
+      {:ash_oban, "~> 0.7"},
       {:ash_phoenix, "~> 2.0"},
       {:ash_postgres, "~> 2.0"},
       {:ash, "~> 3.0"},
