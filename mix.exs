@@ -68,7 +68,7 @@ defmodule AshBaseTemplate.MixProject do
       {:dns_cluster, "~> 0.1"},
       {:ecto_dev_logger, "~> 0.14", only: :dev},
       {:ecto_sql, "~> 3.10"},
-      {:esbuild, "~> 0.8", runtime: Mix.env() == :dev},
+      {:esbuild, "~> 0.10", runtime: Mix.env() == :dev},
       {:ex_money_sql, "~> 1.0"},
       {:finch, "~> 0.19"},
       {:floki, ">= 0.30.0", only: :test},
