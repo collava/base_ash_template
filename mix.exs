@@ -70,7 +70,7 @@ defmodule AshBaseTemplate.MixProject do
       {:ecto_sql, "~> 3.10"},
       {:esbuild, "~> 0.8", runtime: Mix.env() == :dev},
       {:ex_money_sql, "~> 1.0"},
-      {:finch, "~> 0.19"},
+      {:finch, "~> 0.20"},
       {:floki, ">= 0.30.0", only: :test},
       {:gettext, "~> 0.26"},
       {:hackney, "~> 1.20"},
