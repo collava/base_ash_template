@@ -37,3 +37,4 @@ npm-debug.log
 .elixir_ls
 .expert
 mise.toml
+.bun-tmp
