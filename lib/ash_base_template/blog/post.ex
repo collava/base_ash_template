@@ -4,7 +4,8 @@ defmodule AshBaseTemplate.Blog.Post do
     domain: AshBaseTemplate.Blog,
     data_layer: AshPostgres.DataLayer,
     extensions: [AshArchival.Resource, AshOban, AshJsonApi.Resource],
-    authorizers: [Ash.Policy.Authorizer]
+    authorizers: [Ash.Policy.Authorizer],
+    primary_read_warning?: false
 
   json_api do
     type "post"
