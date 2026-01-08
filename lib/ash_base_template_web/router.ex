@@ -6,6 +6,8 @@ defmodule AshBaseTemplateWeb.Router do
   import Phoenix.LiveDashboard.Router
 
   alias AshAuthentication.Phoenix.Overrides.Default
+  alias AshBaseTemplate.Accounts.User
+  alias AshBaseTemplateWeb.Plugs.AccessRateLimiter
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -15,7 +17,7 @@ defmodule AshBaseTemplateWeb.Router do
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug :load_from_session
-    plug AshBaseTemplateWeb.Plugs.AccessRateLimiter
+    plug AccessRateLimiter
   end
 
   pipeline :browser_without_layout do
@@ -25,7 +27,7 @@ defmodule AshBaseTemplateWeb.Router do
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug :load_from_session
-    plug AshBaseTemplateWeb.Plugs.AccessRateLimiter
+    plug AccessRateLimiter
   end
 
   pipeline :authorizer do
@@ -51,7 +53,7 @@ defmodule AshBaseTemplateWeb.Router do
   scope "/", AshBaseTemplateWeb do
     pipe_through :browser
 
-    auth_routes AuthController, AshBaseTemplate.Accounts.User, path: "/auth"
+    auth_routes AuthController, User, path: "/auth"
     sign_out_route AuthController
 
     # Newsletter routes
@@ -82,6 +84,18 @@ defmodule AshBaseTemplateWeb.Router do
       # If an authenticated user must *not* be present:
       # on_mount {AshBaseTemplateWeb.LiveUserAuth, :live_no_user}
     end
+
+    magic_sign_in_route(
+      User,
+      :magic_link,
+      auth_routes_prefix: "/auth",
+      overrides: [MyAppWeb.AuthOverrides, AshAuthentication.Phoenix.Overrides.Default],
+      # the route will default `/<the_strategy_name>/:magic_link`
+      # use these options to keep your currently issued magic link emails compatible
+      # if you use this option, make sure to place it *above* `auth_routes` in your router.
+      path: "/auth/user/magic_link",
+      token_as_route_param?: false
+    )
 
     # https://hexdocs.pm/ash_authentication_phoenix/ui-overrides.html
     sign_in_route register_path: "/register",

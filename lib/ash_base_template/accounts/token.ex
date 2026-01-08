@@ -72,8 +72,6 @@ defmodule AshBaseTemplate.Accounts.Token do
   end
 
   attributes do
-    uuid_v7_primary_key :id
-
     attribute :jti, :string do
       primary_key? true
       public? true

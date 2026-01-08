@@ -60,6 +60,7 @@ defmodule AshBaseTemplate.Accounts.User do
         registration_enabled? true
 
         sender AshBaseTemplate.Accounts.User.Senders.SendMagicLinkEmail
+        require_interaction? true
       end
     end
 
@@ -71,6 +72,7 @@ defmodule AshBaseTemplate.Accounts.User do
         auto_confirm_actions [:sign_in_with_magic_link]
         inhibit_updates? false
         sender AshBaseTemplate.Accounts.User.Senders.SendNewUserConfirmationEmail
+        require_interaction? true
       end
 
       # when the fields change, we send an email to the user to confirm the change
@@ -81,6 +83,7 @@ defmodule AshBaseTemplate.Accounts.User do
         confirm_action_name :confirm_change
         inhibit_updates? true
         sender AshBaseTemplate.Accounts.User.Senders.SendDataChangeConfirmationEmail
+        require_interaction? true
       end
     end
   end
@@ -118,7 +121,7 @@ defmodule AshBaseTemplate.Accounts.User do
 
   archive do
     archive_related [:posts]
-    archive_related_authorize?(false)
+    archive_related_authorize? false
   end
 
   postgres do
