@@ -38,6 +38,9 @@ defmodule AshBaseTemplate.Accounts.User do
   end
 
   authentication do
+    # Ensure logout revokes tokens by tracking the session identifier
+    session_identifier :jti
+
     tokens do
       enabled? true
       token_resource AshBaseTemplate.Accounts.Token
