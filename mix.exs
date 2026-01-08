@@ -54,7 +54,7 @@ defmodule AshBaseTemplate.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:ash_admin, "~> 0.12"},
+      {:ash_admin, "~> 0.13"},
       {:ash_archival, "~> 2.0"},
       {:ash_authentication_phoenix, "~> 2.14"},
       {:ash_authentication, "~> 4.13"},
