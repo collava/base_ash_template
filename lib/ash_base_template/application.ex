@@ -18,6 +18,7 @@ defmodule AshBaseTemplate.Application do
       {Phoenix.PubSub, name: AshBaseTemplate.PubSub},
       # Start the Finch HTTP client for sending emails
       {Finch, name: AshBaseTemplate.Finch},
+      {AshBaseTemplate.RateLimit, [clean_period: :timer.minutes(5)]},
       # Start a worker by calling: AshBaseTemplate.Worker.start_link(arg)
       # {AshBaseTemplate.Worker, arg},
       # Start to serve requests, typically the last entry

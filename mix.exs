@@ -7,28 +7,19 @@ defmodule AshBaseTemplate.MixProject do
     [
       app: :ash_base_template,
       version: @version,
-      elixir: "~> 1.18.1",
+      elixir: "~> 1.19.4",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       consolidate_protocols: Mix.env() != :dev,
       test_coverage: [tool: ExCoveralls],
-      preferred_cli_env: [
-        coveralls: :test,
-        "coveralls.detail": :test,
-        "coveralls.post": :test,
-        "coveralls.html": :test,
-        "coveralls.lcov": :test,
-        "coveralls.json": :test,
-        "coveralls.github": :test,
-        "coveralls.xml": :test,
-        "test.watch": :test,
-        "mneme.watch": :test,
-        "mneme.test": :test
-      ],
       aliases: aliases(),
       deps: deps()
     ]
   end
+
+def cli do
+      [preferred_envs: [coveralls: :test, "coveralls.detail": :test, "coveralls.post": :test, "coveralls.html": :test, "coveralls.lcov": :test, "coveralls.json": :test, "coveralls.github": :test, "coveralls.xml": :test, "test.watch": :test, "mneme.watch": :test, "mneme.test": :test]]
+    end
 
   # Configuration for the OTP application.
   #
@@ -76,15 +67,15 @@ defmodule AshBaseTemplate.MixProject do
       {:hackney, "~> 1.20"},
       {:heroicons,
        github: "tailwindlabs/heroicons", tag: "v2.2.0", sparse: "optimized", app: false, compile: false, depth: 1},
-      {:igniter, "~> 0.4"},
+      {:igniter, "~> 0.7", override: true},
       {:jason, "~> 1.2"},
       {:oban, "~> 2.18"},
       {:oban_live_dashboard, "~> 0.2.0"},
       {:open_api_spex, "~> 3.21"},
-      {:opentelemetry_api, "~> 1.4"},
-      {:opentelemetry_bandit, "~> 0.2.0"},
+      {:opentelemetry_api, "~> 1.5"},
+      {:opentelemetry_bandit, "~> 0.3"},
       {:opentelemetry_ecto, "~> 1.2"},
-      {:opentelemetry_phoenix, "~> 2.0.0-rc.2"},
+      {:opentelemetry_phoenix, "~> 2.0"},
       {:opentelemetry_req, "~> 1.0"},
       {:phoenix_ecto, "~> 4.5"},
       {:phoenix_html, "~> 4.1"},
@@ -98,13 +89,13 @@ defmodule AshBaseTemplate.MixProject do
       {:swoosh, "~> 1.5"},
       {:tailwind, "~> 0.2", runtime: Mix.env() == :dev},
       {:telemetry_metrics, "~> 1.0"},
-      {:telemetry_poller, "~> 1.0"},
+      {:telemetry_poller," ~>1.0"},
 
       # tests
       {:ex_check, "~> 0.16.0", only: [:dev], runtime: false},
       {:ex_unit_notifier, "~> 1.3", only: :test},
       {:excoveralls, "~> 0.18", only: :test, runtime: false},
-      {:mix_test_watch, "~> 1.2", only: [:dev, :test], runtime: false},
+      {:mix_test_watch, "~> 1.4", only: [:dev, :test], runtime: false},
       {:mneme, ">= 0.0.0", only: [:dev, :test]},
       {:mox, "~> 1.2", only: :test},
       {:phoenix_test, "~> 0.5.1", only: :test, runtime: false},
@@ -114,8 +105,8 @@ defmodule AshBaseTemplate.MixProject do
       {:cors_plug, "~> 3.0"},
       {:mix_audit, "~> 2.1", only: [:dev, :test], runtime: false},
       {:sobelow, "~> 0.13", only: [:dev, :test], runtime: false},
-      {:hammer, "~> 6.2"},
-      {:hammer_plug, "~> 3.0"},
+      {:hammer, "~> 7.0", override: true},
+      {:hammer_plug, "~> 3.2"},
 
       # code quality
       {:circular_buffer, "~> 0.4"},

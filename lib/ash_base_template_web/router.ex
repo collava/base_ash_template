@@ -15,6 +15,7 @@ defmodule AshBaseTemplateWeb.Router do
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug :load_from_session
+    plug AshBaseTemplateWeb.Plugs.AccessRateLimiter
   end
 
   pipeline :browser_without_layout do
@@ -24,6 +25,7 @@ defmodule AshBaseTemplateWeb.Router do
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug :load_from_session
+    plug AshBaseTemplateWeb.Plugs.AccessRateLimiter
   end
 
   pipeline :authorizer do
