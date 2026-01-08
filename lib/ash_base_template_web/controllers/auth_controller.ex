@@ -40,7 +40,7 @@ defmodule AshBaseTemplateWeb.AuthController do
     return_to = get_session(conn, :return_to) || ~p"/"
 
     conn
-    |> clear_session()
+    |> clear_session(:ash_base_template)
     |> put_flash(:info, "You are now signed out")
     |> redirect(to: return_to)
   end

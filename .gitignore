@@ -35,3 +35,5 @@ ash_base_template-*.tar
 npm-debug.log
 /assets/node_modules/
 .elixir_ls
+.expert
+mise.toml

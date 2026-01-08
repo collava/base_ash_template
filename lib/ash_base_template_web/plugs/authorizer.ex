@@ -1,4 +1,3 @@
-# lib/ash_base_template_web/plugs/authorizer.ex
 defmodule AshBaseTemplateWeb.Plugs.Authorizer do
   @moduledoc false
   import Phoenix.Controller
