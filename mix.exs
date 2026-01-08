@@ -67,7 +67,7 @@ defmodule AshBaseTemplate.MixProject do
       {:ash_oban, "~> 0.2"},
       {:ash_phoenix, "~> 2.0"},
       {:ash_postgres, "~> 2.0"},
-      {:ash, "~> 3.0"},
+      {:ash, "~> 3.12"},
       {:bandit, "~> 1.5"},
       {:bcrypt_elixir, "~> 3.0"},
       {:dns_cluster, "~> 0.1"},
