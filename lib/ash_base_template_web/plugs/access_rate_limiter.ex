@@ -1,16 +1,16 @@
-
 defmodule AshBaseTemplateWeb.Plugs.AccessRateLimiter do
   @moduledoc false
   import Phoenix.Controller
   import Plug.Conn
 
-  require Logger
-
   alias AshBaseTemplate.RateLimit
+
+  require Logger
 
   @scale :timer.minutes(1)
   @limit 300
-  @anonymous_limit max(div(@limit, 2), 1) # half the amount of logged users
+  # half the amount of logged users
+  @anonymous_limit max(div(@limit, 2), 1)
   # RateLimit.hit/3 returns retry-after values in milliseconds, so convert to seconds
   @milliseconds_per_second 1000
 
@@ -21,8 +21,11 @@ defmodule AshBaseTemplateWeb.Plugs.AccessRateLimiter do
   end
 
   def call(conn, _opts) do
-    conn
-    |> handle_rate_limit("access:anonymous:#{format_remote_ip(conn.remote_ip)}", @anonymous_limit)
+    handle_rate_limit(
+      conn,
+      "access:anonymous:#{format_remote_ip(conn.remote_ip)}",
+      @anonymous_limit
+    )
   end
 
   defp handle_rate_limit(conn, key, limit) do
@@ -42,6 +45,7 @@ defmodule AshBaseTemplateWeb.Plugs.AccessRateLimiter do
   end
 
   defp format_remote_ip(nil), do: "unknown"
+
   defp format_remote_ip(remote_ip) do
     case :inet.ntoa(remote_ip) do
       {:error, _reason} -> "unknown"

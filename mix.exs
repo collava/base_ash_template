@@ -17,9 +17,23 @@ defmodule AshBaseTemplate.MixProject do
     ]
   end
 
-def cli do
-      [preferred_envs: [coveralls: :test, "coveralls.detail": :test, "coveralls.post": :test, "coveralls.html": :test, "coveralls.lcov": :test, "coveralls.json": :test, "coveralls.github": :test, "coveralls.xml": :test, "test.watch": :test, "mneme.watch": :test, "mneme.test": :test]]
-    end
+  def cli do
+    [
+      preferred_envs: [
+        coveralls: :test,
+        "coveralls.detail": :test,
+        "coveralls.post": :test,
+        "coveralls.html": :test,
+        "coveralls.lcov": :test,
+        "coveralls.json": :test,
+        "coveralls.github": :test,
+        "coveralls.xml": :test,
+        "test.watch": :test,
+        "mneme.watch": :test,
+        "mneme.test": :test
+      ]
+    ]
+  end
 
   # Configuration for the OTP application.
   #
@@ -89,7 +103,7 @@ def cli do
       {:swoosh, "~> 1.5"},
       {:tailwind, "~> 0.2", runtime: Mix.env() == :dev},
       {:telemetry_metrics, "~> 1.0"},
-      {:telemetry_poller," ~>1.0"},
+      {:telemetry_poller, " ~>1.0"},
 
       # tests
       {:ex_check, "~> 0.16.0", only: [:dev], runtime: false},
