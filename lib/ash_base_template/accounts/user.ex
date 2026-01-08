@@ -118,6 +118,7 @@ defmodule AshBaseTemplate.Accounts.User do
 
   archive do
     archive_related [:posts]
+    archive_related_authorize?(false)
   end
 
   postgres do
