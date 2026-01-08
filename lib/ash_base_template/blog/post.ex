@@ -24,6 +24,8 @@ defmodule AshBaseTemplate.Blog.Post do
         scheduler_cron("0 0 * * *")
         action :destroy_forever
         read_action :archived
+        worker_module_name(AshBaseTemplate.Blog.Post.AshOban.Worker.DestroyForever)
+        scheduler_module_name(AshBaseTemplate.Blog.Post.AshOban.Scheduler.DestroyForever)
       end
     end
   end
