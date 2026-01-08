@@ -96,7 +96,7 @@ defmodule AshBaseTemplate.MixProject do
       {:phoenix_live_dashboard, "~> 0.8"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:phoenix_live_view, "~> 1.1"},
-      {:phoenix, "~> 1.7"},
+      {:phoenix, "~> 1.8"},
       {:picosat_elixir, "~> 0.2"},
       {:postgrex, ">= 0.0.0"},
       {:rename_project, "~> 0.1.0", only: :dev},
@@ -112,7 +112,7 @@ defmodule AshBaseTemplate.MixProject do
       {:mix_test_watch, "~> 1.4", only: [:dev, :test], runtime: false},
       {:mneme, ">= 0.0.0", only: [:dev, :test]},
       {:mox, "~> 1.2", only: :test},
-      {:phoenix_test, "~> 0.5.1", only: :test, runtime: false},
+      {:phoenix_test, "~> 0.9.1", only: :test, runtime: false},
       {:smokestack, "~> 0.9"},
 
       # security
@@ -129,7 +129,7 @@ defmodule AshBaseTemplate.MixProject do
       {:credo_mox, "~> 0.1", only: [:dev, :test], runtime: false},
       {:credo_naming, "~> 2.1", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
-      {:styler, "~> 1.2", only: [:dev, :test], runtime: false},
+      {:styler, "~> 1.10", only: [:dev, :test], runtime: false},
 
       # error reporting
       {:error_tracker, "~> 0.5"},
