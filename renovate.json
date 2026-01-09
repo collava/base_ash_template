@@ -7,6 +7,10 @@
     "security:openssf-scorecard",
     "mergeConfidence:all-badges"
   ],
+  "lockFileMaintenance": {
+    "enabled": true,
+    "automerge": true
+  },
   "packageRules": [
     {
       "matchManagers": ["mix"],
@@ -22,14 +26,8 @@
       "automerge": true
     },
     {
-      "pin": {
-        "automerge": true
-      }
-    },
-    {
-      "lockFileMaintenance": {
-        "automerge": true
-      }
+      "matchUpdateTypes": ["pin"],
+      "automerge": true
     }
   ]
 }
