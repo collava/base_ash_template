@@ -77,7 +77,7 @@ defmodule AshBaseTemplate.MixProject do
       {:ex_money_sql, "~> 1.0"},
       {:finch, "~> 0.19"},
       {:floki, ">= 0.30.0", only: :test},
-      {:gettext, "~> 0.26"},
+      {:gettext, "~> 1.0"},
       {:hackney, "~> 1.20"},
       {:heroicons,
        github: "tailwindlabs/heroicons", tag: "v2.2.0", sparse: "optimized", app: false, compile: false, depth: 1},
