@@ -103,7 +103,7 @@ defmodule AshBaseTemplate.MixProject do
       {:swoosh, "~> 1.5"},
       {:tailwind, "~> 0.2", runtime: Mix.env() == :dev},
       {:telemetry_metrics, "~> 1.0"},
-      {:telemetry_poller, " ~>1.0"},
+      {:telemetry_poller, "~> 1.0"},
 
       # tests
       {:ex_check, "~> 0.16.0", only: [:dev], runtime: false},
