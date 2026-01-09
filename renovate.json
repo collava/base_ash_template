@@ -5,7 +5,8 @@
     "config:best-practices",
     "schedule:automergeDaily",
     "security:openssf-scorecard",
-    "mergeConfidence:all-badges"],
+    "mergeConfidence:all-badges"
+  ],
   "packageRules": [
     {
       "matchManagers": ["mix"],
@@ -19,12 +20,16 @@
       "matchUpdateTypes": ["minor", "patch"],
       "matchCurrentVersion": "!/^0/",
       "automerge": true
-    ,
-    "pin": {
-      "automerge": true
     },
-    "lockFileMaintenance": {
-      "automerge": true
+    {
+      "pin": {
+        "automerge": true
+      }
+    },
+    {
+      "lockFileMaintenance": {
+        "automerge": true
+      }
     }
   ]
 }
