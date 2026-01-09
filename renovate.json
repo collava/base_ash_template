@@ -1,6 +1,11 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:recommended"],
+  "extends": [
+    "config:recommended",
+    "config:best-practices",
+    "schedule:automergeDaily",
+    "security:openssf-scorecard",
+    "mergeConfidence:all-badges"],
   "packageRules": [
     {
       "matchManagers": ["mix"],
@@ -11,7 +16,14 @@
       "addLabels": ["deps", "npm"]
     },
     {
-      "matchUpdateTypes": ["minor"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "matchCurrentVersion": "!/^0/",
+      "automerge": true
+    ,
+    "pin": {
+      "automerge": true
+    },
+    "lockFileMaintenance": {
       "automerge": true
     }
   ]
