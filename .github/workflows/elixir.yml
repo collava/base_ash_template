@@ -21,12 +21,12 @@ jobs:
     name: Test on OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}
     strategy:
       matrix:
-        otp: ["27.2"]
-        elixir: ["1.18.1-otp-27"]
+        otp: ["28.3"]
+        elixir: ["1.19.4-otp-28"]
     runs-on: ubuntu-24.04
     services:
       postgres:
-        image: postgres:17
+        image: postgres:18
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
@@ -36,7 +36,7 @@ jobs:
         options: "--health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5"
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
@@ -52,7 +52,7 @@ jobs:
             mkdir priv/plts
           fi
 
-      - uses: actions/cache@v4
+      - uses: actions/cache@v5
         with:
           path: |
             deps

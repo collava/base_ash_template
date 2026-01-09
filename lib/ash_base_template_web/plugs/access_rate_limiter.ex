@@ -1,6 +1,5 @@
 defmodule AshBaseTemplateWeb.Plugs.AccessRateLimiter do
   @moduledoc false
-  import Phoenix.Controller
   import Plug.Conn
 
   alias AshBaseTemplate.RateLimit

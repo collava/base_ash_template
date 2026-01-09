@@ -1,7 +1,7 @@
 defmodule AshBaseTemplate.MixProject do
   use Mix.Project
 
-  @version "0.0.18"
+  @version "0.1.8"
 
   def project do
     [
@@ -54,26 +54,26 @@ defmodule AshBaseTemplate.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:ash_admin, "~> 0.12"},
-      {:ash_archival, "~> 1.0"},
-      {:ash_authentication_phoenix, "~> 2.0"},
-      {:ash_authentication, "~> 4.1"},
+      {:ash_admin, "~> 0.13"},
+      {:ash_archival, "~> 2.0"},
+      {:ash_authentication_phoenix, "~> 2.14"},
+      {:ash_authentication, "~> 4.13"},
       {:ash_cloak, "~> 0.1"},
       {:ash_double_entry, "~> 1.0"},
       {:ash_csv, "~> 0.9"},
-      {:ash_graphql, "~> 1.0"},
-      {:ash_json_api, "~> 1.0"},
-      {:ash_money, "~> 0.1"},
-      {:ash_oban, "~> 0.2"},
-      {:ash_phoenix, "~> 2.0"},
-      {:ash_postgres, "~> 2.0"},
+      {:ash_graphql, "~> 1.8"},
+      {:ash_json_api, "~> 1.5"},
+      {:ash_money, "~> 0.2"},
+      {:ash_oban, "~> 0.7"},
+      {:ash_phoenix, "~> 2.3"},
+      {:ash_postgres, "~> 2.6"},
       {:ash, "~> 3.12"},
       {:bandit, "~> 1.5"},
       {:bcrypt_elixir, "~> 3.0"},
-      {:dns_cluster, "~> 0.1"},
-      {:ecto_dev_logger, "~> 0.14", only: :dev},
+      {:dns_cluster, "~> 0.2"},
+      {:ecto_dev_logger, "~> 0.15", only: :dev},
       {:ecto_sql, "~> 3.10"},
-      {:esbuild, "~> 0.8", runtime: Mix.env() == :dev},
+      {:esbuild, "~> 0.10", runtime: Mix.env() == :dev},
       {:ex_money_sql, "~> 1.0"},
       {:finch, "~> 0.19"},
       {:floki, ">= 0.30.0", only: :test},
@@ -91,19 +91,19 @@ defmodule AshBaseTemplate.MixProject do
       {:opentelemetry_ecto, "~> 1.2"},
       {:opentelemetry_phoenix, "~> 2.0"},
       {:opentelemetry_req, "~> 1.0"},
-      {:phoenix_ecto, "~> 4.5"},
+      {:phoenix_ecto, "~> 4.7"},
       {:phoenix_html, "~> 4.1"},
-      {:phoenix_live_dashboard, "~> 0.8.3"},
+      {:phoenix_live_dashboard, "~> 0.8"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
-      {:phoenix_live_view, "~> 1.0.0"},
-      {:phoenix, "~> 1.7"},
+      {:phoenix_live_view, "~> 1.1"},
+      {:phoenix, "~> 1.8"},
       {:picosat_elixir, "~> 0.2"},
       {:postgrex, ">= 0.0.0"},
       {:rename_project, "~> 0.1.0", only: :dev},
       {:swoosh, "~> 1.5"},
-      {:tailwind, "~> 0.2", runtime: Mix.env() == :dev},
+      {:tailwind, "~> 0.4", runtime: Mix.env() == :dev},
       {:telemetry_metrics, "~> 1.0"},
-      {:telemetry_poller, " ~>1.0"},
+      {:telemetry_poller, "~> 1.0"},
 
       # tests
       {:ex_check, "~> 0.16.0", only: [:dev], runtime: false},
@@ -112,31 +112,31 @@ defmodule AshBaseTemplate.MixProject do
       {:mix_test_watch, "~> 1.4", only: [:dev, :test], runtime: false},
       {:mneme, ">= 0.0.0", only: [:dev, :test]},
       {:mox, "~> 1.2", only: :test},
-      {:phoenix_test, "~> 0.5.1", only: :test, runtime: false},
+      {:phoenix_test, "~> 0.9.1", only: :test, runtime: false},
       {:smokestack, "~> 0.9"},
 
       # security
       {:cors_plug, "~> 3.0"},
       {:mix_audit, "~> 2.1", only: [:dev, :test], runtime: false},
-      {:sobelow, "~> 0.13", only: [:dev, :test], runtime: false},
+      {:sobelow, "~> 0.14", only: [:dev, :test], runtime: false},
       {:hammer, "~> 7.0", override: true},
       {:hammer_plug, "~> 3.2"},
 
       # code quality
-      {:circular_buffer, "~> 0.4"},
+      {:circular_buffer, "~> 1.0"},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:credo_binary_patterns, "~> 0.2.3", only: [:dev, :test], runtime: false},
       {:credo_mox, "~> 0.1", only: [:dev, :test], runtime: false},
       {:credo_naming, "~> 2.1", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
-      {:styler, "~> 1.2", only: [:dev, :test], runtime: false},
+      {:styler, "~> 1.10", only: [:dev, :test], runtime: false},
 
       # error reporting
-      {:error_tracker, "~> 0.5"},
-      {:tower, "~> 0.7"},
-      {:tower_email, "~> 0.5"},
+      {:error_tracker, "~> 0.7"},
+      {:tower, "~> 0.8", override: true},
+      {:tower_email, "~> 0.6"},
       {:tower_error_tracker, "~> 0.3"},
-      {:tower_honeybadger, "~> 0.2"},
+      {:tower_honeybadger, "~> 0.3"},
       {:tower_sentry, "~> 0.3"}
     ]
   end
