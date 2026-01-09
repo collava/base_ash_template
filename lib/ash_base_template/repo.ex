@@ -14,6 +14,6 @@ defmodule AshBaseTemplate.Repo do
   end
 
   def min_pg_version do
-    %Version{major: 17, minor: 2, patch: 0}
+    %Version{major: 18, minor: 0, patch: 0}
   end
 end
