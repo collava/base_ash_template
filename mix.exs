@@ -71,7 +71,7 @@ defmodule AshBaseTemplate.MixProject do
       {:bandit, "~> 1.5"},
       {:bcrypt_elixir, "~> 3.0"},
       {:dns_cluster, "~> 0.2"},
-      {:ecto_dev_logger, "~> 0.14", only: :dev},
+      {:ecto_dev_logger, "~> 0.15", only: :dev},
       {:ecto_sql, "~> 3.10"},
       {:esbuild, "~> 0.10", runtime: Mix.env() == :dev},
       {:ex_money_sql, "~> 1.0"},
