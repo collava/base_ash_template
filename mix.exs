@@ -123,7 +123,7 @@ defmodule AshBaseTemplate.MixProject do
       {:hammer_plug, "~> 3.2"},
 
       # code quality
-      {:circular_buffer, "~> 0.4"},
+      {:circular_buffer, "~> 1.0"},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:credo_binary_patterns, "~> 0.2.3", only: [:dev, :test], runtime: false},
       {:credo_mox, "~> 0.1", only: [:dev, :test], runtime: false},
@@ -132,11 +132,11 @@ defmodule AshBaseTemplate.MixProject do
       {:styler, "~> 1.10", only: [:dev, :test], runtime: false},
 
       # error reporting
-      {:error_tracker, "~> 0.5"},
-      {:tower, "~> 0.7"},
-      {:tower_email, "~> 0.5"},
+      {:error_tracker, "~> 0.7"},
+      {:tower, "~> 0.8", override: true},
+      {:tower_email, "~> 0.6"},
       {:tower_error_tracker, "~> 0.3"},
-      {:tower_honeybadger, "~> 0.2"},
+      {:tower_honeybadger, "~> 0.3"},
       {:tower_sentry, "~> 0.3"}
     ]
   end
