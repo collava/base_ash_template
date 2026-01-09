@@ -132,7 +132,7 @@ defmodule AshBaseTemplate.MixProject do
       {:styler, "~> 1.10", only: [:dev, :test], runtime: false},
 
       # error reporting
-      {:error_tracker, "~> 0.5"},
+      {:error_tracker, "~> 0.7"},
       {:tower, "~> 0.7"},
       {:tower_email, "~> 0.5"},
       {:tower_error_tracker, "~> 0.3"},
