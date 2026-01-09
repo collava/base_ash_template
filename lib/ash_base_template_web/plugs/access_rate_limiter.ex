@@ -6,7 +6,7 @@ defmodule AshBaseTemplateWeb.Plugs.AccessRateLimiter do
 
   require Logger
 
-  @scale :timer.minutes(1)
+  @scale to_timeout(minute: 1)
   @limit 300
   # half the amount of logged users
   @anonymous_limit max(div(@limit, 2), 1)

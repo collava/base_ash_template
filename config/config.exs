@@ -56,7 +56,7 @@ config :error_tracker,
   otp_app: :ash_base_template,
   enabled: true,
   # remove resolved after 1 week
-  plugins: [{ErrorTracker.Plugins.Pruner, max_age: :timer.hours(168)}]
+  plugins: [{ErrorTracker.Plugins.Pruner, max_age: to_timeout(hour: 168)}]
 
 # Configure esbuild (the version is required)
 config :esbuild,
