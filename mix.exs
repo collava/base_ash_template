@@ -123,7 +123,7 @@ defmodule AshBaseTemplate.MixProject do
       {:hammer_plug, "~> 3.2"},
 
       # code quality
-      {:circular_buffer, "~> 0.4"},
+      {:circular_buffer, "~> 1.0"},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:credo_binary_patterns, "~> 0.2.3", only: [:dev, :test], runtime: false},
       {:credo_mox, "~> 0.1", only: [:dev, :test], runtime: false},
