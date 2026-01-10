@@ -6,9 +6,6 @@ on:
     workflows: [Elixir Validations]
     types: [completed]
     branches: [main]
-  pull_request:
-    branches-ignore:
-      - renovate/hex-packages
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
