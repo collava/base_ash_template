@@ -129,7 +129,7 @@ defmodule AshBaseTemplate.MixProject do
       {:credo_mox, "0.1.2", only: [:dev, :test], runtime: false},
       {:credo_naming, "2.1.0", only: [:dev, :test], runtime: false},
       {:dialyxir, "1.4.7", only: [:dev, :test], runtime: false},
-      {:styler, "== 1.10.1", only: [:dev, :test], runtime: false},
+      {:styler, "1.10.1", only: [:dev, :test], runtime: false},
 
       # error reporting
       {:error_tracker, "~> 0.7"},
