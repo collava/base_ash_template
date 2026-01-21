@@ -78,7 +78,7 @@ defmodule AshBaseTemplate.MixProject do
       {:finch, "~> 0.19"},
       {:floki, "0.38.0", only: :test},
       {:gettext, "~> 1.0"},
-      {:hackney, "~> 1.20"},
+      {:hackney, "~> 2.0"},
       {:heroicons,
        github: "tailwindlabs/heroicons", tag: "v2.2.0", sparse: "optimized", app: false, compile: false, depth: 1},
       {:igniter, "~> 0.7", override: true},
