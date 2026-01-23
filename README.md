@@ -35,10 +35,10 @@ mix rename AshBaseTemplate MyNewProject
 
 Search for any `ash_base_template` references and replace them with your new project name
 
-### Setup the database
+### Setup the project
 
 ```bash
-mix ash.setup
+mix setup
 ```
 
 ### Test pre-commit
@@ -50,7 +50,7 @@ pre-commit run --all-files
 ### Start the project
 
 ```bash
-mix phx.server
+iex -S mix phx.server
 ```
 
 - Home: <http://localhost:4000>
