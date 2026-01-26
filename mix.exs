@@ -143,7 +143,7 @@ defmodule AshBaseTemplate.MixProject do
 
   defp aliases do
     [
-      "phx.routes": ["phx.routes", "ash_authentication.phx.routes"],
+      "phx.routes": ["phx.routes", "ash_authentication.phoenix.routes"],
       setup: ["deps.get", "ash.setup", "assets.setup", "assets.build", "run priv/repo/seeds.exs"],
       "ecto.setup": ["ash.setup", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ash.reset"],
