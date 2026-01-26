@@ -54,6 +54,7 @@ defmodule AshBaseTemplate.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      # ash
       {:ash_admin, "~> 0.13"},
       {:ash_archival, "~> 2.0"},
       {:ash_authentication_phoenix, "~> 2.14"},
@@ -68,6 +69,8 @@ defmodule AshBaseTemplate.MixProject do
       {:ash_phoenix, "~> 2.3"},
       {:ash_postgres, "~> 2.6"},
       {:ash, "~> 3.12"},
+
+      # others
       {:bandit, "~> 1.5"},
       {:bcrypt_elixir, "~> 3.0"},
       {:dns_cluster, "~> 0.2"},
@@ -99,11 +102,14 @@ defmodule AshBaseTemplate.MixProject do
       {:phoenix, "~> 1.8"},
       {:picosat_elixir, "~> 0.2"},
       {:postgrex, ">= 0.0.0"},
-      {:rename_project, "0.1.0", only: :dev},
       {:swoosh, "~> 1.5"},
       {:tailwind, "~> 0.4", runtime: Mix.env() == :dev},
       {:telemetry_metrics, "~> 1.0"},
       {:telemetry_poller, "~> 1.0"},
+
+      # utilities
+      {:usage_rules, "~> 0.1", only: [:dev]},
+      {:rename_project, "0.1.0", only: :dev},
 
       # tests
       {:ex_check, "0.16.0", only: [:dev], runtime: false},
