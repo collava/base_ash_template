@@ -5,6 +5,7 @@ defmodule AshBaseTemplateWeb.AshJsonApiRouter do
 
     https://hexdocs.pm/ash_json_api/open-api.html#generate-spec-files-via-cli
   """
+
   use AshJsonApi.Router,
     domains: [
       AshBaseTemplate.Accounts,
@@ -13,13 +14,8 @@ defmodule AshBaseTemplateWeb.AshJsonApiRouter do
     ],
     open_api: "/open_api",
     modify_open_api: {__MODULE__, :modify_open_api, []},
-    open_api_file: {__MODULE__, :api_file}
-
-  def api_file do
-    if Mix.env() == :prod do
-      "priv/static/open_api.json"
-    end
-  end
+    open_api_file: Mix.env() == :prod,
+    do: "priv/static/open_api.json"
 
   def modify_open_api(spec, _, _) do
     %{
