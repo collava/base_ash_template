@@ -6,7 +6,7 @@ defmodule AshBaseTemplateWeb.Components.NewsletterForm do
 
   def render(assigns) do
     ~H"""
-    <div class="shadow-lg w-content p-4 rounded-lg">
+    <div class="shadow-lg w-content p-4 rounded-lg bg-transparent">
       <.form for={@form} phx-submit="subscribe" phx-target={@myself} class="space-y-4">
         <div>
           <.label>Subscribe to our newsletter</.label>

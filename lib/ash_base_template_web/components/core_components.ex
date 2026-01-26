@@ -239,7 +239,7 @@ defmodule AshBaseTemplateWeb.CoreComponents do
     <button
       type={@type}
       class={[
-        "phx-submit-loading:opacity-75 rounded-lg dark:bg-zinc-800 bg-zinc-100 hover:bg-zinc-700 py-2 px-3",
+        "phx-submit-loading:opacity-75 rounded-lg bg-zinc-100 hover:bg-zinc-700 py-2 px-3",
         "text-sm font-semibold leading-6 text-white active:text-white/80 dark:bg-zinc-100 dark:hover:bg-zinc-300 dark:text-zinc-900 dark:active:text-zinc-900/80",
         @class
       ]}
@@ -408,7 +408,7 @@ defmodule AshBaseTemplateWeb.CoreComponents do
     ~H"""
     <label
       for={@for}
-      class="block text-sm font-semibold leading-6 text-zinc-800 dark:text-zinc-300 dark:bg-zinc-800 bg-zinc-300"
+      class="block text-sm font-semibold leading-6 text-zinc-800 dark:text-zinc-300"
     >
       {render_slot(@inner_block)}
     </label>
