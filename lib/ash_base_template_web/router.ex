@@ -53,6 +53,18 @@ defmodule AshBaseTemplateWeb.Router do
   scope "/", AshBaseTemplateWeb do
     pipe_through :browser
 
+    magic_sign_in_route(
+      User,
+      :magic_link,
+      auth_routes_prefix: "/auth",
+      overrides: [AshBaseTemplateWeb.AuthOverrides, Default],
+      # the route will default `/<the_strategy_name>/:magic_link`
+      # use these options to keep your currently issued magic link emails compatible
+      # if you use this option, make sure to place it *above* `auth_routes` in your router.
+      path: "/auth/user/magic_link",
+      token_as_route_param?: false
+    )
+
     auth_routes AuthController, User, path: "/auth"
     sign_out_route AuthController
 
@@ -84,18 +96,6 @@ defmodule AshBaseTemplateWeb.Router do
       # If an authenticated user must *not* be present:
       # on_mount {AshBaseTemplateWeb.LiveUserAuth, :live_no_user}
     end
-
-    magic_sign_in_route(
-      User,
-      :magic_link,
-      auth_routes_prefix: "/auth",
-      overrides: [AshBaseTemplateWeb.AuthOverrides, Default],
-      # the route will default `/<the_strategy_name>/:magic_link`
-      # use these options to keep your currently issued magic link emails compatible
-      # if you use this option, make sure to place it *above* `auth_routes` in your router.
-      path: "/auth/user/magic_link",
-      token_as_route_param?: false
-    )
 
     # https://hexdocs.pm/ash_authentication_phoenix/ui-overrides.html
     sign_in_route register_path: "/register",
