@@ -33,6 +33,10 @@ mix deps.get
 mix rename AshBaseTemplate MyNewProject
 ```
 
+> [!NOTE]
+> The rename script might not update the email sender addresses in `config/config.exs` and `lib/my_new_project/accounts/emails.ex`.
+> Please check those files and update the email addresses to match your new project's domain manually.
+
 Search for any `ash_base_template` references and replace them with your new project name
 
 ### Setup the project

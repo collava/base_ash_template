@@ -126,7 +126,7 @@ config :tower, :reporters, [TowerEmail, TowerSentry, TowerHoneybadger]
 
 config :tower_email,
   otp_app: :ash_base_template,
-  from: {"Errors", "no-reply@ash_base_template.com"},
-  to: "monitoring@ash_base_template.com"
+  from: {"Errors", "no-reply@ashbasetemplate.com"},
+  to: "monitoring@ashbasetemplate.com"
 
 import_config "#{config_env()}.exs"

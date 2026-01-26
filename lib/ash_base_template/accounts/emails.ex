@@ -120,7 +120,7 @@ defmodule AshBaseTemplate.Accounts.Emails do
     IO.puts("Sending email to #{to} with subject #{subject} and body #{body}")
 
     new()
-    |> from({"Contact", "contact@ash_base_template.com"})
+    |> from({"Contact", "contact@ashbasetemplate.com"})
     |> to(to_string(to))
     |> subject(subject)
     |> put_provider_option(:track_links, "None")
