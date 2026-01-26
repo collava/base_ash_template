@@ -13,7 +13,8 @@ defmodule AshBaseTemplate.MixProject do
       consolidate_protocols: Mix.env() != :dev,
       test_coverage: [tool: ExCoveralls],
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      listeners: [Phoenix.CodeReloader]
     ]
   end
 
