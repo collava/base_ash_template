@@ -6,7 +6,11 @@ defmodule AshBaseTemplateWeb.AshJsonApiRouter do
     https://hexdocs.pm/ash_json_api/open-api.html#generate-spec-files-via-cli
   """
   use AshJsonApi.Router,
-    domains: [AshBaseTemplate.Blog],
+    domains: [
+      AshBaseTemplate.Accounts,
+      AshBaseTemplate.Blog,
+      AshBaseTemplate.Notifiers
+    ],
     open_api: "/open_api",
     modify_open_api: {__MODULE__, :modify_open_api, []},
     open_api_file: {__MODULE__, :api_file}
