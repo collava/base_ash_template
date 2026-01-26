@@ -62,7 +62,7 @@ iex -S mix phx.server
   - After registering or requesting the magic link, you will see in the terminal the link to login.
 - Admin: <http://localhost:4000/admin>
   - You have to update the user you registered to have the role `admin` in the database.
-- Swagger: <http://localhost:4000/swagger>
+- Swagger: <http://localhost:4000/api/swaggerui>
 
 ### Pre commit to run:
 
