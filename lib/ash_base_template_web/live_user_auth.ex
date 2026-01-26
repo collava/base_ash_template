@@ -38,7 +38,6 @@ defmodule AshBaseTemplateWeb.LiveUserAuth do
     if socket.assigns[:current_user] do
       {:halt, Phoenix.LiveView.redirect(socket, to: ~p"/")}
     else
-      socket = put_flash(socket, :error, "You must be signed in to access this page")
       {:cont, assign(socket, :current_user, nil)}
     end
   end
