@@ -10,11 +10,19 @@ defmodule AshBaseTemplateWeb.LiveUserAuth do
 
   alias AshBaseTemplate.Accounts
 
-  def on_mount(:live_user_optional, _params, _session, socket) do
+  def on_mount(:live_user_optional, _params, session, socket) do
     if socket.assigns[:current_user] do
       {:cont, socket}
     else
-      {:cont, assign(socket, :current_user, nil)}
+      case session do
+        %{"user" => user} ->
+          user_id = user |> String.split("?id=") |> List.last()
+          user = Accounts.get_user!(user_id)
+          {:cont, assign(socket, :current_user, user)}
+
+        _ ->
+          {:cont, assign(socket, :current_user, nil)}
+      end
     end
   end
 
