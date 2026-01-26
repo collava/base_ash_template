@@ -108,7 +108,7 @@ defmodule AshBaseTemplate.MixProject do
       {:telemetry_poller, "~> 1.0"},
 
       # utilities
-      {:usage_rules, "~> 0.1", only: [:dev]},
+      {:usage_rules, "0.1.26", only: [:dev]},
       {:rename_project, "0.1.0", only: :dev},
 
       # tests
