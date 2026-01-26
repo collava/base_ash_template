@@ -89,7 +89,7 @@ defmodule AshBaseTemplateWeb.Router do
       User,
       :magic_link,
       auth_routes_prefix: "/auth",
-      overrides: [MyAppWeb.AuthOverrides, Default],
+      overrides: [AshBaseTemplateWeb.AuthOverrides, Default],
       # the route will default `/<the_strategy_name>/:magic_link`
       # use these options to keep your currently issued magic link emails compatible
       # if you use this option, make sure to place it *above* `auth_routes` in your router.
