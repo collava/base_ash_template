@@ -36,6 +36,9 @@ mix rename AshBaseTemplate MyNewProject
 > [!NOTE]
 > The rename script might not update the email sender addresses in `config/config.exs` and `lib/my_new_project/accounts/emails.ex`.
 > Please check those files and update the email addresses to match your new project's domain manually.
+> You also have to manually change `tailwind.config.js`
+> "../lib/ash_base_template_web.ex",
+> "../lib/ash_base_template_web/**/*.*ex",
 
 Search for any `ash_base_template` references and replace them with your new project name
 
@@ -64,7 +67,7 @@ iex -S mix phx.server
   - You have to update the user you registered to have the role `admin` in the database.
 - Swagger: <http://localhost:4000/api/swaggerui>
 
-### Pre commit to run:
+### Pre commit to run
 
 - Dialyzer
 - Sobelow
