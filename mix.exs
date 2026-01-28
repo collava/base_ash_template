@@ -131,7 +131,7 @@ defmodule AshBaseTemplate.MixProject do
 
       # code quality
       {:circular_buffer, "~> 1.0"},
-      {:credo, "1.7.15", only: [:dev, :test], runtime: false},
+      {:credo, "== 1.7.16", only: [:dev, :test], runtime: false},
       {:credo_binary_patterns, "0.2.6", only: [:dev, :test], runtime: false},
       {:credo_mox, "0.1.2", only: [:dev, :test], runtime: false},
       {:credo_naming, "2.1.0", only: [:dev, :test], runtime: false},
