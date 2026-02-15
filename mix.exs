@@ -56,7 +56,7 @@ defmodule AshBaseTemplate.MixProject do
   defp deps do
     [
       # ash
-      {:ash_admin, "~> 0.13"},
+      {:ash_admin, "~> 0.14"},
       {:ash_archival, "~> 2.0"},
       {:ash_authentication_phoenix, "~> 2.14"},
       {:ash_authentication, "~> 4.13"},
