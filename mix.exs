@@ -1,7 +1,7 @@
 defmodule AshBaseTemplate.MixProject do
   use Mix.Project
 
-  @version "0.1.87"
+  @version "0.1.88"
 
   def project do
     [
