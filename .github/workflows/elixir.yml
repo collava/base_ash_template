@@ -41,7 +41,7 @@ jobs:
           fetch-depth: 0
 
       - name: Set up Elixir
-        uses: erlef/setup-beam@9d5b75ddfda22fb979d2270283237aef8aa68d6b # v1
+        uses: erlef/setup-beam@ee09b1e59bb240681c382eb1f0abc6a04af72764 # v1
         with:
           elixir-version: ${{matrix.elixir}}
           otp-version: ${{matrix.otp}}
