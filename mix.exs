@@ -80,7 +80,7 @@ defmodule AshBaseTemplate.MixProject do
       {:esbuild, "~> 0.10", runtime: Mix.env() == :dev},
       {:ex_money_sql, "~> 1.0"},
       {:finch, "~> 0.21"},
-      {:floki, "0.38.0", only: :test},
+      {:floki, "== 0.38.1", only: :test},
       {:gettext, "~> 1.0"},
       {:hackney, "~> 2.0", override: true},
       {:heroicons,
