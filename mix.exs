@@ -78,7 +78,7 @@ defmodule AshBaseTemplate.MixProject do
       {:ecto_dev_logger, "0.15.0", only: :dev},
       {:ecto_sql, "~> 3.10"},
       {:esbuild, "~> 0.10", runtime: Mix.env() == :dev},
-      {:ex_money_sql, "~> 1.0"},
+      {:ex_money_sql, "~> 2.0"},
       {:finch, "~> 0.21"},
       {:floki, "== 0.38.1", only: :test},
       {:gettext, "~> 1.0"},
