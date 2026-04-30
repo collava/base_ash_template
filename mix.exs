@@ -119,7 +119,7 @@ defmodule AshBaseTemplate.MixProject do
       {:mix_test_watch, "1.4.0", only: [:dev, :test], runtime: false},
       {:mneme, "0.10.2", only: [:dev, :test]},
       {:mox, "1.2.0", only: :test},
-      {:phoenix_test, "== 0.10.0", only: :test, runtime: false},
+      {:phoenix_test, "== 0.11.1", only: :test, runtime: false},
       {:smokestack, "~> 0.9"},
 
       # security
