@@ -85,7 +85,7 @@ defmodule AshBaseTemplate.MixProject do
       {:hackney, "~> 2.0", override: true},
       {:heroicons,
        github: "tailwindlabs/heroicons", tag: "v2.2.0", sparse: "optimized", app: false, compile: false, depth: 1},
-      {:igniter, "~> 0.7", override: true},
+      {:igniter, "~> 0.8", override: true},
       {:jason, "~> 1.2"},
       {:oban, "~> 2.18"},
       {:oban_live_dashboard, "~> 0.2.0"},
