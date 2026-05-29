@@ -60,7 +60,7 @@ defmodule AshBaseTemplate.MixProject do
       {:ash_archival, "~> 2.0"},
       {:ash_authentication_phoenix, "~> 2.14"},
       {:ash_authentication, "~> 4.13"},
-      {:ash_cloak, "~> 0.2"},
+      {:ash_cloak, "~> 0.3"},
       {:ash_double_entry, "~> 1.0"},
       {:ash_csv, "~> 0.9"},
       {:ash_graphql, "~> 1.8"},
