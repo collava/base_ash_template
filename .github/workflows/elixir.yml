@@ -7,7 +7,7 @@ on:
 
 env:
   MIX_ENV: test
-  CACHE_VERSION: 1
+  CACHE_VERSION: 2
 
 permissions:
   contents: read
@@ -18,11 +18,23 @@ concurrency:
 
 jobs:
   build:
-    name: Test on OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}
+    name: Test on OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}${{ matrix.experimental && ' (experimental)' || '' }}
     strategy:
+      fail-fast: false
       matrix:
-        otp: ["28.3"]
-        elixir: ["1.19.4-otp-28"]
+        include:
+          - otp: "28.3"
+            elixir: "1.19.4-otp-28"
+            experimental: false
+          - otp: "27.3"
+            elixir: "1.19.4-otp-27"
+            experimental: true
+          - otp: "27.3"
+            elixir: "1.20.5-otp-27"
+            experimental: true
+          - otp: "28.3"
+            elixir: "1.20.5-otp-28"
+            experimental: true
     runs-on: ubuntu-24.04
     services:
       postgres:
@@ -41,10 +53,14 @@ jobs:
           fetch-depth: 0
 
       - name: Set up Elixir
+        id: beam
         uses: erlef/setup-beam@54075bcc5e249e4758d363f27d099f55d843f124 # v1
         with:
           elixir-version: ${{matrix.elixir}}
           otp-version: ${{matrix.otp}}
+
+      - name: Show toolchain versions
+        run: elixir --version
 
       - name: Create PLT dir
         run: |
@@ -58,10 +74,10 @@ jobs:
             deps
             _build
             priv/plts
-          key: static-${{ env.MIX_ENV }}-${{ env.CACHE_VERSION }}-${{ github.head_ref || github.ref }}-${{ hashFiles('**/mix.lock') }}
+          key: static-${{ runner.os }}-${{ runner.arch }}-otp-${{ steps.beam.outputs.otp-version }}-elixir-${{ steps.beam.outputs.elixir-version }}-${{ env.MIX_ENV }}-${{ env.CACHE_VERSION }}-${{ github.head_ref || github.ref }}-${{ hashFiles('**/mix.lock') }}
           restore-keys: |
-            static-${{ env.MIX_ENV }}-${{ env.CACHE_VERSION }}-${{ github.head_ref || github.ref }}-
-            static-${{ env.MIX_ENV }}-${{ env.CACHE_VERSION }}-refs/heads/main-
+            static-${{ runner.os }}-${{ runner.arch }}-otp-${{ steps.beam.outputs.otp-version }}-elixir-${{ steps.beam.outputs.elixir-version }}-${{ env.MIX_ENV }}-${{ env.CACHE_VERSION }}-${{ github.head_ref || github.ref }}-
+            static-${{ runner.os }}-${{ runner.arch }}-otp-${{ steps.beam.outputs.otp-version }}-elixir-${{ steps.beam.outputs.elixir-version }}-${{ env.MIX_ENV }}-${{ env.CACHE_VERSION }}-refs/heads/main-
 
       - name: Deps Get
         run: mix deps.get
