@@ -64,13 +64,7 @@ jobs:
             static-${{ env.MIX_ENV }}-${{ env.CACHE_VERSION }}-refs/heads/main-
 
       - name: Deps Get
-        run: |
-          mix deps.update ash_money ash_double_entry ex_money_sql ex_money
-          mix deps.get
-          mix deps.unlock --unused
-          echo MONEY_LOCK_START
-          cat mix.lock
-          echo MONEY_LOCK_END
+        run: mix deps.get
 
       - name: Compile
         run: mix compile --warnings-as-errors
