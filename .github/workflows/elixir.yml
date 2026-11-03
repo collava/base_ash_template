@@ -64,7 +64,13 @@ jobs:
             static-${{ env.MIX_ENV }}-${{ env.CACHE_VERSION }}-refs/heads/main-
 
       - name: Deps Get
-        run: mix deps.get
+        run: |
+          mix deps.unlock tailwind
+          mix deps.get
+          echo LOCKFILE_BEGIN
+          cat mix.lock
+          echo LOCKFILE_END
+          exit 1
 
       - name: Compile
         run: mix compile --warnings-as-errors
