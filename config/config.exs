@@ -10,6 +10,7 @@ import Config
 alias AshMoney.Types.Money
 
 config :ash,
+  default_string_length_count: :mixed,
   include_embedded_source_by_default?: false,
   default_page_type: :keyset,
   policies: [no_filter_static_forbidden_reads?: false],
@@ -68,7 +69,7 @@ config :esbuild,
     env: %{"NODE_PATH" => Path.expand("../deps", __DIR__)}
   ]
 
-config :ex_cldr, default_backend: AshBaseTemplate.Cldr
+config :localize, default_locale: :en, supported_locales: [:en]
 
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
