@@ -26,8 +26,8 @@ jobs:
       - name: Set up Elixir
         uses: erlef/setup-beam@54075bcc5e249e4758d363f27d099f55d843f124 # v1
         with:
-          elixir-version: "1.18.0-otp-27"
-          otp-version: "27.2"
+          elixir-version: "1.19.4-otp-28"
+          otp-version: "28.3"
 
       - name: Update version
         id: update_version
