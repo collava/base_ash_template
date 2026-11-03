@@ -1,25 +1,110 @@
-name: Resolve security dependency updates
+name: Elixir Validations
 on:
+  push:
+    branches: ["main"]
   pull_request:
     branches: ["main"]
+
+env:
+  MIX_ENV: test
+  CACHE_VERSION: 2
+
 permissions:
   contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  resolve:
+  build:
+    name: Test on OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}
+    strategy:
+      fail-fast: false
+      matrix:
+        otp: ["27.3", "28.3"]
+        elixir: ["1.19.4", "1.20.5"]
     runs-on: ubuntu-24.04
+    services:
+      postgres:
+        image: postgres:18@sha256:5a5a84b19854a9ffaa54082c166ff4ec27473a361e496e5ea167f298f2da9722
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: ash_base_template_test
+        ports:
+          - "5432:5432"
+        options: "--health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5"
+
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-      - uses: erlef/setup-beam@54075bcc5e249e4758d363f27d099f55d843f124
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
-          otp-version: "28.3"
-          elixir-version: "1.20.5"
-      - name: Resolve compatible security updates
+          fetch-depth: 0
+
+      - name: Set up Elixir
+        id: beam
+        uses: erlef/setup-beam@54075bcc5e249e4758d363f27d099f55d843f124 # v1
+        with:
+          elixir-version: ${{matrix.elixir}}
+          otp-version: ${{matrix.otp}}
+
+      - name: Show toolchain versions
+        run: elixir --version
+
+      - name: Create PLT dir
         run: |
-          mix local.hex --force
-          mix local.rebar --force
-          mix help deps.unlock
-          mix deps.unlock ash_admin ash_cloak ash_oban ash_phoenix hackney ssl_verify_fun jose lazy_html swoosh certifi cinder elixir_make fine h2 oban quic webtransport
-          mix deps.get
-          echo SECURITY_LOCK_BEGIN
-          base64 -w 120 mix.lock
-          echo SECURITY_LOCK_END
+          if [ ! -d "priv/plts" ]; then
+            mkdir priv/plts
+          fi
+
+      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+        with:
+          path: |
+            deps
+            _build
+            priv/plts
+          key: static-${{ runner.os }}-${{ runner.arch }}-otp-${{ steps.beam.outputs.otp-version }}-elixir-${{ steps.beam.outputs.elixir-version }}-${{ env.MIX_ENV }}-${{ env.CACHE_VERSION }}-${{ github.head_ref || github.ref }}-${{ hashFiles('**/mix.lock') }}
+          restore-keys: |
+            static-${{ runner.os }}-${{ runner.arch }}-otp-${{ steps.beam.outputs.otp-version }}-elixir-${{ steps.beam.outputs.elixir-version }}-${{ env.MIX_ENV }}-${{ env.CACHE_VERSION }}-${{ github.head_ref || github.ref }}-
+            static-${{ runner.os }}-${{ runner.arch }}-otp-${{ steps.beam.outputs.otp-version }}-elixir-${{ steps.beam.outputs.elixir-version }}-${{ env.MIX_ENV }}-${{ env.CACHE_VERSION }}-refs/heads/main-
+
+      - name: Deps Get
+        run: mix deps.get
+
+      - name: Compile
+        run: mix compile --warnings-as-errors
+
+      - name: Create database
+        run: mix do ecto.create, ecto.migrate
+
+      - name: Run Dialyzer
+        run: mix dialyzer --plt priv/plts --format github
+
+      - name: Unused dependencies
+        run: mix deps.unlock --check-unused
+
+      - name: Install tailwind for blog
+        run: mix tailwind.install
+
+      - name: Run CREDO
+        run: mix credo diff --from-git-merge-base origin/main
+
+      - name: Run Sobelow
+        run: mix sobelow --config
+
+      - name: Run COVERALLS
+        run: mix coveralls.json
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f # v7
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Clean to rule out incremental build as a source of flakiness
+        if: github.run_attempt != '1'
+        run: |
+          mix deps.clean --all
+          mix clean
+        shell: sh
