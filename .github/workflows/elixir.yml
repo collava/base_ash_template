@@ -64,7 +64,12 @@ jobs:
             static-${{ env.MIX_ENV }}-${{ env.CACHE_VERSION }}-refs/heads/main-
 
       - name: Deps Get
-        run: mix deps.get
+        run: |
+          mix deps.update req finch
+          echo 'RESOLVED_MIX_LOCK_START'
+          cat mix.lock
+          echo 'RESOLVED_MIX_LOCK_END'
+          exit 1
 
       - name: Compile
         run: mix compile --warnings-as-errors
