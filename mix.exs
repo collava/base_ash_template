@@ -7,7 +7,7 @@ defmodule AshBaseTemplate.MixProject do
     [
       app: :ash_base_template,
       version: @version,
-      elixir: "~> 1.19.4",
+      elixir: "~> 1.19.4 or ~> 1.20.5",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       consolidate_protocols: Mix.env() != :dev,
