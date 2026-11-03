@@ -5,6 +5,12 @@ import Config
 # Run `mix help test` for more information.
 config :ash, disable_async?: true
 
+# Keep background jobs inside the test process and SQL sandbox.
+config :ash_base_template, Oban, testing: :manual
+
+# Tests must not invoke external error reporters or their mailers.
+config :tower, :reporters, []
+
 config :ash_base_template, AshBaseTemplate.Mailer, adapter: Swoosh.Adapters.Test
 
 config :ash_base_template, AshBaseTemplate.Repo,
