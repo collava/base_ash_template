@@ -18,23 +18,12 @@ concurrency:
 
 jobs:
   build:
-    name: Test on OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}${{ matrix.experimental && ' (experimental)' || '' }}
+    name: Test on OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - otp: "28.3"
-            elixir: "1.19.4-otp-28"
-            experimental: false
-          - otp: "27.3"
-            elixir: "1.19.4-otp-27"
-            experimental: true
-          - otp: "27.3"
-            elixir: "1.20.5-otp-27"
-            experimental: true
-          - otp: "28.3"
-            elixir: "1.20.5-otp-28"
-            experimental: true
+        otp: ["27.3", "28.3"]
+        elixir: ["1.19.4", "1.20.5"]
     runs-on: ubuntu-24.04
     services:
       postgres:

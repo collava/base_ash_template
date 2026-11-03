@@ -13,27 +13,11 @@ Base project using Ash and Phoenix, with authentication, authorization, email se
 - Dependabot and Renovate setup for all dependencies (pick 1)
 - Honeybadger and Sentry and in project error tracking
 
-## Elixir and Erlang/OTP compatibility
+## Runtime support
 
-The project accepts Elixir 1.19.4+ within the 1.19 line and 1.20.5+ within the
-1.20 line. CI checks these pairs with the committed dependency lockfile:
-
-| Elixir | Erlang/OTP | Validation status |
-| --- | --- | --- |
-| 1.19.4 | 28.3 | Existing baseline and Docker default |
-| 1.19.4 | 27.3 | Experimental until the full CI job passes |
-| 1.20.5 | 27.3 | Experimental until the full CI job passes |
-| 1.20.5 | 28.3 | Experimental until the full CI job passes |
-
-OTP selectors resolve to the latest matching patch release available to
-`erlef/setup-beam`; the job logs show the installed versions. Each Elixir build
-matches its OTP major version. Build and Dialyzer caches are isolated by the
-resolved toolchain, operating system and architecture. Experimental jobs still
-fail CI on errors.
-
-Erlang/OTP 26 is not supported: the locked Hackney 4.x dependency requires OTP 27
-or later. Elixir 1.21 and OTP 29 are not part of this validation matrix. The Docker
-default remains Elixir 1.19.4 / OTP 28.3.
+CI tests Elixir `1.19.4` and `1.20.5` on OTP `27.3` and `28.3`.
+New combinations are experimental until CI passes. Docker stays on 1.19.4/28.3.
+OTP 27+ is required by Hackney. Caches are isolated by resolved toolchain.
 
 ## After cloning
 
