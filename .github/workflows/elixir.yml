@@ -65,7 +65,8 @@ jobs:
 
       - name: Deps Get
         run: |
-          mix deps.update req finch
+          mix deps.unlock req
+          mix deps.update finch
           echo 'RESOLVED_MIX_LOCK_START'
           cat mix.lock
           echo 'RESOLVED_MIX_LOCK_END'
