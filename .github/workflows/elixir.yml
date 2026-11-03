@@ -64,11 +64,7 @@ jobs:
             static-${{ env.MIX_ENV }}-${{ env.CACHE_VERSION }}-refs/heads/main-
 
       - name: Deps Get
-        run: |
-          mix deps.get
-          echo 'GENERATED_LOCK_START'
-          cat mix.lock
-          echo 'GENERATED_LOCK_END'
+        run: mix deps.get
 
       - name: Compile
         run: mix compile --warnings-as-errors
