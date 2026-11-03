@@ -68,7 +68,7 @@ config :esbuild,
     env: %{"NODE_PATH" => Path.expand("../deps", __DIR__)}
   ]
 
-config :ex_cldr, default_backend: AshBaseTemplate.Cldr
+config :localize, default_locale: :en, supported_locales: [:en]
 
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
