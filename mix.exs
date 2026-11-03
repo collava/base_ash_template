@@ -7,7 +7,7 @@ defmodule AshBaseTemplate.MixProject do
     [
       app: :ash_base_template,
       version: @version,
-      elixir: "~> 1.19.4",
+      elixir: "~> 1.19.4 or ~> 1.20.5",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       consolidate_protocols: Mix.env() != :dev,
@@ -79,7 +79,7 @@ defmodule AshBaseTemplate.MixProject do
       {:ecto_sql, "~> 3.10"},
       {:esbuild, "~> 0.10", runtime: Mix.env() == :dev},
       {:ex_money_sql, "~> 1.0"},
-      {:finch, "~> 0.21"},
+      {:finch, "~> 0.24"},
       {:floki, "== 0.38.3", only: :test},
       {:gettext, "~> 1.0"},
       {:hackney, "~> 4.0", override: true},
@@ -119,7 +119,7 @@ defmodule AshBaseTemplate.MixProject do
       {:mix_test_watch, "1.4.0", only: [:dev, :test], runtime: false},
       {:mneme, "0.10.2", only: [:dev, :test]},
       {:mox, "1.2.0", only: :test},
-      {:phoenix_test, "== 0.11.1", only: :test, runtime: false},
+      {:phoenix_test, "== 0.14.0", only: :test, runtime: false},
       {:smokestack, "~> 0.9"},
 
       # security
