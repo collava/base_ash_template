@@ -103,3 +103,21 @@ jobs:
           mix deps.clean --all
           mix clean
         shell: sh
+
+  resolve-security-lock:
+    name: Resolve security dependency lockfile
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: erlef/setup-beam@54075bcc5e249e4758d363f27d099f55d843f124 # v1
+        with:
+          elixir-version: "1.19.4-otp-28"
+          otp-version: "28.3"
+      - name: Resolve and export public dependency metadata
+        run: |
+          mix deps.update ash_authentication phoenix_live_view
+          echo "BEGIN_RESOLVED_SECURITY_LOCK"
+          base64 -w 120 mix.lock
+          echo "END_RESOLVED_SECURITY_LOCK"
