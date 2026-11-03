@@ -70,7 +70,10 @@ jobs:
         run: mix compile --warnings-as-errors
 
       - name: Create database
-        run: mix do ecto.create, ecto.migrate
+        run: |
+          mix ecto.gen.migration update_oban_to_v14
+          find priv/repo/migrations -name '*_update_oban_to_v14.exs' -print
+          exit 1
 
       - name: Run Dialyzer
         run: mix dialyzer --plt priv/plts --format github
