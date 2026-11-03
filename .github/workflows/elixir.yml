@@ -18,7 +18,7 @@ jobs:
           mix local.hex --force
           mix local.rebar --force
           mix help deps.unlock
-          mix deps.unlock ash_admin ash_cloak ash_oban ash_phoenix hackney ssl_verify_fun jose lazy_html swoosh
+          mix deps.unlock ash_admin ash_cloak ash_oban ash_phoenix hackney ssl_verify_fun jose lazy_html swoosh certifi cinder elixir_make fine h2 oban quic webtransport
           mix deps.get
           echo SECURITY_LOCK_BEGIN
           base64 -w 120 mix.lock
