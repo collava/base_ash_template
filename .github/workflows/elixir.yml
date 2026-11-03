@@ -64,16 +64,17 @@ jobs:
             static-${{ env.MIX_ENV }}-${{ env.CACHE_VERSION }}-refs/heads/main-
 
       - name: Deps Get
-        run: mix deps.get
+        run: |
+          mix deps.get
+          echo 'GENERATED_LOCK_START'
+          cat mix.lock
+          echo 'GENERATED_LOCK_END'
 
       - name: Compile
         run: mix compile --warnings-as-errors
 
       - name: Create database
-        run: |
-          mix ecto.gen.migration update_oban_to_v14
-          find priv/repo/migrations -name '*_update_oban_to_v14.exs' -print
-          exit 1
+        run: mix do ecto.create, ecto.migrate
 
       - name: Run Dialyzer
         run: mix dialyzer --plt priv/plts --format github
