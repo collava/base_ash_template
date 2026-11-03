@@ -13,6 +13,12 @@ Base project using Ash and Phoenix, with authentication, authorization, email se
 - Dependabot and Renovate setup for all dependencies (pick 1)
 - Honeybadger and Sentry and in project error tracking
 
+## Runtime support
+
+CI tests Elixir `1.19.4` and `1.20.5` on OTP `27.3` and `28.3`.
+New combinations are experimental until CI passes. Docker stays on 1.19.4/28.3.
+OTP 27+ is required by Hackney. Caches are isolated by resolved toolchain.
+
 ## After cloning
 
 ### Install pre-commit
