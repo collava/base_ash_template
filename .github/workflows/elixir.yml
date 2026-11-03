@@ -117,7 +117,8 @@ jobs:
           otp-version: "28.3"
       - name: Resolve and export public dependency metadata
         run: |
-          mix deps.update ash_authentication ash_authentication_phoenix phoenix_live_view
+          mix deps.unlock ash_authentication ash_authentication_phoenix phoenix_live_view
+          mix deps.get
           echo "BEGIN_RESOLVED_SECURITY_LOCK"
           base64 -w 120 mix.lock
           echo "END_RESOLVED_SECURITY_LOCK"
