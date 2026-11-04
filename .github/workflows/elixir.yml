@@ -114,9 +114,62 @@ jobs:
         shell: sh
 
   docker:
-    name: Build latest runtime release image
+    name: Build and boot latest runtime release image
     runs-on: ubuntu-26.04
+    timeout-minutes: 20
+    services:
+      postgres:
+        image: postgres:18@sha256:3a4264520e121176619f54ff867d12774bc81e95e7b84db58d63bccdb6144b81
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: ash_base_template_test
+        ports:
+          - "5432:5432"
+        options: "--health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5"
+
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
       - name: Build release image
         run: docker build --tag ash-base-template:ci .
+
+      - name: Migrate and boot release image
+        timeout-minutes: 3
+        shell: bash
+        run: |
+          # These are isolated CI-only values, never production credentials.
+          runtime_args=(
+            --network host
+            -e DATABASE_URL=ecto://postgres:postgres@127.0.0.1:5432/ash_base_template_test
+            -e SECRET_KEY_BASE=ci-only-secret-key-base-01234567890123456789012345678901234567890123456789
+            -e TOKEN_SIGNING_SECRET=ci-only-token-signing-secret-012345678901234567890123456789
+            -e EMAIL_REPORTING_ADAPTER_API_KEY=ci-only-placeholder
+            -e PHX_HOST=localhost
+            -e PORT=4000
+            -e ECTO_IPV6=false
+          )
+
+          timeout 90s docker run --rm "${runtime_args[@]}" \
+            --entrypoint /app/bin/ash_base_template ash-base-template:ci eval \
+            'Application.load(:ash_base_template); {:ok, _, _} = Ecto.Migrator.with_repo(AshBaseTemplate.Repo, &Ecto.Migrator.run(&1, :up, all: true))'
+
+          docker run --detach --name release-smoke "${runtime_args[@]}" ash-base-template:ci
+          for attempt in $(seq 1 30); do
+            if [ "$(docker inspect --format '{{.State.Running}}' release-smoke)" != true ]; then
+              echo "Release exited before becoming ready"
+              exit 1
+            fi
+            if curl --fail --silent --show-error --max-time 2 http://127.0.0.1:4000/ >/dev/null; then
+              echo "Release booted and served HTTP successfully"
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "Release did not become ready within 60 seconds"
+          exit 1
+
+      - name: Show release logs and clean up
+        if: always()
+        run: |
+          docker logs release-smoke 2>&1 || true
+          docker rm --force release-smoke 2>/dev/null || true
