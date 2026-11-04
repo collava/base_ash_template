@@ -28,7 +28,7 @@ jobs:
           # Elixir 1.19 supports OTP 26-28; OTP 29 requires Elixir 1.20.
           - otp: "29.1.2"
             elixir: "1.20.5"
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     services:
       postgres:
         image: postgres:18@sha256:3a4264520e121176619f54ff867d12774bc81e95e7b84db58d63bccdb6144b81
@@ -115,7 +115,7 @@ jobs:
 
   docker:
     name: Build latest runtime release image
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
       - name: Build release image
