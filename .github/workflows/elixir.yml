@@ -79,7 +79,7 @@ jobs:
         run: mix compile --warnings-as-errors
 
       - name: Create database
-        run: mix do ecto.create, ecto.migrate
+        run: mix do ecto.create + ecto.migrate
 
       - name: Run Dialyzer
         run: mix dialyzer --plt priv/plts --format github
