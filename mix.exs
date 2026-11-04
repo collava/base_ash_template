@@ -118,7 +118,7 @@ defmodule AshBaseTemplate.MixProject do
       {:excoveralls, "0.18.5", only: :test, runtime: false},
       {:mix_test_watch, "1.4.0", only: [:dev, :test], runtime: false},
       {:mneme, "0.10.2", only: [:dev, :test]},
-      {:mox, "1.2.0", only: :test},
+      {:mox, "== 1.3.2", only: :test},
       {:phoenix_test, "== 0.14.0", only: :test, runtime: false},
       {:smokestack, "~> 0.9"},
 
