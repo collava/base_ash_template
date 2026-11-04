@@ -7,6 +7,10 @@
     "security:openssf-scorecard",
     "mergeConfidence:all-badges"
   ],
+  "constraints": {
+    "erlang": "28.3",
+    "elixir": "1.19.4"
+  },
   "lockFileMaintenance": {
     "enabled": true,
     "automerge": true
