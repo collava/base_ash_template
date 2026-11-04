@@ -113,7 +113,7 @@ defmodule AshBaseTemplate.MixProject do
       {:rename_project, "0.1.0", only: :dev},
 
       # tests
-      {:ex_check, "0.16.0", only: [:dev], runtime: false},
+      {:ex_check, "== 0.17.1", only: [:dev], runtime: false},
       {:ex_unit_notifier, "1.3.1", only: :test},
       {:excoveralls, "0.18.5", only: :test, runtime: false},
       {:mix_test_watch, "1.4.0", only: [:dev, :test], runtime: false},
