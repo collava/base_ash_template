@@ -1,7 +1,7 @@
 defmodule AshBaseTemplate.MixProject do
   use Mix.Project
 
-  @version "0.2.46"
+  @version "0.2.48"
 
   def project do
     [
@@ -113,19 +113,19 @@ defmodule AshBaseTemplate.MixProject do
       {:rename_project, "0.1.0", only: :dev},
 
       # tests
-      {:ex_check, "0.16.0", only: [:dev], runtime: false},
+      {:ex_check, "== 0.17.1", only: [:dev], runtime: false},
       {:ex_unit_notifier, "1.3.1", only: :test},
       {:excoveralls, "0.18.5", only: :test, runtime: false},
       {:mix_test_watch, "1.4.0", only: [:dev, :test], runtime: false},
       {:mneme, "0.10.2", only: [:dev, :test]},
-      {:mox, "1.2.0", only: :test},
+      {:mox, "== 1.3.2", only: :test},
       {:phoenix_test, "== 0.14.0", only: :test, runtime: false},
       {:smokestack, "~> 0.9"},
 
       # security
       {:cors_plug, "~> 3.0"},
       {:mix_audit, "2.1.5", only: [:dev, :test], runtime: false},
-      {:sobelow, "0.14.1", only: [:dev, :test], runtime: false},
+      {:sobelow, "== 0.18.1", only: [:dev, :test], runtime: false},
       {:hammer, "~> 7.0", override: true},
       {:hammer_plug, "~> 3.2"},
 
