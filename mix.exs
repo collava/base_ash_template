@@ -1,7 +1,7 @@
 defmodule AshBaseTemplate.MixProject do
   use Mix.Project
 
-  @version "0.2.40"
+  @version "0.2.42"
 
   def project do
     [
@@ -61,11 +61,11 @@ defmodule AshBaseTemplate.MixProject do
       {:ash_authentication_phoenix, "~> 2.14"},
       {:ash_authentication, "~> 4.13"},
       {:ash_cloak, "~> 0.3"},
-      {:ash_double_entry, "~> 1.0"},
+      {:ash_double_entry, "~> 1.1"},
       {:ash_csv, "~> 0.9"},
       {:ash_graphql, "~> 1.8"},
       {:ash_json_api, "~> 1.5"},
-      {:ash_money, "~> 0.2"},
+      {:ash_money, "~> 0.2 and >= 0.2.7"},
       {:ash_oban, "~> 0.8"},
       {:ash_phoenix, "~> 2.3"},
       {:ash_postgres, "~> 2.6"},
@@ -78,7 +78,7 @@ defmodule AshBaseTemplate.MixProject do
       {:ecto_dev_logger, "0.15.0", only: :dev},
       {:ecto_sql, "~> 3.10"},
       {:esbuild, "~> 0.10", runtime: Mix.env() == :dev},
-      {:ex_money_sql, "~> 1.0"},
+      {:ex_money_sql, "~> 2.0"},
       {:finch, "~> 0.24"},
       {:floki, "== 0.38.3", only: :test},
       {:gettext, "~> 1.0"},
@@ -136,7 +136,7 @@ defmodule AshBaseTemplate.MixProject do
       {:credo_mox, "0.1.3", only: [:dev, :test], runtime: false},
       {:credo_naming, "2.1.0", only: [:dev, :test], runtime: false},
       {:dialyxir, "1.4.7", only: [:dev, :test], runtime: false},
-      {:styler, "== 1.11.0", only: [:dev, :test], runtime: false},
+      {:styler, "== 1.12.2", only: [:dev, :test], runtime: false},
 
       # error reporting
       {:error_tracker, "~> 0.9"},
