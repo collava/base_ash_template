@@ -18,7 +18,7 @@ ARG LINUX_VERSION=bookworm-20261027-slim
 ARG BUILDER_IMAGE="hexpm/elixir:${ELIXIR_VERSION}-erlang-${OTP_VERSION}-debian-${LINUX_VERSION}"
 ARG RUNNER_IMAGE="debian:${LINUX_VERSION}"
 
-FROM ${BUILDER_IMAGE} as builder
+FROM ${BUILDER_IMAGE} AS builder
 
 
 # install build dependencies
@@ -57,24 +57,20 @@ RUN mkdir config
 # to be re-compiled.
 COPY config/config.exs config/${MIX_ENV}.exs config/
 RUN mix deps.compile
-RUN mix sentry.package_source_code
 COPY priv priv
 COPY lib lib
 COPY assets assets
-COPY storybook storybook
-
-RUN cd assets && npm install
 
 # compile assets
 RUN mix assets.deploy
 
 # Compile the release
 RUN mix compile
+RUN mix sentry.package_source_code
 
 # Changes to config/runtime.exs don't require recompiling the code
 COPY config/runtime.exs config/
 
-COPY rel rel
 RUN mix release
 
 # start a new build stage so that the final image will only contain
@@ -87,9 +83,9 @@ RUN apt-get update -y && apt-get install -y libstdc++6 openssl libncurses6 local
 # Set the locale
 RUN sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen && locale-gen
 
-ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US:en
-ENV LC_ALL en_US.UTF-8
+ENV LANG=en_US.UTF-8
+ENV LANGUAGE=en_US:en
+ENV LC_ALL=en_US.UTF-8
 
 WORKDIR "/app"
 RUN chown nobody /app
@@ -102,8 +98,9 @@ COPY --from=builder --chown=nobody:root /app/_build/${MIX_ENV}/rel/ash_base_temp
 
 USER nobody
 
-CMD ["/app/bin/server"]
+ENV PHX_SERVER=true
+CMD ["/app/bin/ash_base_template", "start"]
 
 # Appended by flyctl
-ENV ECTO_IPV6 true
-ENV ERL_AFLAGS "-proto_dist inet6_tcp"
+ENV ECTO_IPV6=true
+ENV ERL_AFLAGS="-proto_dist inet6_tcp"
