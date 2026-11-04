@@ -11,11 +11,9 @@
 #   - https://pkgs.org/ - resource for finding needed packages
 #   - Ex: hexpm/elixir:1.14.5-erlang-26.0-debian-bullseye-20230227-slim
 
-ARG ELIXIR_VERSION=1.19.4
-ARG OTP_VERSION=28.3
-# ARG LINUX_VERSION=3.19.3
-ARG LINUX_VERSION=bullseye-20240904-slim
-# alpine-3.19.3
+ARG ELIXIR_VERSION=1.20.5
+ARG OTP_VERSION=29.1.2
+ARG LINUX_VERSION=bookworm-20261027-slim
 
 ARG BUILDER_IMAGE="hexpm/elixir:${ELIXIR_VERSION}-erlang-${OTP_VERSION}-debian-${LINUX_VERSION}"
 ARG RUNNER_IMAGE="debian:${LINUX_VERSION}"
@@ -26,7 +24,7 @@ FROM ${BUILDER_IMAGE} as builder
 # install build dependencies
 RUN apt-get update -y && apt-get install -y build-essential \
   git npm wkhtmltopdf curl \
-  libwxgtk3.0-gtk3-dev \
+  libwxgtk3.2-dev \
   libgl1-mesa-dev \
   libglu1-mesa-dev \
   libpng-dev \
@@ -83,7 +81,7 @@ RUN mix release
 # the compiled release and other runtime necessities
 FROM ${RUNNER_IMAGE}
 
-RUN apt-get update -y && apt-get install -y libstdc++6 openssl libncurses5 locales \
+RUN apt-get update -y && apt-get install -y libstdc++6 openssl libncurses6 locales \
   && apt-get clean && rm -f /var/lib/apt/lists/*_*
 
 # Set the locale

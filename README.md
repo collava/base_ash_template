@@ -16,7 +16,11 @@ Base project using Ash and Phoenix, with authentication, authorization, email se
 ## Runtime support
 
 CI tests Elixir `1.19.4` and `1.20.5` on OTP `27.3` and `28.3`.
-New combinations are experimental until CI passes. Docker stays on 1.19.4/28.3.
+CI also tests the latest stable pair, Elixir `1.20.5` on OTP `29.1.2`.
+OTP 29 is intentionally excluded from Elixir 1.19, which supports OTP 26-28.
+Docker, release tooling, and Renovate use Elixir `1.20.5` / OTP `29.1.2`.
+Docker uses Debian Bookworm because the current Hex images no longer publish Bullseye.
+New combinations are experimental until CI passes.
 OTP 27+ is required by Hackney. Caches are isolated by resolved toolchain.
 
 ## After cloning

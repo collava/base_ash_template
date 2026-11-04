@@ -24,6 +24,10 @@ jobs:
       matrix:
         otp: ["27.3", "28.3"]
         elixir: ["1.19.4", "1.20.5"]
+        include:
+          # Elixir 1.19 supports OTP 26-28; OTP 29 requires Elixir 1.20.
+          - otp: "29.1.2"
+            elixir: "1.20.5"
     runs-on: ubuntu-24.04
     services:
       postgres:
@@ -108,3 +112,11 @@ jobs:
           mix deps.clean --all
           mix clean
         shell: sh
+
+  docker:
+    name: Build latest runtime release image
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - name: Build release image
+        run: docker build --tag ash-base-template:ci .
