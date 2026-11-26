@@ -73,7 +73,7 @@ defmodule AshBaseTemplate.MixProject do
 
       # others
       {:bandit, "~> 1.5"},
-      {:bcrypt_elixir, "~> 3.0"},
+      {:bcrypt_elixir, "~> 4.0"},
       {:dns_cluster, "~> 0.2"},
       {:ecto_dev_logger, "0.15.0", only: :dev},
       {:ecto_sql, "~> 3.10"},
